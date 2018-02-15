@@ -1,7 +1,7 @@
 # HeapUnderFlow 
 HeapUnderFlow is a simple blogging website for users to post blogs and get views/opinions of other viewers and also post their views in the form of comments. The site supports search mechanism on all the blogs. Search can be made by parameters like title, tags, users etc.
 
-HeapUnderFlow uses Java in the backend and Jquery/React.js for frontend.Testing for the same will be carried out by TestNG, RestAssured and Selenium technologies. The technology stack and Architecture is defined as below :
+HeapUnderFlow uses Java in the backend and Jquery/React.js for frontend.The communication between the frontend and backend happens via well defined rest api. Testing for the same will be carried out by TestNG, RestAssured and Selenium technologies. The technology stack and Architecture is defined as below :
 
 ## Architecture : 
 ![Architecture](https://github.com/cmad-06/HeapUnderFlow/blob/master/Architecture_Phase_1.jpg)
