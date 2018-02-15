@@ -1,7 +1,7 @@
-# HeadUnderFlow 
-HeadUnderFlow is a simple blogging website for users to post blogs and get views/opinions of other viewers and also post their views in the form of comments. The site supports search mechanism on all the blogs. Search can be made by parameters like title, tags, users etc.
+# HeapUnderFlow 
+HeapUnderFlow is a simple blogging website for users to post blogs and get views/opinions of other viewers and also post their views in the form of comments. The site supports search mechanism on all the blogs. Search can be made by parameters like title, tags, users etc.
 
-## HeadUnderFlow Uses Java in the backend and Jquery/React.js based frontend.Testing for the same will be carried by TestNG, RestAssured and Selenium. The technology stack and Architecture is defined as below :
+HeapUnderFlow uses Java in the backend and Jquery/React.js for frontend.Testing for the same will be carried out by TestNG, RestAssured and Selenium technologies. The technology stack and Architecture is defined as below :
 
 ## Architecture : 
 ![Architecture](https://github.com/cmad-06/HeapUnderFlow/blob/master/Architecture_Phase_1.jpg)
@@ -10,7 +10,7 @@ HeadUnderFlow is a simple blogging website for users to post blogs and get views
 
 ![Technology Stack Phase 1](https://github.com/cmad-06/HeapUnderFlow/blob/master/TechnologyStack.png)
 
-HeapOverFlow is a Login based website, where user need to login to perform operations like creating a blog, posting comments on his logs or other blogs. Guest users can view all the blogs in the website. Rest API for all use cases can be found [here](https://github.com/cmad-06/HeapUnderFlow/blob/master/REST_API_DOC_Version_1.0.pdf)
+this is a Login based website, where user needs to login to perform operations like creating a blog, posting comments on his logs or other blogs. Guest users can view all the blogs in the website. Rest API for all use cases can be found [here](https://github.com/cmad-06/HeapUnderFlow/blob/master/REST_API_DOC_Version_1.0.pdf)
 
 Beta Versions of some of the screens are below. Same will be updated as the development progresses.
 
