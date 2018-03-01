@@ -1,0 +1,120 @@
+.pagination-basic {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #ffffff;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	max-width: 550px;
+	margin: 0 auto;
+	padding: 50px;
+	box-sizing: border-box;
+}
+
+/* The demo title */
+
+.pagination-basic h1 {
+	color:  #4c565e;
+	font-size: 24px;
+	margin: 0 0 42px;
+	text-align: center;
+}
+
+/* The demo text */
+
+.pagination-basic p {
+	color:  #565a5c;
+	font-size: 14px;
+	line-height: 1.5;
+	margin-bottom: 40px;
+}
+
+.pagination-basic img {
+	max-width: 100%;
+	margin-bottom: 25px;
+}
+
+/* The pagination styling */
+
+.pagination-basic .pagination {
+	overflow: hidden;
+	padding: 7px 0;
+}
+
+.pagination-basic .pagination span {
+	float: left;
+	color:  #5f5f5f;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 20px;
+}
+
+.pagination-basic .pagination div {
+	float: right;
+	white-space: nowrap;
+}
+
+.pagination-basic .pagination div a {
+	text-decoration: none;
+	position: relative;
+	color:  #5f5f5f;
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #ffffff;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
+	border: 1px solid #dbdbdb;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.pagination-basic .pagination div a.current {
+	background-color: #f3f3f3;
+	pointer-events: none;
+}
+
+.pagination-basic .pagination div a.prev-arrow,
+.pagination-basic .pagination div a.next-arrow {
+	padding: 5px 13px;
+	margin-right: 5px;
+	box-sizing: border-box;
+}
+
+.pagination-basic .pagination div a:not(.current):hover {
+	background-color: #f1faff;
+	border: 1px solid #c4e2f3;
+	color: #61818c;
+}
+
+.pagination-basic .pagination div a.prev-arrow:before,
+.pagination-basic .pagination div a.next-arrow:before{
+	content: '';
+	position: absolute;
+	top: 7px;
+	width: 0;
+	height: 0;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+}
+
+.pagination-basic .pagination div a.prev-arrow:before {
+	border-right: 5px solid #5f5f5f;
+	left: 10px;
+}
+
+.pagination-basic .pagination div a.next-arrow:before {
+	border-left: 5px solid #5f5f5f;
+	left: 12px;
+}
+
+/* Making the page responsive */
+
+@media (max-width: 500px) {
+
+	.pagination-basic {
+		padding: 40px 5% 5%;
+	}
+
+}
+
+/* Giving a background color to the page. You can remove this. */
+
+body {
+	background-color: #f3f3f3;
+}

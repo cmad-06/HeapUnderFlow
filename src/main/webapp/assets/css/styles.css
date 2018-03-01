@@ -1,0 +1,174 @@
+html{
+    background-color: #3c3838;
+}
+
+body{
+    background-color: transparent;
+}
+
+#log-in-form{
+    margin: 230px auto 0;
+    padding: 10px;
+    color: white;
+    height: auto;
+    max-width: 800px;
+    background-image: url("../img/notebook-chill.jpg");
+    background-size: cover;
+}
+
+#log-in-form .heading{
+	text-align: center;
+    margin-top: 50px;
+    margin-bottom: 70px;
+}
+
+#log-in-form .form-group{
+    float: left;
+    width: 28%;
+    margin-left: 40px;
+}
+
+#log-in-form .form-control{
+    padding: 15px 25px;
+    height: auto;
+}
+
+#log-in-form .form-group-btn{
+    width: 15%;
+    margin-left: 70px;
+}
+
+#log-in-form .btn{
+    padding: 13px 32px;
+}
+
+#log-in-form .checkbox{
+    float: left;
+    margin: 15px 0 50px 40px;
+}
+
+
+@media screen and (max-width: 800px){
+    #log-in-form{
+        margin: 20px;
+    }
+
+    #log-in-form .form-group{
+        width: 60%;
+        float: none;
+        margin: 10px auto;
+    }
+
+    #log-in-form .form-group-btn{
+        margin-top: 30px;
+    }
+
+    #log-in-form .btn{
+        width: 100%;
+    }
+
+    #log-in-form .checkbox{
+        width: 60%;
+        float: none;
+        margin: 15px auto 50px auto;
+    }
+}
+
+@media screen and (max-width: 600px){
+    #log-in-form .form-group,
+    #log-in-form .checkbox{
+        width: 90%;
+    }
+}
+
+
+
+body{
+	background-color: transparent;
+}
+
+#registration-form{
+	max-width: 400px;
+	margin: 120px auto;
+}
+
+#registration-form .image{
+	float:left;
+	background-image: url("../img/desk.jpg");
+	height: 500px;
+	width: 50%;
+	background-size: cover;
+	background-position: 25%;
+}
+
+#registration-form .frm{
+	float:right;
+	height: 350px;
+    width: 100%;
+    min-width: 250px;
+    padding: 0 35px;
+    background-size: 100% 100%;
+    background-color: white;
+}
+
+#registration-form h1{
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+
+#registration-form .form-control{
+	width: 90%;
+	padding: 12px 20px;
+	height: auto;
+}
+
+@media screen and (max-width: 700px){
+	#registration-form .image{
+		width: 30%;
+	    background-position: 60%;
+	}
+
+	#registration-form .frm{
+		width: 70%;
+	}
+
+	#registration-form .form-control{
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 500px){
+	#registration-form .image{
+		display: none;
+	}
+
+	#registration-form .frm{
+		width: 100%;
+	}
+
+	#registration-form h1{
+		text-align: center;
+	}
+
+	#registration-form .btn{
+		width: 100%;
+		margin-top: 20px;
+	}
+}
+
+#blog .list{
+	float:left; position: relative; top: 5%; width: 100%; height: 600px; background-color: white;   
+}
+
+#recommendation .list{
+	position: relative; top: 25%; left: 65%; right: 10%; width: 25%; height: 600px; background-color: white; 
+}
+
+#footer{
+	 padding-top: 1%;
+}
+
+header{
+	 padding-bottom: 1%;
+}
+
