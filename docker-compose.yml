@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  heapunderflow:
+    image: cadprasad/heapunderflow:latest
+    ports:
+      - 8100:8080
