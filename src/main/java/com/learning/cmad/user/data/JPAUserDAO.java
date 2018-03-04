@@ -35,8 +35,9 @@ public class JPAUserDAO implements UserDAO {
 
 	@Override
 	public User getUserById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createQuery("from User where userId = :id").setParameter("id", id);
+		User user = (User) query.getSingleResult();
+		return user;
 	}
 
 	@Override
