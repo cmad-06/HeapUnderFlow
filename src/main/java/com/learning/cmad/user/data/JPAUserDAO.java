@@ -48,8 +48,11 @@ public class JPAUserDAO implements UserDAO {
 
 	@Override
 	public void updateUser(User user) {
-		// TODO Auto-generated method stub
 
+		em.getTransaction().begin();
+		em.merge(user);
+		em.getTransaction().commit();
+		em.close();
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,6 +43,13 @@ public class UserRootResource {
 		return Response.ok().entity(currentUser).build();
 	}
 	
+	@PUT
+    @Path("/{id}")
+	public Response updateUser(User updatedUser) {
+		user.updateUser(updatedUser);
+		return Response.ok().entity(updatedUser).build();
+	}
+	
 	
 	@POST
     @Path("/signup")
@@ -73,7 +81,6 @@ public class UserRootResource {
 		
 		System.out.println("Token is: "+token);
 		String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), loginUser.getUsername(), "sample subject", 15000);
-	
 		return Response.ok(token1).build();
 
 		
