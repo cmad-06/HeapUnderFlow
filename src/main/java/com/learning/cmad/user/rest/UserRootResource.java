@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -48,6 +49,13 @@ public class UserRootResource {
 	public Response updateUser(User updatedUser) {
 		user.updateUser(updatedUser);
 		return Response.ok().entity(updatedUser).build();
+	}
+	
+	@DELETE
+    @Path("/{id}")
+	public Response deleteUser(@PathParam("id") int userId) {
+		user.deleteUserById(userId);
+		return Response.ok().build();
 	}
 	
 	

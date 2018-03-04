@@ -42,7 +42,7 @@ public class JPAUserDAO implements UserDAO {
 
 	@Override
 	public void deleteUser(User user) {
-		// TODO Auto-generated method stub
+		deleteUserById(user.getUserId());
 
 	}
 
@@ -57,8 +57,11 @@ public class JPAUserDAO implements UserDAO {
 
 	@Override
 	public void deleteUserById(int id) {
-		// TODO Auto-generated method stub
 		
+		em.getTransaction().begin();
+		em.remove(em.find(User.class, id));
+		em.getTransaction().commit();
+		em.close();
 	}
 
 }
