@@ -76,22 +76,15 @@ public class UserRootResource {
 	public Response signupUserVersion2(User newUser) throws URISyntaxException {
 		newUser.setPassword(EncryptorDecryptor.encryptData(newUser.getPassword())); 	//encrypt password before persisting
 		user.createUser(newUser);
-		String token = jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
+		String token = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), newUser.getUsername(), "sample subject", 15000);
 		return Response.ok(token).build();
 	}
 	
 	@POST
     @Path("/login")
 	public Response loginUser(User loginUser, @HeaderParam("token") String token) {
-		System.out.println("Username entered: "+loginUser.getUsername());
-		System.out.println("Password entered: "+loginUser.getPassword());
-		System.out.println("Password after encrypting: "+EncryptorDecryptor.encryptData(loginUser.getPassword()));
-		
-		System.out.println("Token is: "+token);
 		String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), loginUser.getUsername(), "sample subject", 15000);
 		return Response.ok(token1).build();
-
-		
 	}
 	
 }
