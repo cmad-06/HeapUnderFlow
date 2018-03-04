@@ -9,11 +9,11 @@ $(document).ready(function() {
 		rules: {
 			firstname1: {
 				required: true,
-				minlength: 5
+				minlength: 3
 			},
 			lastname1: {
 				required: true,
-				minlength: 5
+				minlength: 3
 			},
 			email1: {
 				required: true,
@@ -39,6 +39,9 @@ $(document).ready(function() {
 					data: JSON.stringify(user1),
 					dataType:"text",
 					url: "/heapunderflow/service/user/signup",
+					headers: {
+						"Accept": 'application/vnd.heapunderflow-v2+json'
+					},
 					success: function(data) {
 						sessionStorage.token = data;
 						alert('Got a token from the server! Token: ' + data);

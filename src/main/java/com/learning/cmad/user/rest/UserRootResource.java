@@ -36,11 +36,21 @@ public class UserRootResource {
 	
 	@POST
     @Path("/signup")
+	@Produces("application/vnd.heapunderflow-v1+json")
 	public Response signupUser(User newUser) throws URISyntaxException {
 		user.createUser(newUser);
 		String token = jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
 		return Response.ok(token).build();
-		//return Response.created(new URI(newUser.getUserId() + "")).build();
+	}
+	
+	
+	@POST
+    @Path("/signup")
+	@Produces("application/vnd.heapunderflow-v2+json")
+	public Response signupUserVersion2(User newUser) throws URISyntaxException {
+		user.createUser(newUser);
+		String token = "Version 2"+jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
+		return Response.ok(token).build();
 	}
 	
 	@POST
