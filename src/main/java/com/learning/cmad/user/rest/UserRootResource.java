@@ -50,6 +50,7 @@ public class UserRootResource {
 		System.out.println("Password entered: "+loginUser.getPassword());	//need to encrypt and store in DB
 		System.out.println("Token is: "+token);
 		String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), loginUser.getUsername(), "sample subject", 15000);
+	
 		return Response.ok(token1).build();
 
 		

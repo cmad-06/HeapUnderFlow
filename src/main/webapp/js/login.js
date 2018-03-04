@@ -21,11 +21,10 @@ $(document).ready(function() {
 				var username = $("#username").val();
 				var password = $("#pwd").val();
 				var login_user = {"username":username, "password":password};
-				alert(JSON.stringify(login_user));
 				$.ajax({
 					type: "POST",
 					contentType: "application/json; charset=utf-8",
-					async: false,
+//					async: false,
 					headers: {
 				        "token": sessionStorage.token
 				    },
@@ -33,7 +32,7 @@ $(document).ready(function() {
 					dataType:"text",
 					url: "/heapunderflow/service/user/login",
 					success: function(data) {
-						alert("login success");
+						window.location.href = 'signup.html';
 					},
 					error: function() {
 						alert("login Failed");
@@ -41,6 +40,16 @@ $(document).ready(function() {
 				});		
 		}
 	});
+	
+	
+	$('#loginform input').on('keyup blur', function () {
+        if ($('#loginform').valid()) {
+            $('button.btn').prop('disabled', false);
+        } else {
+            $('button.btn').prop('disabled', 'disabled');
+        }
+    });
+	
 
 //------------------------------------------------------------------------------------------
 	

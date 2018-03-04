@@ -52,5 +52,12 @@ $(document).ready(function() {
 
 //------------------------------------------------------------------------------------------
 	
+	$('#signupform input').on('keyup blur', function () {
+        if ($('#signupform').valid()) {
+            $('button.btn').prop('disabled', false);
+        } else {
+            $('button.btn').prop('disabled', 'disabled');
+        }
+    });
 
 });
