@@ -1,11 +1,12 @@
 package com.learning.cmad.user.rest;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -40,6 +41,18 @@ public class UserRootResource {
 		String token = jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
 		return Response.ok(token).build();
 		//return Response.created(new URI(newUser.getUserId() + "")).build();
+	}
+	
+	@POST
+    @Path("/login")
+	public Response loginUser(User loginUser, @HeaderParam("token") String token) {
+		System.out.println("Username entered: "+loginUser.getUsername());
+		System.out.println("Password entered: "+loginUser.getPassword());	//need to encrypt and store in DB
+		System.out.println("Token is: "+token);
+		String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), loginUser.getUsername(), "sample subject", 15000);
+		return Response.ok(token1).build();
+
+		
 	}
 	
 }
