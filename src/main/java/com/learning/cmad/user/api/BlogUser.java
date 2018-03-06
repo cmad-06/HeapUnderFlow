@@ -17,5 +17,7 @@ public interface BlogUser {
 	//Delete
 	public void deleteUser(User user) throws InvalidUserException, UserNotFoundException, UserException;
 	public void deleteUserById(int id) throws InvalidUserException, UserNotFoundException, UserException;
+
+	public User getUserByUsername(String username) throws UserNotFoundException , UserException;
 	
 }

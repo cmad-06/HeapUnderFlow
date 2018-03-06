@@ -64,4 +64,12 @@ public class JPAUserDAO implements UserDAO {
 		em.close();
 	}
 
+	@Override
+	public User getUserByUserName(String username) {
+		Query query = em.createQuery("from User where username = :username").setParameter("username", username);
+		User user = (User) query.getSingleResult();
+		return user;
+		
+	}
+
 }

@@ -51,4 +51,9 @@ public class SimpleBlogUser implements BlogUser {
 		dao.deleteUserById(id);
 	}
 
+	@Override
+	public User getUserByUsername(String username) throws UserNotFoundException, UserException {
+		return dao.getUserByUserName(username);
+	}
+
 }

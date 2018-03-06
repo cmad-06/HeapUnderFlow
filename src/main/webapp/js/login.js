@@ -32,6 +32,7 @@ $(document).ready(function() {
 					dataType:"text",
 					url: "/heapunderflow/service/user/login",
 					success: function(data) {
+						alert("login Success");
 						window.location.href = 'signup.html';
 					},
 					error: function() {

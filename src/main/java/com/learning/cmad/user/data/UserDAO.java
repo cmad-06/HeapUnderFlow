@@ -20,4 +20,6 @@ public interface UserDAO {
 	//Delete
 	public void deleteUser(User user);
 	public void deleteUserById(int id);
+
+	public User getUserByUserName(String username);
 }

@@ -1,7 +1,10 @@
 package com.learning.cmad.user.rest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.ws.rs.Consumes;
@@ -18,6 +21,7 @@ import javax.ws.rs.core.Response;
 
 import com.learning.cmad.user.api.BlogUser;
 import com.learning.cmad.user.api.User;
+import com.learning.cmad.user.api.UserNotFoundException;
 import com.learning.cmad.user.biz.SimpleBlogUser;
 import com.learning.cmad.utils.EncryptorDecryptor;
 import com.learning.cmad.utils.JWTTokenHelper;
@@ -82,9 +86,25 @@ public class UserRootResource {
 	
 	@POST
     @Path("/login")
-	public Response loginUser(User loginUser, @HeaderParam("token") String token) {
-		String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), loginUser.getUsername(), "sample subject", 15000);
-		return Response.ok(token1).build();
+	public Response loginUser(String loginUser, @HeaderParam("token") String token) {
+		Gson gson = new Gson();
+		Map<String, Object> map = gson.fromJson(loginUser, new TypeToken<Map<String, Object>>(){}.getType());
+		try {
+			User currentUser = user.getUserByUsername((String) map.get("username"));
+			String sentPassword = EncryptorDecryptor.encryptData((String) map.get("password"));
+			if (sentPassword.equals(currentUser.getPassword())) {
+					String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), currentUser.getUsername(), "sample subject", 15000);
+					return Response.ok(token1).build();
+			}
+			else {
+				throw new UserNotFoundException();
+			}
+		
+		} catch (Exception e) {
+			throw new UserNotFoundException();
+		}
+	
+		
 	}
 	
 }

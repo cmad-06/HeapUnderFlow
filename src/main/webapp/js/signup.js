@@ -44,7 +44,9 @@ $(document).ready(function() {
 					},
 					success: function(data) {
 						sessionStorage.token = data;
-						alert('Got a token from the server! Token: ' + data);
+						alert('Got a token from the server! Token: Redirect ' + data);
+						console.log("Got a token from the server!");
+						window.location.href = 'login.html';
 					},
 					error: function() {
 						alert("Signup Failed");
