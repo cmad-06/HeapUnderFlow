@@ -32,7 +32,7 @@ $(document).ready(function() {
 					dataType:"text",
 					url: "/heapunderflow/service/user/login",
 					success: function(data) {
-						alert("login Success");
+						alert('Got a token from the server! Token: ' + data);
 						window.location.href = 'signup.html';
 					},
 					error: function() {
