@@ -32,8 +32,13 @@ $(document).ready(function() {
 					dataType:"text",
 					url: "/heapunderflow/service/user/login",
 					success: function(data) {
-						alert('Got a token from the server! Token: ' + data);
-						window.location.href = 'signup.html';
+						
+					//	alert('Got a token from the server! Token: ' + JSON.data);
+					//	alert('Got a token from the server! Token: ' + data.userId);
+						var userId = JSON.parse(data).userId;
+						
+						window.location.href = 'profileupdate.html?userId=' + userId;
+						$('#loginoptions').prop('disabled', 'disabled')
 					},
 					error: function() {
 						alert("login Failed");

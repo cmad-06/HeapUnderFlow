@@ -1,6 +1,7 @@
 package com.learning.cmad.user.api;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BlogUser {
 
@@ -18,6 +19,8 @@ public interface BlogUser {
 	public void deleteUser(User user) throws InvalidUserException, UserNotFoundException, UserException;
 	public void deleteUserById(int id) throws InvalidUserException, UserNotFoundException, UserException;
 
-	public User getUserByUsername(String username) throws UserNotFoundException , UserException;
+	public User loginUser(Map map) throws UserNotFoundException, AuthenticationException, UserException;
+
+	public User getUserByKey(String string, String username) throws UserNotFoundException, UserException;
 	
 }

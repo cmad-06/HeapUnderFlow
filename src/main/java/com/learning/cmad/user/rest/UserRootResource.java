@@ -1,8 +1,10 @@
 package com.learning.cmad.user.rest;
 import com.google.gson.Gson;
+
 import com.google.gson.reflect.TypeToken;
 
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -19,8 +21,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.learning.cmad.user.api.AuthenticationException;
 import com.learning.cmad.user.api.BlogUser;
 import com.learning.cmad.user.api.User;
+import com.learning.cmad.user.api.UserException;
 import com.learning.cmad.user.api.UserNotFoundException;
 import com.learning.cmad.user.biz.SimpleBlogUser;
 import com.learning.cmad.utils.EncryptorDecryptor;
@@ -51,6 +55,7 @@ public class UserRootResource {
 	@PUT
     @Path("/{id}")
 	public Response updateUser(User updatedUser) {
+		
 		user.updateUser(updatedUser);
 		return Response.ok().entity(updatedUser).build();
 	}
@@ -67,12 +72,10 @@ public class UserRootResource {
     @Path("/signup")
 	@Produces("application/vnd.heapunderflow-v1+json")
 	public Response signupUser(User newUser) throws URISyntaxException {
-		
 		user.createUser(newUser);
 		String token = "Version 2"+jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
 		return Response.ok(token).build();
 	}
-	
 	
 	@POST
     @Path("/signup")
@@ -81,24 +84,28 @@ public class UserRootResource {
 		newUser.setPassword(EncryptorDecryptor.encryptData(newUser.getPassword())); 	//encrypt password before persisting
 		user.createUser(newUser);
 		String token = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), newUser.getUsername(), "sample subject", 15000);
-		return Response.ok(token).build();
+		
+		Map<String , String> responseData = new HashMap<String , String>();
+		responseData.put("userId", Integer.toString(newUser.getUserId()));
+		responseData.put("token", token);
+		
+		return Response.ok(responseData).build();
 	}
 	
 	@POST
     @Path("/login")
-	public Response loginUser(String loginUser, @HeaderParam("token") String token) {
+	public Response loginUser(String userDetail, @HeaderParam("token") String token) {
 		Gson gson = new Gson();
-		Map<String, Object> map = gson.fromJson(loginUser, new TypeToken<Map<String, Object>>(){}.getType());
+		Map<String, Object> map = gson.fromJson(userDetail, new TypeToken<Map<String, Object>>(){}.getType());
 		try {
-			User currentUser = user.getUserByUsername((String) map.get("username"));
-			String sentPassword = EncryptorDecryptor.encryptData((String) map.get("password"));
-			if (sentPassword.equals(currentUser.getPassword())) {
-					String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), currentUser.getUsername(), "sample subject", 15000);
-					return Response.ok(token1).build();
-			}
-			else {
-				throw new UserNotFoundException();
-			}
+			User loginuser = user.loginUser(map);
+			String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), (String) map.get("username"), "sample subject", 15000);
+
+			Map<String , String> responseData = new HashMap<String , String>();
+			responseData.put("userId", Integer.toString(loginuser.getUserId()));
+			responseData.put("token", token1);
+			
+			return Response.ok(responseData).build();
 		
 		} catch (Exception e) {
 			throw new UserNotFoundException();

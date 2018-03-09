@@ -4,6 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import com.learning.cmad.user.api.AuthenticationException;
 import com.learning.cmad.user.api.DuplicateUserException;
 import com.learning.cmad.user.api.InvalidUserException;
 import com.learning.cmad.user.api.UserException;
@@ -19,6 +20,9 @@ public class UserExceptionHandler implements ExceptionMapper<UserException> {
 		}
 		if (e instanceof DuplicateUserException) {
 			return Response.status(409).build();
+		}
+		if (e instanceof AuthenticationException) {
+			return Response.status(403).build();
 		}
 		if (e instanceof InvalidUserException) {
 			return Response.status(404).build();

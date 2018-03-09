@@ -65,8 +65,8 @@ public class JPAUserDAO implements UserDAO {
 	}
 
 	@Override
-	public User getUserByUserName(String username) {
-		Query query = em.createQuery("from User where username = :username").setParameter("username", username);
+	public User getUserByKey(String key, String value) {
+		Query query = em.createQuery("from User where username = :" + key).setParameter(key, value);
 		User user = (User) query.getSingleResult();
 		return user;
 		

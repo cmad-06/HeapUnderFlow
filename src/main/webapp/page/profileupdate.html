@@ -16,7 +16,7 @@
 <script src="../js/jquery.validate.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/utils.js"></script>
-<script src="../js/login.js"></script>
+<script src="../js/profileupdate.js"></script>
 
 
 <script type="text/javascript">
@@ -36,7 +36,7 @@
 				<div class="navbar-header">
 					<a class="navbar-brand navbar-link" href="../index.html">HeapUnderFlow</a>
 				</div>
-				<div class="collapse navbar-collapse" id="navcol-1">
+				<!--  div class="collapse navbar-collapse" id="navcol-1">
 					<div id="header"></div>
 
 					<div>
@@ -46,37 +46,46 @@
 								href="./signup.html">Sign Up</a>
 						</p>
 					</div>
-				</div>
+				</div>-->
 
 			</div>
 		</nav>
 
-
-		<div class="container" id="registration-form">
-			<div class="frm">
-				<h1>Log in</h1>
-				<form id="loginform">
-					<div class="form-group required">
-						<label for="username" class='control-label'>Username:</label> <input
-							type="text" class="form-control" name="username2" id="username"
-							placeholder="Enter username">
+		<div class="container" id="profileupdate-form">
+			<div class="frm" style="height: 580px; overflow: scroll">
+				<h1>Update Profile</h1>
+				
+				<form id="profileupdateform">
+					<div class="form-group ">
+						<label for="firstname" class='control-label'>First Name:</label> <input type="text"
+							class="form-control" name="firstname1" id="changefirstname" placeholder="Enter firstname">
 					</div>
-
-					<div class="form-group required">
-						<label for="pwd" class='control-label'>Password:</label> <input
-							type="password" class="form-control" name="password2" id="pwd"
-							placeholder="Enter password">
+					<div class="form-group ">
+						<label for="lastname" class='control-label'>Last Name:</label> <input type="text"
+							class="form-control" name="lastname1" id="changelastname" placeholder="Enter lastname">
+					</div>
+					
+					<div class="form-group">
+						<label for="pwd" class='control-label'>Password:</label> <input type="password"
+							class="form-control" name="password2" id="changepassword" placeholder="Enter password">
 					</div>
 					<div class="form-group">
-						<button id="login" type="submit" class="btn btn-success btn-lg">Submit</button>
+						<label for="pwd" class='control-label'>Confirm Password:</label> <input type="password"
+							class="form-control" name="password3" id="confirmpassword" placeholder="Confirm password">
 					</div>
-					<div class="pull-right">
-						<a>Forgot Password</a>
+					
+					<div class="form-group">
+						<button id="profileupdate" type="submit" class="btn btn-success btn-lg">Submit</button>
 					</div>
 				</form>
 			</div>
 		</div>
+		
+		
+
+
 	</div>
+
 
 
 	
