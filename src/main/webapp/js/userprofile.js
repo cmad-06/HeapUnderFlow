@@ -34,6 +34,11 @@ $(document).ready(function() {
 			alert("Change Password Failed");
 		}
 	});		
+	
+	$("#loggedinuser").click(function(){
+	    alert("username is clicked, navigating to update profile");
+	    window.location.href = 'profileupdate.html?userId=' + userId;
+	});
 
 	
 //------------------------------------------------------------------------------------------
