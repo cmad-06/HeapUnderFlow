@@ -37,7 +37,7 @@ $(document).ready(function() {
 					//	alert('Got a token from the server! Token: ' + data.userId);
 						var userId = JSON.parse(data).userId;
 						
-						window.location.href = 'profileupdate.html?userId=' + userId;
+						window.location.href = 'userprofile.html?userId=' + userId;
 						$('#loginoptions').prop('disabled', 'disabled')
 					},
 					error: function() {
