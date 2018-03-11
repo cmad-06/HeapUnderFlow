@@ -23,12 +23,12 @@ public class SimpleBlogUser implements BlogUser {
 	private UserDAO dao = new JPAUserDAO();
 	
 	@Override
-	public void createUser(User user) throws InvalidUserException, DuplicateUserException, UserException {
+	public int createUser(User user) throws InvalidUserException, DuplicateUserException, UserException {
 
 		if(user == null || user.getUsername().trim().length() == 0)
 			throw new InvalidUserException();
 		
-		dao.createUser(user);
+		return dao.createUser(user);
 	}
 
 	@Override

@@ -2,13 +2,18 @@ package com.learning.cmad.blog.api;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Blog {
 
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int blogId;
 	private String blogTitle;
 	private String blogAuthor;
-	private int blogAuthorId;
 	private Date blogCreation;
 	
 	public Blog(){
@@ -33,12 +38,7 @@ public class Blog {
 	public void setBlogAuthor(String blogAuthor) {
 		this.blogAuthor = blogAuthor;
 	}
-	public int getBlogAuthorId() {
-		return blogAuthorId;
-	}
-	public void setBlogAuthorId(int blogAuthorId) {
-		this.blogAuthorId = blogAuthorId;
-	}
+	
 	public Date getBlogCreation() {
 		return blogCreation;
 	}

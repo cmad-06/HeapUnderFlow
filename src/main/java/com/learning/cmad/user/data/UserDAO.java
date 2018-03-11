@@ -7,7 +7,7 @@ import com.learning.cmad.user.api.User;
 public interface UserDAO {
 
 	//Create
-	public void createUser(User user);
+	public int createUser(User user);
 	
 	//Read
 	public List<User> getAllUsers();

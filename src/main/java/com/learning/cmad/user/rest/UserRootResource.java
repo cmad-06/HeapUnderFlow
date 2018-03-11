@@ -1,8 +1,4 @@
 package com.learning.cmad.user.rest;
-import com.google.gson.Gson;
-
-import com.google.gson.reflect.TypeToken;
-
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
@@ -18,13 +14,16 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
-import com.learning.cmad.user.api.AuthenticationException;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.learning.cmad.user.api.BlogUser;
 import com.learning.cmad.user.api.User;
-import com.learning.cmad.user.api.UserException;
 import com.learning.cmad.user.api.UserNotFoundException;
 import com.learning.cmad.user.biz.SimpleBlogUser;
 import com.learning.cmad.utils.EncryptorDecryptor;
@@ -73,23 +72,21 @@ public class UserRootResource {
 	@Produces("application/vnd.heapunderflow-v1+json")
 	public Response signupUser(User newUser) throws URISyntaxException {
 		user.createUser(newUser);
-		String token = "Version 2"+jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
+		String token = "Version 1"+jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
 		return Response.ok(token).build();
 	}
 	
 	@POST
     @Path("/signup")
 	@Produces("application/vnd.heapunderflow-v2+json")
-	public Response signupUserVersion2(User newUser) throws URISyntaxException {
+	public Response signupUserVersion2(User newUser, @Context UriInfo uriInfo) throws URISyntaxException {
 		newUser.setPassword(EncryptorDecryptor.encryptData(newUser.getPassword())); 	//encrypt password before persisting
-		user.createUser(newUser);
+		int userId = user.createUser(newUser);
 		String token = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), newUser.getUsername(), "sample subject", 15000);
-		
-		Map<String , String> responseData = new HashMap<String , String>();
-		responseData.put("userId", Integer.toString(newUser.getUserId()));
-		responseData.put("token", token);
-		
-		return Response.ok(responseData).build();
+		UriBuilder builder = uriInfo.getBaseUriBuilder();
+        builder.path(Integer.toString(userId));
+        return Response.created(builder.build()).header("userId", userId).header("token", token).build();
+        
 	}
 	
 	@POST

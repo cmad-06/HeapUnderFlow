@@ -42,11 +42,10 @@ $(document).ready(function() {
 					headers: {
 						"Accept": 'application/vnd.heapunderflow-v2+json'
 					},
-					success: function(data) {
+					success: function(data, textStatus, request) {
 						sessionStorage.token = data;
-						alert('Got a token from the server! Token: Redirect ' + data);
-						console.log("Got a token from the server!");
-						window.location.href = 'login.html';
+						alert('Got a token from the server! Token:' + request.getResponseHeader('token'));
+						window.location.href = 'userprofile.html?userId=' + request.getResponseHeader('userId');
 					},
 					error: function() {
 						alert("Signup Failed");

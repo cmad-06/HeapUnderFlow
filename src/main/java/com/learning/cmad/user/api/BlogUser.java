@@ -6,7 +6,7 @@ import java.util.Map;
 public interface BlogUser {
 
 	//Create
-	public void createUser(User user) throws InvalidUserException, DuplicateUserException, UserException;
+	public int createUser(User user) throws InvalidUserException, DuplicateUserException, UserException;
 	
 	//Read
 	public List<User> getAllUsers() throws UserException;
