@@ -46,11 +46,24 @@ $(document).ready(function() {
 	function plotData(response){
 
 		$.each((response), function(i, item) {
-			$('<tr>').append(
-					$('<td>').text(item.blogTitle),
-					$('<td>').text(item.blogLikes)
-			).appendTo('#records_table');
+			
+			var tr = '<tr>';
+		    tr += '<td>' + item.blogTitle + '</td>';
+		    tr += '<td>' + item.blogLikes + '</td>';
+		    tr += '<td><button class="btn btn-primary">Edit</button></td>';
+		    tr += '<td><button class="btn btn-warning">Delete</button></td>';
+		    tr += '</tr>';
+		    
+		    $('#records_table').append(tr);
 		});
+		
+		
+//		$.each((response), function(i, item) {
+//			$('<tr>').append(
+//					$('<td>').text(item.blogTitle),
+//					$('<td>').text(item.blogLikes)
+//			).appendTo('#records_table');
+//		});
 	}
 //	--------------------------------------------------------------------------
 
