@@ -26,6 +26,7 @@ $(document).ready(function() {
 		url: "/heapunderflow/service/user/" + userId + "/blog",
 		success: function(data) {
 			//alert('Got User Data ' + JSON.stringify(data));
+		//	currentUser = data[0].blogAuthor;
 			if(data.length > 0){
 				alert("plotting data");
 				currentUser = data[0].blogAuthor;
@@ -122,6 +123,70 @@ $(document).ready(function() {
 			});		
 		}
 	});
+	
+	$.dataHasChanged = function (initialvalue, changedvalue){
+		if ( initialvalue === changedvalue){
+			console.log("return false")
+			return false;
+		}
+		console.log("return true")
+		return true;
+	}	
+	
+	$('#profileupdateform').validate({ // initialize the plugin
+		submitHandler: function (form) { 
+			alert("Profile Update Form Submitted");
+			var firstname = $("#changefirstname").val();
+			var lastname = $("#changelastname").val();
+			var email = $("#changeemail").val();
+			var password = $("#changepassword").val();
+			var confirmpassword = $("#confirmpassword").val();
+			console.log("firstname : " + firstname + " \nlastname :" + lastname);
+			
+			var updateServer=false;
+			
+			if (firstname != null && $.dataHasChanged(currentUser.firstName, firstname) ){
+				currentUser.firstName = firstname;
+				updateServer = true;
+			}
+			
+			if (lastname != null && $.dataHasChanged(currentUser.lastName, lastname) ){
+				currentUser.lastName = lastname;
+				updateServer = true;
+			}
+			if (email != null && $.dataHasChanged(currentUser.email, email) ){
+				currentUser.email = email;
+				updateServer = true;
+			}
+			if (password != null && (password === confirmpassword)){
+				currentUser.password = password;
+				updateServer = true;
+			}
+			
+			console.log("currentUser.firstname : " + currentUser.firstname + " " + "currentUser.lastname: " + currentUser.lastname )
+			if ( updateServer == true){
+				alert('Updating profile ' + JSON.stringify(currentUser));
+				$.ajax({
+					type: "PUT",
+					contentType: "application/json; charset=utf-8",
+	//				async: false,
+					headers: {
+				        "token": sessionStorage.token
+				    },
+				    data: JSON.stringify(currentUser),
+					dataType:"text",
+					url: "/heapunderflow/service/user/" + currentUser.userId,
+					success: function(data) {
+						alert('Profile has been updated');
+						window.location.href = 'userprofile.html?userId=' + currentUser.userId;
+					},
+					error: function() {
+						alert("Profile Update Failed");
+					}
+				});	
+			}
+		}
+	})
 	
 	
 	//----------------------------------------------------------------------------------------------------------------------------------
