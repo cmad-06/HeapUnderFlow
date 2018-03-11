@@ -2,8 +2,8 @@
 $(document).ready(function() {
 
 
-//------------------------------------------------------------------------------------------
-		
+//	------------------------------------------------------------------------------------------
+
 
 	$('#signupform').validate({ // initialize the plugin
 		rules: {
@@ -23,45 +23,45 @@ $(document).ready(function() {
 		submitHandler: function (form) { 
 			alert('valid form submitted');
 
-				var firstname = $("#firstname").val();
-				var lastname = $("#lastname").val();
-				var username = $("#username").val();
-				var email = $("#email").val();
-				var password = $("#password").val();
+			var firstname = $("#firstname").val();
+			var lastname = $("#lastname").val();
+			var username = $("#username").val();
+			var email = $("#email").val();
+			var password = $("#password").val();
 
-				var user1 = {"firstName":firstname, "lastName":lastname, "username":username, "email":email, "password":password};
-				alert(JSON.stringify(user1));
+			var user1 = {"firstName":firstname, "lastName":lastname, "username":username, "email":email, "password":password};
+			alert(JSON.stringify(user1));
 
-				$.ajax({
-					type: "POST",
-					contentType: "application/json; charset=utf-8",
-					async: false,
-					data: JSON.stringify(user1),
-					dataType:"text",
-					url: "/heapunderflow/service/user/signup",
-					headers: {
-						"Accept": 'application/vnd.heapunderflow-v2+json'
-					},
-					success: function(data, textStatus, request) {
-						sessionStorage.token = data;
-						alert('Got a token from the server! Token:' + request.getResponseHeader('token'));
-						window.location.href = 'userprofile.html?userId=' + request.getResponseHeader('userId');
-					},
-					error: function() {
-						alert("Signup Failed");
-					}
-				});		
+			$.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				async: false,
+				data: JSON.stringify(user1),
+				dataType:"text",
+				url: "/heapunderflow/service/user/signup",
+				headers: {
+					"Accept": 'application/vnd.heapunderflow-v2+json'
+				},
+				success: function(data, textStatus, request) {
+					sessionStorage.token = data;
+					alert('Got a token from the server! Token:' + request.getResponseHeader('token'));
+					window.location.href = 'userprofile.html?userId=' + request.getResponseHeader('userId');
+				},
+				error: function() {
+					alert("Signup Failed");
+				}
+			});		
 		}
 	});
 
-//------------------------------------------------------------------------------------------
-	
+//	------------------------------------------------------------------------------------------
+
 	$('#signupform input').on('keyup blur', function () {
-        if ($('#signupform').valid()) {
-            $('button.btn').prop('disabled', false);
-        } else {
-            $('button.btn').prop('disabled', 'disabled');
-        }
-    });
+		if ($('#signupform').valid()) {
+			$('button.btn').prop('disabled', false);
+		} else {
+			$('button.btn').prop('disabled', 'disabled');
+		}
+	});
 
 });
