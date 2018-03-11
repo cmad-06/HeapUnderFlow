@@ -86,4 +86,11 @@ public class JPAUserDAO implements UserDAO {
 		em.close();
 	}
 
+	@Override
+	public List<Blog> getBlogsForUser(int userId) {
+		Query query = em.createQuery("from User where userId = :id").setParameter("id", userId);
+		User user = (User) query.getSingleResult();
+		return user.getUserBlogs();
+	}
+
 }

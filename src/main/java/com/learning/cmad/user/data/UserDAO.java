@@ -26,4 +26,6 @@ public interface UserDAO {
 	
 	
 	public void addBlogForUser(Blog blog, int userId);
+
+	public List<Blog> getBlogsForUser(int userId);
 }

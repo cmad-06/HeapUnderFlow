@@ -91,4 +91,9 @@ public class SimpleBlogUser implements BlogUser {
 	public void addBlogForUser(Blog blog, int userId) throws UserNotFoundException, UserException {
 		userDAO.addBlogForUser(blog, userId);
 	}
+
+	@Override
+	public List<Blog> getBlogsForUser(int userId) {
+		return userDAO.getBlogsForUser(userId);
+	}
 }

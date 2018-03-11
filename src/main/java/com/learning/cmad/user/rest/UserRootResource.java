@@ -121,4 +121,13 @@ public class UserRootResource {
 	}
 	
 	
+	@GET
+	@Path("/{id}/blog")
+	public Response getBlogsForUser(@PathParam("id") int userId){
+		List<Blog> userBlogs = user.getBlogsForUser(userId);
+		return Response.ok().entity(userBlogs).build();
+
+	}
+	
+	
 }
