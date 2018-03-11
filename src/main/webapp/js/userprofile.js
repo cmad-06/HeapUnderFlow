@@ -26,9 +26,16 @@ $(document).ready(function() {
 		url: "/heapunderflow/service/user/" + userId + "/blog",
 		success: function(data) {
 			//alert('Got User Data ' + JSON.stringify(data));
-			currentUser = data[0].blogAuthor;
-			document.getElementById("loggedinuser").innerHTML = "Welcome <b>" + currentUser  + "</b>!";
-			plotData(data);
+			if(data.length > 0){
+				alert("plotting data");
+				currentUser = data[0].blogAuthor;
+				document.getElementById("loggedinuser").innerHTML = "Welcome <b>" + currentUser  + "</b>!";
+				plotData(data);
+			}
+			else{
+				alert("0 records");
+				document.getElementById("records_table").innerHTML = "No data available";
+			}
 
 		},
 		error: function() {

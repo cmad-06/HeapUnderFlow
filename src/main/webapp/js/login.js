@@ -8,11 +8,11 @@ $(document).ready(function() {
 		rules: {
 			username2: {
 				required: true,
-				minlength: 5
+				minlength: 3
 			},
 			password2: {
 				required: true,
-				minlength: 5
+				minlength: 3
 			}
 		},
 		submitHandler: function (form) { 
