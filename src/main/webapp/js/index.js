@@ -15,7 +15,7 @@ $(document).ready(function() {
 		contentType: "application/json; charset=utf-8",
 		async: false,
 		dataType:"text",
-		url: "/heapunderflow/service/user",
+		url: "/heapunderflow/service/blog",
 		success: function(response) {
 			plotData(response);
 		},
@@ -31,10 +31,9 @@ $(document).ready(function() {
 		$.each($.parseJSON(response), function(i, item) {
 		      $('<tr>').append(
 		          '<td>' + img + '</td>',
-		          $('<td>').text(item.username),
-		          $('<td>').text(item.email),
-				  $('<td>').text(item.firstName),
-				  $('<td>').text(item.lastName)
+		          $('<td>').text(item.blogAuthor),
+				  $('<td>').text(item.blogTitle),
+				  $('<td>').text(item.blogLikes)
 		      ).appendTo('#records_table');
 		  });
 	}

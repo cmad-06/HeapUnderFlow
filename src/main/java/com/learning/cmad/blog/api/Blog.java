@@ -20,7 +20,16 @@ public class Blog {
 	
 	@JsonDeserialize(using=CustomerDateAndTimeDeserialize.class)
 	private Date blogCreation;
+	private int blogLikes;
 	
+	public int getBlogLikes() {
+		return blogLikes;
+	}
+
+	public void setBlogLikes(int blogLikes) {
+		this.blogLikes = blogLikes;
+	}
+
 	public Blog(){
 		
 	}
