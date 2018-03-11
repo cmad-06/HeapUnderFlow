@@ -17,7 +17,15 @@ public class Blog {
 	private int blogId;
 	private String blogTitle;
 	private String blogAuthor;
+	private String blogText;
 	
+	public String getBlogText() {
+		return blogText;
+	}
+
+	public void setBlogText(String blogText) {
+		this.blogText = blogText;
+	}
 	@JsonDeserialize(using=CustomerDateAndTimeDeserialize.class)
 	private Date blogCreation;
 	private int blogLikes;
