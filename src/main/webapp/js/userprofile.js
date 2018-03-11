@@ -47,9 +47,6 @@ $(document).ready(function() {
 		
 		$.each($(response), function(i, item) {
 		      $('<tr>').append(
-		          '<td>' + img + '</td>',
-		          $('<td>').text(item.username),
-		          $('<td>').text(item.email),
 				  $('<td>').text(item.firstName),
 				  $('<td>').text(item.lastName)
 		      ).appendTo('#records_table');
