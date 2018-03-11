@@ -114,18 +114,33 @@ function deleteBlog(blogId){
 
 
 
-
-
-
-
-
-
 				<div>
-					<p>Lorem ipsum dolor ist amet, consectetur adipiscing elit.
-						Suspendisse molestie volutpat consectetur. Class aptent taciti
-						sociosqu ad litora torquent per conubia nostra.</p>
-					<img src="../assets/images/pictures/sands-of-life.jpg"
-						alt="Sands of Life">
+					<form id="signupform">
+					<p class="form-group">
+						<label for="firstname" class='control-label'>First Name:</label> <input type="text"
+							class="form-control" name="firstname1" id="firstname" placeholder="Enter firstname">
+					</p>
+					<p class="form-group">
+						<label for="lastname" class='control-label'>Last Name:</label> <input type="text"
+							class="form-control" name="lastname1" id="lastname" placeholder="Enter lastname">
+					</p>
+
+					<p class="form-group">
+						<label for="email" class='control-label'>Email:</label> <input type="email"
+							class="form-control" name="email1" id="email" placeholder="Enter email">
+					</p>
+					<p class="form-group">
+						<label for="pwd" class='control-label'>Password:</label> <input type="password"
+							class="form-control" name="password1" id="password" placeholder="Enter password">
+					</p>
+					<p class="form-group">
+						<label for="pwd" class='control-label'>Confirm Password:</label> <input type="conf_password"
+							class="form-control" name="password2" id="password2" placeholder="Confirm password">
+					</p>
+					<p class="form-group">
+						<button id="signup" type="submit" class="btn btn-success btn-lg">Submit</button>
+					</p>
+				</form>
 				</div>
 
 			</div>
