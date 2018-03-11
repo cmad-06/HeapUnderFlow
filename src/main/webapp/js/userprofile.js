@@ -14,11 +14,11 @@ $(document).ready(function() {
 	}
 	
 	var userId = ($.urlParam('userId')); 
-	
+	var img = '<img src="../assets/images/avatars/' + 4 + '.jpg" alt=""/>';
+
 	$.ajax({
 		type: "GET",
 		contentType: "application/json; charset=utf-8",
-//		async: false,
 		headers: {
 	        "token": sessionStorage.token
 	    },
@@ -26,8 +26,8 @@ $(document).ready(function() {
 		success: function(data) {
 			alert('Got User Data ' + JSON.stringify(data));
 			userData = data;
-			console.log(data.password)
 			document.getElementById("loggedinuser").innerHTML = "Welcome " + userData["firstName"] + "!";
+			plotData(data);
 
 		},
 		error: function() {
@@ -42,6 +42,21 @@ $(document).ready(function() {
 
 	
 //------------------------------------------------------------------------------------------
-	
+
+	function plotData(response){
+		
+		$.each($(response), function(i, item) {
+		      $('<tr>').append(
+		          '<td>' + img + '</td>',
+		          $('<td>').text(item.username),
+		          $('<td>').text(item.email),
+				  $('<td>').text(item.firstName),
+				  $('<td>').text(item.lastName)
+		      ).appendTo('#records_table');
+		  });
+	}
+
+//--------------------------------------------------------------------------
+
 
 });
