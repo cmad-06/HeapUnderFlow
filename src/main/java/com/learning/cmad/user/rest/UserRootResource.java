@@ -22,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.learning.cmad.blog.api.Blog;
 import com.learning.cmad.user.api.BlogUser;
 import com.learning.cmad.user.api.User;
 import com.learning.cmad.user.api.UserNotFoundException;
@@ -107,8 +108,17 @@ public class UserRootResource {
 		} catch (Exception e) {
 			throw new UserNotFoundException();
 		}
-	
 		
 	}
+	
+	
+	@POST
+	@Path("/{id}/blog")
+	public Response addBlogForUser(@PathParam("id") int userId, Blog blog){
+		user.addBlogForUser(blog, userId);
+		return Response.ok().build();
+
+	}
+	
 	
 }

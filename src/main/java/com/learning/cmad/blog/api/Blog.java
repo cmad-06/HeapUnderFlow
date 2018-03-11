@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.learning.cmad.utils.CustomerDateAndTimeDeserialize;
+
 @Entity
 public class Blog {
 
@@ -14,6 +17,8 @@ public class Blog {
 	private int blogId;
 	private String blogTitle;
 	private String blogAuthor;
+	
+	@JsonDeserialize(using=CustomerDateAndTimeDeserialize.class)
 	private Date blogCreation;
 	
 	public Blog(){

@@ -2,12 +2,12 @@ package com.learning.cmad.user.api;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.learning.cmad.blog.api.Blog;
@@ -25,7 +25,7 @@ public class User {
 	private String email;
 	private String password;
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<Blog> userBlogs;
 
 	//---------------------------------------------------------------------------

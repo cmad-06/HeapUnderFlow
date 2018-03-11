@@ -3,6 +3,8 @@ package com.learning.cmad.user.api;
 import java.util.List;
 import java.util.Map;
 
+import com.learning.cmad.blog.api.Blog;
+
 public interface BlogUser {
 
 	//Create
@@ -22,5 +24,7 @@ public interface BlogUser {
 	public User loginUser(Map map) throws UserNotFoundException, AuthenticationException, UserException;
 
 	public User getUserByKey(String string, String username) throws UserNotFoundException, UserException;
+	
+	public void addBlogForUser(Blog blog, int userId) throws UserNotFoundException, UserException;
 	
 }

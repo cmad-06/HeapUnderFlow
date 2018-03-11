@@ -38,13 +38,7 @@ public class JPABlogDAO implements BlogDAO {
 		return blog;
 	}
 
-	@Override
-	public List<Blog> getBlogsByAuthorId(int id) {
-		Query query = em.createQuery("from Blog where blogAuthorId = :id").setParameter("id", id);
-		List<Blog> blogs = query.getResultList();
-		return blogs;
-	}
-
+	
 	@Override
 	public void updateBlog(Blog blog) {
 		em.getTransaction().begin();

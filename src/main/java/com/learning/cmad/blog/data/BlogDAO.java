@@ -13,7 +13,6 @@ public interface BlogDAO {
 	//Read
 	public List<Blog> getAllBlogs();
 	public Blog getBlogById(int id);
-	public List<Blog> getBlogsByAuthorId(int id);
 	
 	//Update
 	public void updateBlog(Blog blog);

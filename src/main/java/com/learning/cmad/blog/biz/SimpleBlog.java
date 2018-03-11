@@ -33,10 +33,7 @@ public class SimpleBlog implements BlogInterface{
 		return dao.getBlogById(id);
 	}
 
-	@Override
-	public List<Blog> getBlogsByAuthorId(int id) throws BlogNotFoundException, BlogException {
-		return dao.getBlogsByAuthorId(id);
-	}
+	
 
 	@Override
 	public void updateBlog(Blog blog) throws InvalidBlogException, DuplicateBlogException, BlogException {

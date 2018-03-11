@@ -7,8 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import org.hibernate.Session;
-
+import com.learning.cmad.blog.api.Blog;
 import com.learning.cmad.user.api.User;
 
 public class JPAUserDAO implements UserDAO {
@@ -72,6 +71,19 @@ public class JPAUserDAO implements UserDAO {
 		User user = (User) query.getSingleResult();
 		return user;
 		
+	}
+
+	@Override
+	public void addBlogForUser(Blog blog, int userId) {
+
+		Query query = em.createQuery("from User where userId = :id").setParameter("id", userId);
+		User user = (User) query.getSingleResult();
+		em.getTransaction().begin();
+		user.getUserBlogs().add(blog);
+		em.persist(user);
+		em.flush();
+		em.getTransaction().commit();
+		em.close();
 	}
 
 }

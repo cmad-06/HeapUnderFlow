@@ -10,7 +10,6 @@ public interface BlogInterface {
 		//Read
 		public List<Blog> getAllBlogs() throws BlogException;
 		public Blog getBlogById(int id) throws BlogNotFoundException, BlogException;
-		public List<Blog> getBlogsByAuthorId(int id) throws BlogNotFoundException, BlogException;
 		
 		//Update
 		public void updateBlog(Blog blog) throws InvalidBlogException, DuplicateBlogException, BlogException;
