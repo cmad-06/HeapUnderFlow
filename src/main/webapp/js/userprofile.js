@@ -48,7 +48,7 @@ $(document).ready(function() {
 		$.each((response), function(i, item) {
 			
 			var tr = '<tr>';
-		    tr += '<td>' + item.blogTitle + '</td>';
+		    tr += '<td onclick=launchBlog('+ item.blogId +')>' + item.blogTitle + '</td>';
 		    tr += '<td>' + item.blogLikes + '</td>';
 		    tr += '<td><button onclick="editBlog('+ item.blogId + ')" class="btn btn-primary">Edit</button></td>';
 		    tr += '<td><button onclick="deleteBlog('+ item.blogId + ')" class="btn btn-warning">Delete</button></td>';
