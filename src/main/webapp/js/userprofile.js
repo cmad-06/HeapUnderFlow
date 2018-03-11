@@ -2,7 +2,8 @@
 $(document).ready(function() {
 
 
-	var userData = null;
+	var currentUser = null;
+	
 	$.urlParam = function(name){
 		var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 		if (results==null){
@@ -24,8 +25,9 @@ $(document).ready(function() {
 		},
 		url: "/heapunderflow/service/user/" + userId + "/blog",
 		success: function(data) {
-			alert('Got User Data ' + JSON.stringify(data));
-			document.getElementById("loggedinuser").innerHTML = "Welcome <b>" +  data[0].blogAuthor + "</b>!";
+			//alert('Got User Data ' + JSON.stringify(data));
+			currentUser = data[0].blogAuthor;
+			document.getElementById("loggedinuser").innerHTML = "Welcome <b>" + currentUser  + "</b>!";
 			plotData(data);
 
 		},
@@ -35,7 +37,7 @@ $(document).ready(function() {
 	});		
 
 	$("#loggedinuser").click(function(){
-		alert("username is clicked, navigating to update profile");
+		//alert("username is clicked, navigating to update profile");
 		window.location.href = 'profileupdate.html?userId=' + userId;
 	});
 
@@ -53,7 +55,7 @@ $(document).ready(function() {
 //	--------------------------------------------------------------------------
 
 	$("#addBlogBtn").click(function(){
-		alert("add blog is clicked, navigating to add blog page");
+		//alert("add blog is clicked, navigating to add blog page");
 		window.location.href = 'addblog.html?userId=' + userId;
 	});
 
@@ -77,15 +79,15 @@ $(document).ready(function() {
 			}
 		},
 		submitHandler: function (form) { 
-			alert('valid add blog form submitted');
+//			alert('valid add blog form submitted');
 
 			var blogtitle = $("#blogtitle").val();
 			var blogtext = $("#blogtext").val();
 			var dt = new Date();
 			var creationtime = dt.toISOString();
 			
-			var blog = {"blogTitle":blogtitle, "blogText":blogtext, "blogCreation":creationtime, "blogAuthor":"vjcalling"};
-			alert(JSON.stringify(blog));
+			var blog = {"blogTitle":blogtitle, "blogText":blogtext, "blogCreation":creationtime, "blogAuthor":currentUser};
+//			alert(JSON.stringify(blog));
 
 			$.ajax({
 				type: "POST",
@@ -110,6 +112,27 @@ $(document).ready(function() {
 	});
 	
 	
+	//----------------------------------------------------------------------------------------------------------------------------------
 	
+	var widget = $('.tabs-basic');
+
+    var tabs = widget.find('ul a'),
+        content = widget.find('.tabs-content-placeholder > div');
+
+    tabs.on('click', function (e) {
+
+        e.preventDefault();
+
+        // Get the data-index attribute, and show the matching content div
+
+        var index = $(this).data('index');
+
+        tabs.removeClass('tab-active');
+        content.removeClass('tab-content-active');
+
+        $(this).addClass('tab-active');
+        content.eq(index).addClass('tab-content-active');
+
+    });
 	
 });

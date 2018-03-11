@@ -17,6 +17,8 @@
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../assets/css/Footer-white.css">
+<link rel="stylesheet" href="../assets/css/tabs-basic.css">
+
 <script src="../js/jquery.min.js"></script>
 <script src="../js/jquery.validate.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
@@ -48,31 +50,78 @@
 			</div>
 		</nav>
 
-		<!-- Code for showing user blogs -->
-		<div id="main">
-			<div class="container" id="blog">
-				<div class="table-user">
-					<div class="header">My Blogs</div>
+		<div class="tabs-basic">
 
+			<ul>
+				<li><a class="tab-active" data-index="0" href="#">My Blogs</a>
+				</li>
+				<li><a data-index="1" href="#">Add Blog</a></li>
+				<li><a data-index="2" href="#">Third 11 tab</a></li>
+			</ul>
+
+			<div class="tabs-content-placeholder">
+
+				<div class="tab-content-active">
+					<p class="table-user">
 					<table cellspacing="0" id="records_table">
 						<tr>
 							<th>Blog Title</th>
 							<th width="230">Total Likes</th>
 						</tr>
 					</table>
+					</p>
+
 				</div>
-			</div>
 
-			<!-- Code for creating popup for blog addition -->
 
-			<div id="addBlog">
-				<button type="button" id="addBlogBtn">Add Blog</button>
+
+
+
+				<div>
+					<form id="addblogform">
+
+						<p class="form-group required">
+							<label for="blogTitle" class='control-label'>Blog Title:</label>
+							<input type="text" class="form-control" name="blogtitle"
+								id="blogtitle" placeholder="Enter Blog Title">
+						</p>
+
+						<p class="form-group required">
+							<label for="blogText" class='control-label'>Blog Text:</label>
+							<textarea rows="4" cols="50" class="form-control"
+								name="blogtext" id="blogtext" placeholder="Enter Blog Text"></textarea>
+						</p>
+
+						<p class="form-group">
+							<button id="addblog" type="submit" class="btn btn-success btn-lg">Submit</button>
+						</p>
+					</form>
+				</div>
+
+
+
+
+
+
+
+
+
+				<div>
+					<p>Lorem ipsum dolor ist amet, consectetur adipiscing elit.
+						Suspendisse molestie volutpat consectetur. Class aptent taciti
+						sociosqu ad litora torquent per conubia nostra.</p>
+					<img src="../assets/images/pictures/sands-of-life.jpg"
+						alt="Sands of Life">
+				</div>
+
 			</div>
 
 		</div>
 
 
+
 		<!--  -->
+
 
 	</div>
 
