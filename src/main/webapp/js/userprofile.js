@@ -15,7 +15,7 @@ $(document).ready(function() {
 	}
 
 	var userId = ($.urlParam('userId')); 
-	var img = '<img src="../assets/images/avatars/' + 4 + '.jpg" alt=""/>';
+	var img = '<img src="../assets/images/avatars/' + userId + '.jpg" alt=""/>';
 
 	$.ajax({
 		type: "GET",
@@ -50,25 +50,17 @@ $(document).ready(function() {
 			var tr = '<tr>';
 		    tr += '<td>' + item.blogTitle + '</td>';
 		    tr += '<td>' + item.blogLikes + '</td>';
-		    tr += '<td><button class="btn btn-primary">Edit</button></td>';
-		    tr += '<td><button class="btn btn-warning">Delete</button></td>';
+		    tr += '<td><button onclick="editBlog('+ item.blogId + ')" class="btn btn-primary">Edit</button></td>';
+		    tr += '<td><button onclick="deleteBlog('+ item.blogId + ')" class="btn btn-warning">Delete</button></td>';
 		    tr += '</tr>';
 		    
 		    $('#records_table').append(tr);
 		});
-		
-		
-//		$.each((response), function(i, item) {
-//			$('<tr>').append(
-//					$('<td>').text(item.blogTitle),
-//					$('<td>').text(item.blogLikes)
-//			).appendTo('#records_table');
-//		});
 	}
+	
 //	--------------------------------------------------------------------------
 
 	$("#addBlogBtn").click(function(){
-		//alert("add blog is clicked, navigating to add blog page");
 		window.location.href = 'addblog.html?userId=' + userId;
 	});
 

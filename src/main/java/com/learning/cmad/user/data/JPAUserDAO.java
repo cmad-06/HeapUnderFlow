@@ -76,9 +76,10 @@ public class JPAUserDAO implements UserDAO {
 	@Override
 	public void addBlogForUser(Blog blog, int userId) {
 
+		em.getTransaction().begin();
 		Query query = em.createQuery("from User where userId = :id").setParameter("id", userId);
 		User user = (User) query.getSingleResult();
-		em.getTransaction().begin();
+		
 		user.getUserBlogs().add(blog);
 		em.persist(user);
 		em.flush();
@@ -88,8 +89,12 @@ public class JPAUserDAO implements UserDAO {
 
 	@Override
 	public List<Blog> getBlogsForUser(int userId) {
+		
+		em.getTransaction().begin();
 		Query query = em.createQuery("from User where userId = :id").setParameter("id", userId);
 		User user = (User) query.getSingleResult();
+		em.getTransaction().commit();
+		em.close();
 		return user.getUserBlogs();
 	}
 
