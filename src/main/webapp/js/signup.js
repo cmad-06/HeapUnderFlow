@@ -45,7 +45,7 @@ $(document).ready(function() {
 				success: function(data, textStatus, request) {
 					sessionStorage.token = data;
 					alert('Got a token from the server! Token:' + request.getResponseHeader('token'));
-					window.location.href = 'userprofile.html?userId=' + request.getResponseHeader('userId');
+					window.location.href = 'userprofile.html?userId=' + request.getResponseHeader('userId') + '&username='+request.getResponseHeader('username');
 				},
 				error: function() {
 					alert("Signup Failed");

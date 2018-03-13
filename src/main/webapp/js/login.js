@@ -24,7 +24,6 @@ $(document).ready(function() {
 				$.ajax({
 					type: "POST",
 					contentType: "application/json; charset=utf-8",
-//					async: false,
 					headers: {
 				        "token": sessionStorage.token
 				    },
@@ -32,17 +31,16 @@ $(document).ready(function() {
 					dataType:"text",
 					url: "/heapunderflow/service/user/login",
 					success: function(data) {
-						
-					//	alert('Got a token from the server! Token: ' + JSON.data);
-					//	alert('Got a token from the server! Token: ' + data.userId);
+
 						var userId = JSON.parse(data).userId;
+
 						sessionStorage.token = JSON.parse(data).token;
 						sessionStorage.setItem("isLoggedIn", true);
-						window.location.href = 'userprofile.html?userId=' + userId;
+						window.location.href = 'userprofile.html?userId=' + userId + '&username=' + username;
+
 						$('#loginoptions').prop('disabled', 'disabled')
 					},
 					error: function() {
-						alert("login Failed");
 					}
 				});		
 		}

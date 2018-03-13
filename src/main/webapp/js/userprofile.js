@@ -15,8 +15,11 @@ $(document).ready(function() {
 	}
 
 	var userId = ($.urlParam('userId')); 
-	var img = '<img src="../assets/images/avatars/' + userId + '.jpg" alt=""/>';
+	var userName = ($.urlParam('username'));
+	document.getElementById("loggedinuser").innerHTML = "Welcome <b>" + userName  + "</b>!";
 
+	
+	var img = '<img src="../assets/images/avatars/' + userId + '.jpg" alt=""/>';
 	$.ajax({
 		type: "GET",
 		contentType: "application/json; charset=utf-8",
@@ -26,18 +29,15 @@ $(document).ready(function() {
 		url: "/heapunderflow/service/user/" + userId + "/blog",
 		success: function(data) {
 			//alert('Got User Data ' + JSON.stringify(data));
-		//	currentUser = data[0].blogAuthor;
+			
 			if(data.length > 0){
 				alert("plotting data");
-				currentUser = data[0].blogAuthor;
-				document.getElementById("loggedinuser").innerHTML = "Welcome <b>" + currentUser  + "</b>!";
 				plotData(data);
 			}
 			else{
 				alert("0 records");
 				document.getElementById("records_table").innerHTML = "No data available";
 			}
-
 		},
 		error: function() {
 			alert("Error in loading user profile");
@@ -99,8 +99,8 @@ $(document).ready(function() {
 			var dt = new Date();
 			var creationtime = dt.toISOString();
 			
-			var blog = {"blogTitle":blogtitle, "blogText":blogtext, "blogCreation":creationtime, "blogAuthor":currentUser};
-//			alert(JSON.stringify(blog));
+			var blog = {"blogTitle":blogtitle, "blogText":blogtext, "blogCreation":creationtime, "blogAuthor":userName};
+
 
 			$.ajax({
 				type: "POST",
@@ -115,7 +115,7 @@ $(document).ready(function() {
 				success: function(data, textStatus, request) {
 					sessionStorage.token = data;
 					//alert('Got a token from the server! Token:' + request.getResponseHeader('token'));
-					window.location.href = 'userprofile.html?userId=' + userId;
+					window.location.href = 'userprofile.html?userId=' + userId + '&username=' + userName;
 				},
 				error: function() {
 					alert("Signup Failed");

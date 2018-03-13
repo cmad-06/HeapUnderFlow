@@ -81,12 +81,13 @@ public class UserRootResource {
     @Path("/signup")
 	@Produces("application/vnd.heapunderflow-v2+json")
 	public Response signupUserVersion2(User newUser, @Context UriInfo uriInfo) throws URISyntaxException {
+		String username = newUser.getUsername();
 		newUser.setPassword(EncryptorDecryptor.encryptData(newUser.getPassword())); 	//encrypt password before persisting
 		int userId = user.createUser(newUser);
 		String token = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), newUser.getUsername(), "sample subject", 15000);
 		UriBuilder builder = uriInfo.getBaseUriBuilder();
         builder.path(Integer.toString(userId));
-        return Response.created(builder.build()).header("userId", userId).header("token", token).build();
+        return Response.created(builder.build()).header("userId", userId).header("username", username).header("token", token).build();
         
 	}
 	
