@@ -73,6 +73,7 @@ public class UserRootResource {
 	@Produces("application/vnd.heapunderflow-v1+json")
 	public Response signupUser(User newUser) throws URISyntaxException {
 		user.createUser(newUser);
+		//
 		String token = "Version 1"+jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
 		return Response.ok(token).build();
 	}
