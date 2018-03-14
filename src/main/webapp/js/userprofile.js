@@ -31,16 +31,16 @@ $(document).ready(function() {
 			//alert('Got User Data ' + JSON.stringify(data));
 			
 			if(data.length > 0){
-				alert("plotting data");
+//				alert("plotting data");
 				plotData(data);
 			}
 			else{
-				alert("0 records");
+//				alert("0 records");
 				document.getElementById("records_table").innerHTML = "No data available";
 			}
 		},
 		error: function() {
-			alert("Error in loading user profile");
+//			alert("Error in loading user profile");
 		}
 	});		
 
@@ -135,7 +135,7 @@ $(document).ready(function() {
 	
 	$('#profileupdateform').validate({ // initialize the plugin
 		submitHandler: function (form) { 
-			alert("Profile Update Form Submitted");
+//			alert("Profile Update Form Submitted");
 			var firstname = $("#changefirstname").val();
 			var lastname = $("#changelastname").val();
 			var email = $("#changeemail").val();
@@ -165,7 +165,7 @@ $(document).ready(function() {
 			
 			console.log("currentUser.firstname : " + currentUser.firstname + " " + "currentUser.lastname: " + currentUser.lastname )
 			if ( updateServer == true){
-				alert('Updating profile ' + JSON.stringify(currentUser));
+//				alert('Updating profile ' + JSON.stringify(currentUser));
 				$.ajax({
 					type: "PUT",
 					contentType: "application/json; charset=utf-8",
@@ -177,11 +177,11 @@ $(document).ready(function() {
 					dataType:"text",
 					url: "/heapunderflow/service/user/" + currentUser.userId,
 					success: function(data) {
-						alert('Profile has been updated');
+//						alert('Profile has been updated');
 						window.location.href = 'userprofile.html?userId=' + currentUser.userId;
 					},
 					error: function() {
-						alert("Profile Update Failed");
+//						alert("Profile Update Failed");
 					}
 				});	
 			}

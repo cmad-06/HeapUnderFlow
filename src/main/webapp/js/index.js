@@ -20,7 +20,7 @@ $(document).ready(function() {
 			plotData(response);
 		},
 		error: function() {
-			alert("Signup Failed");
+//			alert("Signup Failed");
 		}
 	});
 	

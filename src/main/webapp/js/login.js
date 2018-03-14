@@ -16,7 +16,7 @@ $(document).ready(function() {
 			}
 		},
 		submitHandler: function (form) { 
-			alert('valid login form submitted');
+//			alert('valid login form submitted');
 
 				var username = $("#username").val();
 				var password = $("#pwd").val();

@@ -21,7 +21,7 @@ $(document).ready(function() {
 				alert('Got a token from the server! Token: ' + data);//+ data.token);
 			},
 			error: function() {
-				alert("Login Failed");
+//				alert("Login Failed");
 			}
 		});
 	});

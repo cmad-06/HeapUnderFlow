@@ -13,7 +13,7 @@ $(document).ready(function() {
 	}
 	
 	var blogId = ($.urlParam('blogId')); 
-	alert("Blog id: "+blogId);
+//	alert("Blog id: "+blogId);
 	
 	$.ajax({
 		type: "GET",
@@ -23,13 +23,13 @@ $(document).ready(function() {
 		},
 		url: "/heapunderflow/service/blog/" + blogId,
 		success: function(data) {
-			alert('Got User Data ' + JSON.stringify(data));
-				alert("plotting data");
+//			alert('Got User Data ' + JSON.stringify(data));
+//				alert("plotting data");
 				plotData(data);
 			
 		},
 		error: function() {
-			alert("Error in loading user profile");
+//			alert("Error in loading user profile");
 		}
 	});		
 

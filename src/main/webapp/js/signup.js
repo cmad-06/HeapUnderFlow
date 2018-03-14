@@ -21,7 +21,7 @@ $(document).ready(function() {
 			}
 		},
 		submitHandler: function (form) { 
-			alert('valid form submitted');
+//			alert('valid form submitted');
 
 			var firstname = $("#firstname").val();
 			var lastname = $("#lastname").val();
@@ -30,7 +30,7 @@ $(document).ready(function() {
 			var password = $("#password").val();
 
 			var user1 = {"firstName":firstname, "lastName":lastname, "username":username, "email":email, "password":password};
-			alert(JSON.stringify(user1));
+//			alert(JSON.stringify(user1));
 
 			$.ajax({
 				type: "POST",
@@ -48,7 +48,7 @@ $(document).ready(function() {
 					window.location.href = 'userprofile.html?userId=' + request.getResponseHeader('userId') + '&username='+request.getResponseHeader('username');
 				},
 				error: function() {
-					alert("Signup Failed");
+//					alert("Signup Failed");
 				}
 			});		
 		}
