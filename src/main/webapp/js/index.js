@@ -6,6 +6,22 @@ $(document).ready(function() {
 		$("#header").load("./page/header.html"); 
 		$("#footer").load("./page/footer.html"); 
 	});
+
+	var loginFlag= sessionStorage.getItem("isLoggedIn");
+	console.log("Login value is :" + loginFlag);
+	
+	if (loginFlag === true ){
+		console.log("Login value is :" + loginFlag);
+		document.getElementById("loginbtn").style.visibility="hidden"; 
+		document.getElementById("signupbtn").style.visibility="hidden";
+		document.getElementById("logoutbtn").style.visibility="visible";
+	}
+	else {
+		console.log("Login value is :" + loginFlag);
+		document.getElementById("loginbtn").style.visibility="visible"; 
+		document.getElementById("signupbtn").style.visibility="visible";
+		document.getElementById("logoutbtn").style.visibility="hidden";
+	}
 	
 //--------------------------------------------------------------------------
 		

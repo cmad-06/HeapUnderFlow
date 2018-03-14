@@ -33,8 +33,11 @@ $(document).ready(function() {
 					success: function(data) {
 
 						var userId = JSON.parse(data).userId;
-						
+
+						sessionStorage.token = JSON.parse(data).token;
+						sessionStorage.setItem("isLoggedIn", true);
 						window.location.href = 'userprofile.html?userId=' + userId + '&username=' + username;
+
 						$('#loginoptions').prop('disabled', 'disabled')
 					},
 					error: function() {
