@@ -41,6 +41,7 @@ $(document).ready(function() {
 						$('#loginoptions').prop('disabled', 'disabled')
 					},
 					error: function() {
+						alert("Invalid login, please check the credentials");
 					}
 				});		
 		}
