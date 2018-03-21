@@ -3,7 +3,7 @@ export const ACTION_TYPES = {
  
 }
 
-let baseurl = "http://localhost:8080/heapunderflow/service/user"
+let baseurl = "http://localhost:8080/heapunderflow/service/"
 
 
 export function addUser(userDetails) {
@@ -16,11 +16,10 @@ export function addUser(userDetails) {
 export function addUsertoServer(user){
     console.log("addUsertoServer")
     return (dispatch) => {
-        fetch(baseurl + "/signup", {
+        fetch(baseurl + "user/signup", {
               method: 'post',
               headers: {
                   'Content-Type':'application/json',
-                  'Access-Control-Allow-Origin':'*'
               },
               body: JSON.stringify({
                 firstName: user.firstName,
@@ -34,4 +33,36 @@ export function addUsertoServer(user){
               return dispatch(addUser(user));
           });
       }
+    }
+
+    /*
+    $.ajax({
+		type: "GET",
+		contentType: "application/json; charset=utf-8",
+		async: false,
+		dataType:"text",
+		url: "/heapunderflow/service/blog",
+		success: function(response) {
+			plotData(response);
+		},
+		error: function() {
+//			alert("Signup Failed");
+		}
+	});
+    */
+
+    export function getTopBlogs(data){
+        return (dispatch) => {
+            fetch(baseurl + "/blog", {
+                  method: 'get',
+                  headers: {
+                      'Content-Type':'application/json',
+                      'Access-Control-Allow-Origin':'*'
+                  }
+                  
+              }).then(function(response){
+                  console.log("Response received")
+                  return dispatch(addUser(user));
+              });
+          }
     }
