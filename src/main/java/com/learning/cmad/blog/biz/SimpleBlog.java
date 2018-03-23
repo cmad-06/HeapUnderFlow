@@ -1,6 +1,10 @@
 package com.learning.cmad.blog.biz;
 
 import java.util.List;
+import java.util.UUID;
+
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
 
 import com.learning.cmad.blog.api.Blog;
 import com.learning.cmad.blog.api.BlogException;
@@ -9,18 +13,24 @@ import com.learning.cmad.blog.api.BlogNotFoundException;
 import com.learning.cmad.blog.api.DuplicateBlogException;
 import com.learning.cmad.blog.api.InvalidBlogException;
 import com.learning.cmad.blog.data.BlogDAO;
-import com.learning.cmad.blog.data.JPABlogDAO;
-import com.learning.cmad.user.data.JPAUserDAO;
+import com.learning.cmad.blog.data.MorphiaBlogDao;
 import com.learning.cmad.user.data.UserDAO;
+import com.mongodb.MongoClient;
 
 public class SimpleBlog implements BlogInterface{
+	
+	MongoClient mongoClient = new MongoClient("127.0.0.1:27017");
+	Morphia morphia = new Morphia();
+	String databaseName = "heapunderflow";
+	Datastore datastore = morphia.createDatastore(mongoClient, databaseName);
 
-	private BlogDAO dao = new JPABlogDAO();
+	private BlogDAO dao = new MorphiaBlogDao(Blog.class,datastore);
 
 	@Override
-	public void createBlog(Blog blog) throws InvalidBlogException, DuplicateBlogException, BlogException {
-
+	public Blog createBlog(Blog blog) throws InvalidBlogException, DuplicateBlogException, BlogException {
+		blog.setBlogId(UUID.randomUUID().toString());
 		dao.createBlog(blog);
+		return blog;
 	}
 
 	@Override
@@ -29,7 +39,7 @@ public class SimpleBlog implements BlogInterface{
 	}
 
 	@Override
-	public Blog getBlogById(int id) throws BlogNotFoundException, BlogException {
+	public Blog getBlogById(String id) throws BlogNotFoundException, BlogException {
 		return dao.getBlogById(id);
 	}
 
@@ -47,7 +57,7 @@ public class SimpleBlog implements BlogInterface{
 	}
 
 	@Override
-	public void deleteBlogById(int id) throws InvalidBlogException, DuplicateBlogException, BlogException {
+	public void deleteBlogById(String id) throws InvalidBlogException, DuplicateBlogException, BlogException {
 		dao.deleteBlogById(id);
 		
 	}

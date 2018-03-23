@@ -3,14 +3,17 @@ package com.learning.cmad.user.api;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
+
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import javax.persistence.OneToMany;
 
 import com.learning.cmad.blog.api.Blog;
+
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
 
 @Entity
 public class User {
@@ -18,25 +21,23 @@ public class User {
 
 	//---------------------------------------------------------------------------
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int userId;
+	private String userId;
 	private String firstName;
 	private String lastName;
 	private String username;
 	private String email;
 	private String password;
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	private List<Blog> userBlogs;
+	private List<String> userBlogIds;
 
 	//---------------------------------------------------------------------------
 
-	public List<Blog> getUserBlogs() {
-		return userBlogs;
+	public List<String> getUserBlogs() {
+		return userBlogIds;
 	}
 
 
-	public void setUserBlogs(List<Blog> userBlogs) {
-		this.userBlogs = userBlogs;
+	public void setUserBlogs(List<String> userBlogs) {
+		this.userBlogIds = userBlogs;
 	}
 
 
@@ -47,17 +48,17 @@ public class User {
 
 	//---------------------------------------------------------------------------
 
-	public User(int userId, String userName){
+	public User(String userId, String userName){
 		this.userId = userId;
 		this.username = userName;
 	}
 
 	//---------------------------------------------------------------------------
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public String getFirstName() {

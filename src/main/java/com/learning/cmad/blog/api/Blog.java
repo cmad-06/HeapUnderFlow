@@ -2,19 +2,21 @@ package com.learning.cmad.blog.api;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.learning.cmad.utils.CustomerDateAndTimeDeserialize;
+
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
 
 @Entity
 public class Blog {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int blogId;
+	private String blogId;
 	private String blogTitle;
 	private String blogAuthor;
 	private String blogText;
@@ -42,11 +44,11 @@ public class Blog {
 		
 	}
 	
-	public int getBlogId() {
+	public String getBlogId() {
 		return blogId;
 	}
-	public void setBlogId(int blogId) {
-		this.blogId = blogId;
+	public void setBlogId(String string) {
+		this.blogId = string;
 	}
 	public String getBlogTitle() {
 		return blogTitle;

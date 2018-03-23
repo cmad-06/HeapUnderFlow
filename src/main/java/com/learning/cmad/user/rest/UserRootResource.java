@@ -20,6 +20,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.bson.types.ObjectId;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.learning.cmad.blog.api.Blog;
@@ -47,7 +49,7 @@ public class UserRootResource {
 	
 	@GET
     @Path("/{id}")
-	public Response getUserById(@PathParam("id") int userId) {
+	public Response getUserById(@PathParam("id") String userId) {
 		User currentUser = user.getUserById(userId);
 		return Response.ok().entity(currentUser).build();
 	}
@@ -55,14 +57,15 @@ public class UserRootResource {
 	@PUT
     @Path("/{id}")
 	public Response updateUser(User updatedUser) {
-		
+		System.out.println("RECEIVER USER for update");
+		System.out.println(updatedUser);
 		user.updateUser(updatedUser);
 		return Response.ok().entity(updatedUser).build();
 	}
 	
 	@DELETE
     @Path("/{id}")
-	public Response deleteUser(@PathParam("id") int userId) {
+	public Response deleteUser(@PathParam("id") String userId) {
 		user.deleteUserById(userId);
 		return Response.ok().build();
 	}
@@ -73,7 +76,7 @@ public class UserRootResource {
 	@Produces("application/vnd.heapunderflow-v1+json")
 	public Response signupUser(User newUser) throws URISyntaxException {
 		user.createUser(newUser);
-		//
+		System.out.println(newUser.getFirstName());
 		String token = "Version 1"+jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
 		return Response.ok(token).build();
 	}
@@ -83,11 +86,12 @@ public class UserRootResource {
 	@Produces("application/vnd.heapunderflow-v2+json")
 	public Response signupUserVersion2(User newUser, @Context UriInfo uriInfo) throws URISyntaxException {
 		String username = newUser.getUsername();
+		System.out.println(newUser.getFirstName());
 		newUser.setPassword(EncryptorDecryptor.encryptData(newUser.getPassword())); 	//encrypt password before persisting
-		int userId = user.createUser(newUser);
+		String userId = user.createUser(newUser);
 		String token = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), newUser.getUsername(), "sample subject", 15000);
 		UriBuilder builder = uriInfo.getBaseUriBuilder();
-        builder.path(Integer.toString(userId));
+        builder.path(userId.toString());
         return Response.created(builder.build()).header("userId", userId).header("username", username).header("token", token).build();
         
 	}
@@ -102,7 +106,7 @@ public class UserRootResource {
 			String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), (String) map.get("username"), "sample subject", 15000);
 
 			Map<String , String> responseData = new HashMap<String , String>();
-			responseData.put("userId", Integer.toString(loginuser.getUserId()));
+			responseData.put("userId", loginuser.getUserId().toString());
 			responseData.put("token", token1);
 			
 			return Response.ok(responseData).build();
@@ -116,7 +120,7 @@ public class UserRootResource {
 	
 	@POST
 	@Path("/{id}/blog")
-	public Response addBlogForUser(@PathParam("id") int userId, Blog blog){
+	public Response addBlogForUser(@PathParam("id") String userId, Blog blog){
 		user.addBlogForUser(blog, userId);
 		return Response.ok().build();
 
@@ -125,7 +129,7 @@ public class UserRootResource {
 	
 	@GET
 	@Path("/{id}/blog")
-	public Response getBlogsForUser(@PathParam("id") int userId){
+	public Response getBlogsForUser(@PathParam("id") String userId){
 		List<Blog> userBlogs = user.getBlogsForUser(userId);
 		return Response.ok().entity(userBlogs).build();
 

@@ -12,7 +12,7 @@ public interface BlogDAO {
 	
 	//Read
 	public List<Blog> getAllBlogs();
-	public Blog getBlogById(int id);
+	public Blog getBlogById(String id);
 	
 	//Update
 	public void updateBlog(Blog blog);
@@ -20,5 +20,5 @@ public interface BlogDAO {
 	
 	//Delete
 	public void deleteBlog(Blog blog);
-	public void deleteBlogById(int id);
+	public void deleteBlogById(String id);
 }

@@ -63,4 +63,16 @@ public class JPABlogDAO implements BlogDAO {
 		
 	}
 
+	@Override
+	public Blog getBlogById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteBlogById(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

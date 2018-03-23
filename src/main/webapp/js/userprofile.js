@@ -17,6 +17,24 @@ $(document).ready(function() {
 	var userId = ($.urlParam('userId')); 
 	var userName = ($.urlParam('username'));
 	document.getElementById("loggedinuser").innerHTML = "Welcome <b>" + userName  + "</b>!";
+	alert(userId);
+	$.ajax({
+			type: "GET",
+			contentType: "application/json; charset=utf-8",
+			async: false,
+			headers: {
+		        "token": sessionStorage.token
+		    },
+			url: "/heapunderflow/service/user/" + userId,
+			success: function(data) {
+				alert('Got User Data ' + JSON.stringify(data));
+				currentUser = data;
+				console.log(data.password)
+			},
+			error: function() {
+				alert("Change Password Failed");
+			}
+		});		
 
 	
 	var img = '<img src="../assets/images/avatars/' + userId + '.jpg" alt=""/>';
@@ -114,7 +132,7 @@ $(document).ready(function() {
 				},
 				success: function(data, textStatus, request) {
 					sessionStorage.token = data;
-					//alert('Got a token from the server! Token:' + request.getResponseHeader('token'));
+					alert('Got a token from the server! Token:' + request.getResponseHeader('token'));
 					window.location.href = 'userprofile.html?userId=' + userId + '&username=' + userName;
 				},
 				error: function() {
@@ -163,9 +181,12 @@ $(document).ready(function() {
 				updateServer = true;
 			}
 			
-			console.log("currentUser.firstname : " + currentUser.firstname + " " + "currentUser.lastname: " + currentUser.lastname )
+			console.log("currentUser.firstname : " + currentUser.firstName + " " + "currentUser.lastname: " + currentUser.lastName )
 			if ( updateServer == true){
+				
 //				alert('Updating profile ' + JSON.stringify(currentUser));
+				alert('Updating profile ' + "/heapunderflow/service/user/" + userId);
+				//currentUser.userId = userId;
 				$.ajax({
 					type: "PUT",
 					contentType: "application/json; charset=utf-8",
@@ -177,11 +198,11 @@ $(document).ready(function() {
 					dataType:"text",
 					url: "/heapunderflow/service/user/" + currentUser.userId,
 					success: function(data) {
-//						alert('Profile has been updated');
+						alert('Profile has been updated');
 						window.location.href = 'userprofile.html?userId=' + currentUser.userId;
 					},
 					error: function() {
-//						alert("Profile Update Failed");
+						alert("Profile Update Failed");
 					}
 				});	
 			}

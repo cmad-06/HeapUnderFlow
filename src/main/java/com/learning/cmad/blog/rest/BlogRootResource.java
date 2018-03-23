@@ -33,7 +33,7 @@ public class BlogRootResource {
 	
 	@GET
     @Path("/{id}")
-	public Response getBlogById(@PathParam("id") int blogId) {
+	public Response getBlogById(@PathParam("id") String blogId) {
 		Blog blog = blogObj.getBlogById(blogId);
 		return Response.ok().entity(blog).build();
 	}
