@@ -32,7 +32,7 @@ public class JPABlogDAO implements BlogDAO {
 	}
 
 	@Override
-	public Blog getBlogById(int id) {
+	public Blog getBlogById(String id) {
 		Query query = em.createQuery("from Blog where blogId = :id").setParameter("id", id);
 		Blog blog = (Blog) query.getSingleResult();
 		return blog;
@@ -55,7 +55,7 @@ public class JPABlogDAO implements BlogDAO {
 	}
 
 	@Override
-	public void deleteBlogById(int id) {
+	public void deleteBlogById(String id) {
 		em.getTransaction().begin();
 		em.remove(em.find(Blog.class, id));
 		em.getTransaction().commit();
@@ -63,16 +63,6 @@ public class JPABlogDAO implements BlogDAO {
 		
 	}
 
-	@Override
-	public Blog getBlogById(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteBlogById(String id) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

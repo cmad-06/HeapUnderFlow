@@ -16,7 +16,7 @@ public class JPAUserDAO implements UserDAO {
 	private EntityManager em = emf.createEntityManager();
 	
 	@Override
-	public int createUser(User user) {
+	public String createUser(User user) {
 		em.getTransaction().begin();
 		em.persist(user);
 		em.flush();
@@ -35,7 +35,7 @@ public class JPAUserDAO implements UserDAO {
 	}
 
 	@Override
-	public User getUserById(int id) {
+	public User getUserById(String id) {
 		Query query = em.createQuery("from User where userId = :id").setParameter("id", id);
 		User user = (User) query.getSingleResult();
 		return user;
@@ -57,7 +57,7 @@ public class JPAUserDAO implements UserDAO {
 	}
 
 	@Override
-	public void deleteUserById(int id) {
+	public void deleteUserById(String id) {
 		
 		em.getTransaction().begin();
 		em.remove(em.find(User.class, id));
@@ -73,22 +73,9 @@ public class JPAUserDAO implements UserDAO {
 		
 	}
 
+	
 	@Override
-	public void addBlogForUser(Blog blog, int userId) {
-
-		em.getTransaction().begin();
-		Query query = em.createQuery("from User where userId = :id").setParameter("id", userId);
-		User user = (User) query.getSingleResult();
-		
-		user.getUserBlogs().add(blog);
-		em.persist(user);
-		em.flush();
-		em.getTransaction().commit();
-		em.close();
-	}
-
-	@Override
-	public List<Blog> getBlogsForUser(int userId) {
+	public List<String> getBlogsForUser(String userId) {
 		
 		em.getTransaction().begin();
 		Query query = em.createQuery("from User where userId = :id").setParameter("id", userId);

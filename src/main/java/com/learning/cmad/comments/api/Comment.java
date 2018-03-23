@@ -1,4 +1,4 @@
-package com.learning.cmad.blog.api;
+package com.learning.cmad.comments.api;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
