@@ -6,6 +6,12 @@ export function blogReducer(state={blogs:[]}, action){
             return {
                 
             };
+        case ACTION_TYPES.FETCHED_BLOGS:
+            console.log("IN blog Reducer")
+            console.log(action.blogs)
+            return {
+                blogs:action.blogs
+            }
         
         default:
             return {
