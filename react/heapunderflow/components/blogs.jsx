@@ -22,9 +22,20 @@ class Blogs extends React.Component{
         console.log("Blogs" );
         store.dispatch(fetchBlogsFromServer())
         console.log("Blogs Received Data?" );
+
+        store.subscribe(()=>{
+            console.log("Am I getting called?")
+            let state = store.getState();
+            this.setState({
+                blogs: state.blogReducer.blogs
+            });
+
+            console.log("what state is this? " + JSON.stringify(state.blogReducer.blogs[0]))
+
+        })
     }
 
-    render(){
+    render(){   
         return(
              <table>
                 <tbody>
