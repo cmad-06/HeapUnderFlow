@@ -16,7 +16,7 @@ class Blog extends React.Component{
         return(
             <tr>
                 <td>{ this.props.title }</td>
-                <td>{ this.props.key }</td>
+                <td>{ this.props.blogId }</td>
                 <td>{ this.props.likes }</td>
 
             </tr>

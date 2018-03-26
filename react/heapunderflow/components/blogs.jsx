@@ -52,7 +52,7 @@ class Blogs extends React.Component{
                     <tr><th>BlogId</th><th>BlogTitle</th><th>BlogLikes</th></tr>
                     { 
                         this.state.blogs.map(blog => {
-                            <Blog title={ blog.blogTitle } key={blog.blogId} likes={blog.blogLikes} >
+                            return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} likes={blog.blogLikes} >
                             </Blog>
                         }) 
                     }
