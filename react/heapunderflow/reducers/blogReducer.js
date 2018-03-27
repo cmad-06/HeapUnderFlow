@@ -18,7 +18,6 @@ export function blogReducer(state={blogs:[]}, action){
             return {
                 blog:action.blog
             }
-        
         default:
             return {
                 blogs: []

@@ -1,4 +1,6 @@
 import React from 'react'
+import store from '../store/store.js'
+import {loginUser} from '../actions/useractions'
 
 class LoginForm extends React.Component  {
     constructor(props){
@@ -9,7 +11,7 @@ class LoginForm extends React.Component  {
         }
         this.changeUserName = this.changeUserName.bind(this);
         this.changePassWord = this.changePassWord.bind(this);
-        this.loginUser = this.loginUser.bind(this);
+        this.loginUserSubmit = this.loginUserSubmit.bind(this);
     }
 
     changeUserName(e){
@@ -24,8 +26,10 @@ class LoginForm extends React.Component  {
         })
     }
 
-    loginUser(e){
+    loginUserSubmit(e){
+        e.preventDefault()
         console.log("Login Form Submit Clicked");
+        store.dispatch(loginUser(this.state));
         console.log(this.state.username);
     }
 
@@ -35,7 +39,7 @@ class LoginForm extends React.Component  {
 			<div class="frm" styles="height: 580px; overflow: scroll">
 				<h1>Login</h1>
 				
-				<form onSubmit={this.loginUser}>
+				<form onSubmit={this.loginUserSubmit}>
                     <div class="form-group required">
 						<label for="username" class='control-label'>Username:</label> <input type="text"
 							class="form-control" name="username"  placeholder="Enter username" defaultValue={this.state.username} onChange={this.changeUserName}/>

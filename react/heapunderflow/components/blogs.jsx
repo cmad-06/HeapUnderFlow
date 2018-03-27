@@ -5,6 +5,7 @@ import store from "../store/store.js";
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {fetchBlogsFromServer} from "../actions/blogactions.js";
+import {Table} from 'react-bootstrap'
 
 
 class Blogs extends React.Component{
@@ -15,7 +16,7 @@ class Blogs extends React.Component{
         this.state ={
             blogs:["hh", "bb"]
         }
-
+        
         
         
     }
@@ -33,23 +34,20 @@ class Blogs extends React.Component{
 
             this.forceUpdate() 
         });
-    /*    store.subscribe(()=>{
-            console.log("Am I getting called?")
-            let state = store.getState();
-            this.setState({
-                blogs: state.blogReducer.blogs
-            });
-
-            console.log("what state is this? " + JSON.stringify(state.blogReducer.blogs[0]))
-
-        })*/
     }
 
     render(){   
         return(
-             <table>
+             <Table className="table table-striped table-condensed" >
+                <thead>
+                    <tr>
+                        <th>BlogTitle</th>
+                        <th>BlogId</th>
+                        <th>BlogLikes</th>
+                    </tr>
+                 </thead>
                 <tbody>
-                    <tr><th>BlogId</th><th>BlogTitle</th><th>BlogLikes</th></tr>
+                 
                     { 
                         this.state.blogs.map(blog => {
                             return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} likes={blog.blogLikes} >
@@ -57,7 +55,7 @@ class Blogs extends React.Component{
                         }) 
                     }
                 </tbody>
-            </table>
+            </Table>
         );
     }
 };

@@ -1,25 +1,43 @@
+
 export const ACTION_TYPES = {
     ADDED_USER: 'added_user',
- 
-}
+    LOGGED_IN: 'logged_in'
+ }
 
 let baseurl = "http://localhost:8080/heapunderflow/service/"
 
-
 export function addUser(userDetails) {
+    console.log("User details" + userDetails )
     return {
         type: ACTION_TYPES.ADDED_USER,
         userDetails: userDetails
     };
 }
 
+export function loggedinUser(userDetails) {
+    console.log("loggedinUser details" + userDetails )
+    return {
+        type: ACTION_TYPES.LOGGED_IN,
+        userDetails: userDetails
+    };
+}
+
 export function addUsertoServer(user){
     console.log("addUsertoServer")
+    let userdata = JSON.stringify({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        password: user.password
+      })
+      console.log("Userdata " + userdata)
     return (dispatch) => {
         fetch(baseurl + "user/signup", {
               method: 'post',
               headers: {
                   'Content-Type':'application/json',
+                  "Accept":'application/json',
               },
               body: JSON.stringify({
                 firstName: user.firstName,
@@ -28,12 +46,44 @@ export function addUsertoServer(user){
                 email: user.email,
                 password: user.password
               })
-          }).then(function(response){
-              console.log("Response received")
-              return dispatch(addUser(user));
-          });
+          }).then((response) => {
+            console.log("response.status " + response);
+            console.log("addUsertoServer " + JSON.stringify(response));
+            
+              console.log("addUsertoServer " + response.userId);
+              
+              dispatch(addUser(response))
+            });
       }
     }
+
+    export function loginUser(user){
+        console.log("loginUser")
+        let userdata = JSON.stringify({
+            username: user.username,
+            password: user.password
+          })
+          console.log("Userdata " + userdata)
+        return (dispatch) => {
+            fetch(baseurl + "user/login", {
+                  method: 'post',
+                  headers: {
+                      'Content-Type':'application/json',
+                      "Accept":'application/json',
+                  },
+                  body: JSON.stringify({
+                    username: user.username,
+                    password: user.password
+                  })
+              }).then((response) => response.text())
+              .then(text => {
+                  console.log(text)
+                  dispatch(loggedinUser(text))
+              })
+          }
+        }
+
+  
 
     /*
     $.ajax({
@@ -61,7 +111,7 @@ export function addUsertoServer(user){
                   }
                   
               }).then(function(response){
-                  console.log("Response received")
+                console.log("Response received"+ JSON.stringify(response));
                   return dispatch(addUser(user));
               });
           }

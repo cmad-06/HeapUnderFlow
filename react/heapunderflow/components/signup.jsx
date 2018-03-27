@@ -2,6 +2,7 @@ import React from 'react'
 import store from '../store/store.js'
 import {addUsertoServer} from "../actions/useractions.js";
 
+
 class SignupForm extends React.Component  {
     constructor(props){
         super(props);
@@ -11,6 +12,7 @@ class SignupForm extends React.Component  {
             username:"",
             email:"",
             password:"",
+            userDetails:[]
         }
 
         this.changeFirstName = this.changeFirstName.bind(this);
@@ -53,9 +55,23 @@ class SignupForm extends React.Component  {
     }
 
     submitUser(e){
+        e.preventDefault()
         console.log("Form Submit Clicked");
-        store.dispatch(addUsertoServer(this.state));
+       store.dispatch(addUsertoServer(this.state));
         console.log("submitUser Complete");
+    }
+
+    componentWillMount(){
+            store.subscribe(()=>{
+            console.log("Am I getting called. In Signup")
+            let state = store.getState();
+            this.setState({
+           //     userDetails: state.userReducer.userDetails
+            });
+            this.props.history.push('/userprofile');
+            
+
+        })
     }
 
     render(){

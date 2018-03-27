@@ -9,6 +9,7 @@ export const ACTION_TYPES = {
 let baseurl = "http://localhost:8080/heapunderflow/service/"
 
 export function addBlog(blogDetails) {
+    console.log(`Blog details $blogDetails`)
     return {
         type: ACTION_TYPES.ADDED_BLOG,
         blogDetails: blogDetails
@@ -67,7 +68,7 @@ export function addBlogtoServer(blog){
                 blogCreation: blog.blogCreation
               })
           }).then(function(response){
-              console.log("Response received")
+              console.log("Response received"+ JSON.stringify(response))
               return dispatch(addBLog(blog));
           });
       }
