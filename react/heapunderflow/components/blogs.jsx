@@ -3,7 +3,6 @@ import React from "react";
 import Blog from "./Blog.jsx";
 import store from "../store/store.js";
 import { connect } from 'react-redux';
-import {withRouter} from 'react-router-dom';
 import {fetchBlogsFromServer} from "../actions/blogactions.js";
 import {Table} from 'react-bootstrap'
 
@@ -12,28 +11,23 @@ class Blogs extends React.Component{
     
     constructor(props){
         super(props);
+        
         console.log("Blogs cons" + JSON.stringify(props));
-        this.state ={
-            blogs:["hh", "bb"]
-        }
         
-        
-        
+    }
+
+    renderList(){
+        console.log("Props : " + JSON.stringify(this.props.blogs.blogs))
+        return this.props.blogs.map((blog) => {
+            return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} likes={blog.blogLikes} >
+            </Blog>
+        }) 
     }
 
     componentWillMount(){
         console.log("Blogs" );
         store.dispatch(fetchBlogsFromServer())
         console.log("Blogs Received Data?" );
-        store.subscribe( () => {
-            console.log("Am I getting called?")
-            let state = store.getState();
-            this.setState({
-                blogs: state.blogReducer.blogs
-            });
-
-            this.forceUpdate() 
-        });
     }
 
     render(){   
@@ -47,18 +41,17 @@ class Blogs extends React.Component{
                     </tr>
                  </thead>
                 <tbody>
-                 
-                    { 
-                        this.state.blogs.map(blog => {
-                            return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} likes={blog.blogLikes} >
-                            </Blog>
-                        }) 
-                    }
+                 {this.renderList()}
                 </tbody>
             </Table>
         );
     }
 };
 
-
-export default Blogs;
+function mapStateToProps(state){
+    console.log(JSON.stringify("State Details : " + JSON.stringify(state)))
+    return {
+        blogs:state.blogs.blogs
+    }
+}
+export default connect(mapStateToProps)(Blogs);
