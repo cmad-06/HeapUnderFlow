@@ -1,20 +1,21 @@
 import {ACTION_TYPES} from "../actions/useractions.js";
 
-export function userReducer(state={users:[]}, action){
+export function userReducer(state={user:[]}, action){
     switch(action.type){
         case ACTION_TYPES.ADDED_USER:
             return {
-                userDetails:userDetails
+                user:userDetails
             };
             case ACTION_TYPES.LOGGED_IN:
-            console.log("Logged In")
+            console.log("Logged In" + JSON.stringify(action.userDetails) )
             return {
-                userDetails:action.userDetails
+                user:action.userDetails
             };
         
         default:
             return {
-                users: []
+                user: []
             };
     }
 };
+
