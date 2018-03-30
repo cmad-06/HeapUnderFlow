@@ -61,18 +61,7 @@ class SignupForm extends React.Component  {
         console.log("submitUser Complete");
     }
 
-    componentWillMount(){
-            store.subscribe(()=>{
-            console.log("Am I getting called. In Signup")
-            let state = store.getState();
-            this.setState({
-           //     userDetails: state.userReducer.userDetails
-            });
-            this.props.history.push('/userprofile');
-            
-
-        })
-    }
+    /* Implement connect */
 
     render(){
         return (

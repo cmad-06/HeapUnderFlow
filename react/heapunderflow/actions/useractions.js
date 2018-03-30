@@ -46,14 +46,11 @@ export function addUsertoServer(user){
                 email: user.email,
                 password: user.password
               })
-          }).then((response) => {
-            console.log("response.status " + response);
-            console.log("addUsertoServer " + JSON.stringify(response));
-            
-              console.log("addUsertoServer " + response.userId);
-              
-              dispatch(addUser(response))
-            });
+          }).then((response) => response.text())
+            .then(text=>{
+                console.log("Signup Data : " + text );
+                dispatch(addUser(text))
+            })
       }
     }
 
