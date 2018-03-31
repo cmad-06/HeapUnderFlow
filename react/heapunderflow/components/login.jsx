@@ -43,12 +43,12 @@ class LoginForm extends React.Component  {
         
         this.props.history.push({
             pathname: '/userprofile',
-            user:state.user
+            user:state.user.user,
         })
     }
     render(){
         return (
-            <div class="container" id="registration-form">
+            <div class="container" id="login-form">
 			<div class="frm" styles="height: 580px; overflow: scroll">
 				<h1>Login</h1>
 				

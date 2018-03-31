@@ -1,6 +1,7 @@
 import React from 'react'
 import store from '../store/store.js'
 import {addUsertoServer} from "../actions/useractions.js";
+import { connect } from 'react-redux'
 
 
 class SignupForm extends React.Component  {
@@ -61,6 +62,16 @@ class SignupForm extends React.Component  {
         console.log("submitUser Complete");
     }
 
+    componentWillReceiveProps(){
+        console.log("Signup Received Props : " + JSON.stringify(this.props))
+        let state = store.getState()
+        
+        this.props.history.push({
+            pathname: '/userprofile',
+            user:state.user.user
+        })
+    }
+
     /* Implement connect */
 
     render(){
@@ -89,7 +100,7 @@ class SignupForm extends React.Component  {
 					</div>
 					<div class="form-group required">
 						<label for="pwd" class='control-label'>Password:</label> <input type="password"
-							class="form-control" name="password" placeholder="Enter password"defaultValue={this.state.password} onChange={this.changePassWord}/>
+							class="form-control" name="password" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord}/>
 					</div>
                     <button>Submit</button>
                 </form>
@@ -99,4 +110,10 @@ class SignupForm extends React.Component  {
     }
 }
 
-export default SignupForm
+function mapStateToProps(state){
+    return {
+        userDetails: state.user.user
+    }
+}
+
+export default connect(mapStateToProps)(SignupForm)

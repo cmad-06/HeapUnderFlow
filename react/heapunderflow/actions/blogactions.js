@@ -36,7 +36,7 @@ export function fetchBlogById(blog) {
 export function fetchBlogsFromServer() {
     console.log("fetchBlogsFromServer")
     return (dispatch) => {
-        fetch("http://localhost:8080/heapunderflow/service/" + "blog")
+        fetch(baseurl + "blog")
         .then((response) => {
                 return response.json();
         }).then((blogs) => dispatch(fetchBlogs(blogs)));
@@ -44,7 +44,7 @@ export function fetchBlogsFromServer() {
 }
 
 export function fetchBlogByIdFromServer(blogId) {
-    console.log("fetchBlogsFromServer")
+    console.log("fetchBlogsFromServer");
     return (dispatch) => {
         fetch("http://localhost:8080/heapunderflow/service/" + "blog/" + blogId)
         .then((response) => {
@@ -53,23 +53,4 @@ export function fetchBlogByIdFromServer(blogId) {
     };
 }
 
-export function addBlogtoServer(blog){
-    console.log("addBlogtoServer")
-    return (dispatch) => {
-        fetch(baseurl + "userId" + "blog/add", {
-              method: 'post',
-              headers: {
-                  'Content-Type':'application/json',
-              },
-              body: JSON.stringify({
-                blogTitle: blog.blogTitle,
-                blogAuthor: blog.blogAuthor,
-                blogText: blog.blogText,
-                blogCreation: blog.blogCreation
-              })
-          }).then(function(response){
-              console.log("Response received"+ JSON.stringify(response))
-              return dispatch(addBLog(blog));
-          });
-      }
-    }
+

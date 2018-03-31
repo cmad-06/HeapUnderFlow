@@ -1,15 +1,36 @@
 
 export const ACTION_TYPES = {
     ADDED_USER: 'added_user',
-    LOGGED_IN: 'logged_in'
+    LOGGED_IN: 'logged_in',
+    USER_BLOGS: "user_blogs",
+    ADDED_BLOG: "added_blog",
+    FETCHED_USER:"fetched_user",
+    UPDATED_USER:"updated_user",
  }
 
-let baseurl = "http://localhost:8080/heapunderflow/service/"
+
+let baseurl = "http://localhost:8080/heapunderflow/service/user/"
+
+export function fetchUser(userDetails) {
+    console.log("addBLog details" )
+    return {
+        type: ACTION_TYPES.FETCHED_USER,
+        userDetails:userDetails
+    };
+}
 
 export function addUser(userDetails) {
     console.log("User details" + userDetails )
     return {
         type: ACTION_TYPES.ADDED_USER,
+        userDetails: userDetails
+    };
+}
+
+export function updateUser(userDetails) {
+    console.log("User details" + userDetails )
+    return {
+        type: ACTION_TYPES.UPDATE_USER,
         userDetails: userDetails
     };
 }
@@ -22,18 +43,36 @@ export function loggedinUser(userDetails) {
     };
 }
 
+export function fetchUserBlogs(blogs) {
+    console.log("fetchUserBlogs details" + blogs )
+    return {
+        type: ACTION_TYPES.USER_BLOGS,
+        blogs: blogs
+    };
+}
+
+export function addBLog() {
+    console.log("addBLog details" )
+    return {
+        type: ACTION_TYPES.ADDED_BLOG,
+    };
+}
+
+export function getUserById(userId){
+    return (dispatch) => {
+        console.log("User Blogs at :" + baseurl + userId + "/blog")
+        fetch(baseurl + userId )
+        .then((response) => {
+                return response.json();
+        }).then((userDetails) => dispatch(fetchUser(userDetails)));
+    };
+}
+
 export function addUsertoServer(user){
     console.log("addUsertoServer")
-    let userdata = JSON.stringify({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        email: user.email,
-        password: user.password
-      })
-      console.log("Userdata " + userdata)
+   
     return (dispatch) => {
-        fetch(baseurl + "user/signup", {
+        fetch(baseurl + "signup", {
               method: 'post',
               headers: {
                   'Content-Type':'application/json',
@@ -48,21 +87,37 @@ export function addUsertoServer(user){
               })
           }).then((response) => response.text())
             .then(text=>{
-                console.log("Signup Data : " + text );
+
                 dispatch(addUser(text))
             })
       }
     }
 
+    export function updateUsertoServer(user){
+        console.log("updateUsertoServer")
+       
+        return (dispatch) => {
+            console.log(" Updating User at : " + baseurl + user.userId)
+            fetch(baseurl + user.userId, {
+                  method: 'put',
+                  headers: {
+                      'Content-Type':'application/json',
+                      "Accept":'application/json',
+                  },
+                  body: JSON.stringify(user)
+              }).then((response) => response.text())
+                .then(text=>{
+                    dispatch(addUser(text))
+                })
+          }
+        }
+
+    
     export function loginUser(user){
         console.log("loginUser")
-        let userdata = JSON.stringify({
-            username: user.username,
-            password: user.password
-          })
-          console.log("Userdata " + userdata)
+        
         return (dispatch) => {
-            fetch(baseurl + "user/login", {
+            fetch(baseurl + "login", {
                   method: 'post',
                   headers: {
                       'Content-Type':'application/json',
@@ -74,13 +129,43 @@ export function addUsertoServer(user){
                   })
               }).then((response) => response.text())
               .then(text => {
-                  console.log(text)
                   dispatch(loggedinUser(text))
               })
           }
         }
 
-  
+    
+export function fetchUserBlogsFromServer(userId) {
+    console.log("fetchUserBlogsFromServer")
+    return (dispatch) => {
+        console.log("User Blogs at :" + baseurl + userId + "/blog")
+        fetch(baseurl + userId + "/blog")
+        .then((response) => {
+                return response.json();
+        }).then((blogs) => dispatch(fetchUserBlogs(blogs)));
+    };
+}
+
+export function addBlogtoServer(blog){
+    console.log("addBlogtoServer" + blog)
+    return (dispatch) => {
+        fetch(baseurl + blog.userId + "/blog", {
+              method: 'post',
+              headers: {
+                  'Content-Type':'application/json',
+              },
+              body: JSON.stringify({
+                blogTitle: blog.blogTitle,
+                blogAuthor: blog.blogAuthor,
+                blogText: blog.blogText,
+                blogCreation: blog.blogCreation
+              })
+          }).then(function(response){
+              return dispatch(addBLog());
+          });
+      }
+    }
+
 
     /*
     $.ajax({
@@ -98,18 +183,4 @@ export function addUsertoServer(user){
 	});
     */
 
-    export function getTopBlogs(data){
-        return (dispatch) => {
-            fetch(baseurl + "/blog", {
-                  method: 'get',
-                  headers: {
-                      'Content-Type':'application/json',
-                      'Access-Control-Allow-Origin':'*'
-                  }
-                  
-              }).then(function(response){
-                console.log("Response received"+ JSON.stringify(response));
-                  return dispatch(addUser(user));
-              });
-          }
-    }
+    
