@@ -8,7 +8,6 @@ export const ACTION_TYPES = {
     UPDATED_USER:"updated_user",
  }
 
-
 let baseurl = "http://localhost:8080/heapunderflow/service/user/"
 
 export function fetchUser(userDetails) {
@@ -72,6 +71,7 @@ export function addUsertoServer(user){
     console.log("addUsertoServer")
    
     return (dispatch) => {
+       
         fetch(baseurl + "signup", {
               method: 'post',
               headers: {
@@ -87,30 +87,30 @@ export function addUsertoServer(user){
               })
           }).then((response) => response.text())
             .then(text=>{
-
+                sessionStorage.setItem("isLoggedIn" , true)
                 dispatch(addUser(text))
             })
       }
     }
 
-    export function updateUsertoServer(user){
-        console.log("updateUsertoServer")
-       
-        return (dispatch) => {
-            console.log(" Updating User at : " + baseurl + user.userId)
-            fetch(baseurl + user.userId, {
-                  method: 'put',
-                  headers: {
-                      'Content-Type':'application/json',
-                      "Accept":'application/json',
-                  },
-                  body: JSON.stringify(user)
-              }).then((response) => response.text())
-                .then(text=>{
-                    dispatch(addUser(text))
-                })
-          }
+export function updateUsertoServer(user){
+    console.log("updateUsertoServer")
+    
+    return (dispatch) => {
+        console.log(" Updating User at : " + baseurl + user.userId)
+        fetch(baseurl + user.userId, {
+                method: 'put',
+                headers: {
+                    'Content-Type':'application/json',
+                    "Accept":'application/json',
+                },
+                body: JSON.stringify(user)
+            }).then((response) => response.text())
+            .then(text=>{
+                dispatch(addUser(text))
+            })
         }
+    }
 
     
     export function loginUser(user){
@@ -129,6 +129,7 @@ export function addUsertoServer(user){
                   })
               }).then((response) => response.text())
               .then(text => {
+                  sessionStorage.setItem("isLoggedIn" , true)
                   dispatch(loggedinUser(text))
               })
           }

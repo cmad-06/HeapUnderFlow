@@ -7,13 +7,15 @@ import {fetchBlogsFromServer} from "../actions/blogactions.js";
 import {Table} from 'react-bootstrap'
 
 
+import BootstrapTable from 'react-bootstrap-table-next';
+
 class Blogs extends React.Component{
     
     constructor(props){
         super(props);
         
         console.log("Blogs cons" + JSON.stringify(props));
-        
+       // this.onClickHandler = this.onClickHandler.bind(this);
     }
 
     renderList(){
@@ -24,12 +26,55 @@ class Blogs extends React.Component{
         }) 
     }
 
+    
+
     componentWillMount(){
         console.log("Blogs" );
         store.dispatch(fetchBlogsFromServer())
         console.log("Blogs Received Data?" );
     }
 
+    render(){
+        const rowEvents = {
+            onClick: (e, row, rowIndex) => {
+              console.log(row)
+              console.log(rowIndex)
+            }
+          };
+        const columns = [{
+            dataField: 'blogId',
+            text: 'Blog ID'
+          }, {
+            dataField: 'blogTitle',
+            text: 'Blog Title'
+          }, {
+            dataField: 'blogLikes',
+            text: 'Blog Likes'
+          }];
+          
+          return(
+          <BootstrapTable keyField='blogId' data={ this.props.blogs } columns={ columns } rowEvents={ rowEvents } hover />
+          )
+    }
+
+    /*
+    render() {
+        const rowEvents = {
+            onClick: (e, row, rowIndex) => {
+              console.log("Hello, World!!")
+            }
+          };
+        
+        return (
+          <BootstrapTable data={ this.props.blogs }   hover height='120' scrollTop={ 'Bottom'  } bordered={ false } rowEvents={ rowEvents }> 
+              
+              <TableHeaderColumn dataField='blogId'  isKey>Blog Id</TableHeaderColumn>
+              <TableHeaderColumn dataField='blogTitle'>Blog Title </TableHeaderColumn>
+              <TableHeaderColumn dataField='blogLikes'>Blog Likes</TableHeaderColumn>
+          </BootstrapTable>
+        );
+      }*/
+/*
     render(){   
         return(
              <Table className="table table-striped table-condensed" >
@@ -46,6 +91,7 @@ class Blogs extends React.Component{
             </Table>
         );
     }
+    */
 };
 
 function mapStateToProps(state){
@@ -54,4 +100,7 @@ function mapStateToProps(state){
         blogs:state.blogs.blogs
     }
 }
+
+
+
 export default connect(mapStateToProps)(Blogs);

@@ -16,25 +16,36 @@ class Blogger extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            data : {}
+            data : {},
+            
         }
+        
         
     }
 
     render(){
+        const isLoggedIn=sessionStorage.getItem("isLoggedIn")
+        const buttons = isLoggedIn ? (
+            <p className="navbar-text navbar-right" >
+					<Link to="/">Home</Link> | <Link to="/userprofile">Profile</Link> 
+						</p>
+        ):(
+            <p className="navbar-text navbar-right" >
+					<Link to="/">Home</Link> | <Link to="/signup">Signup</Link> | <Link to="/login">Login</Link> 
+						</p>
+        )
         return (
             <Router>
                 <div className="header-blue">
                     <nav className="navbar navbar-default navigation-clean-search">
 		    	        <div className="container">
                         <div className="navbar-header">
-					    <a className="navbar-brand navbar-link" href="../index.html">HeapUnderFlow</a>
+					    <a className="navbar-brand navbar-link" href="/">HeapUnderFlow</a>
 				</div>
 				<div className="collapse navbar-collapse" id="navcol-1">
 					<div id="header"></div>
-					<p className="navbar-text navbar-right">
-					<Link to="/">Home</Link> | <Link to="/signup">Signup</Link> | <Link to="/login">Login</Link> | <Link to="/userprofile">Profile</Link>
-						</p>
+					{buttons}
+                            
 				</div>
 
 			</div>

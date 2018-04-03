@@ -13,7 +13,6 @@ class SignupForm extends React.Component  {
             username:"",
             email:"",
             password:"",
-            userDetails:[]
         }
 
         this.changeFirstName = this.changeFirstName.bind(this);

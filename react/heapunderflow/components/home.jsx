@@ -10,6 +10,7 @@ class Home extends React.Component{
     constructor(props){
         super(props);
         
+        sessionStorage.setItem("isLoggedIn" , false)
         
     }
     render(){
