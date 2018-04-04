@@ -19,7 +19,7 @@ import com.mongodb.MongoClient;
 
 public class SimpleBlog implements BlogInterface{
 	
-	MongoClient mongoClient = new MongoClient("0.0.0.0:27017");
+	MongoClient mongoClient = new MongoClient("34.209.124.253:27017");
 	Morphia morphia = new Morphia();
 	String databaseName = "heapunderflow";
 	Datastore datastore = morphia.createDatastore(mongoClient, databaseName);
