@@ -4,3 +4,4 @@
 target/
 react/node_modules
 react/target
+src/main/webapp/node_modules
