@@ -20,12 +20,12 @@ class Blogger extends React.Component{
             data : {},
             
         }
-        
-        
+        sessionStorage.setItem("isLoggedIn" , false)
     }
 
     render(){
         const isLoggedIn=sessionStorage.getItem("isLoggedIn")
+        console.log(`is Logged in :${isLoggedIn}` )
         const buttons = (
             <p className="navbar-text navbar-right" >
 					<Link className="btn btn-primary"  to="/">Home</Link> | <Link className="btn btn-primary"  to="/signup">Signup</Link> | <Link className="btn btn-primary" to="/login">Login</Link> 
@@ -53,7 +53,7 @@ class Blogger extends React.Component{
                     <Route path="/signup" component={SignupForm}/>
                     <Route path="/login" component={LoginForm}/> 
                     <Route path="/userprofile" component={UserProfile}/>
-                    <Route path="/blogPage" component={BlogPage}/> 
+                    <Route path="/blogPage/:blogId" component={BlogPage}/> 
                     <br/>
                     
                 </div>
@@ -63,25 +63,7 @@ class Blogger extends React.Component{
     }
 
     
-/*
-    render(){
-        return (
-            <Router>
-                <div>
-                    <h1>HeapUnderFlow</h1>
-                    <Link to="/">Home</Link> | <Link to="/signup">Signup</Link> | <Link to="/login">Login</Link>
-                    <hr/>
-                    <Route exact path="/" component={Home}/>
-                    <Route path="/signup" component={SignupForm}/>
-                    <Route path="/login" component={LoginForm}/> 
-                    <br/>
-                    
-                </div>
-                
-            </Router>
-        )
-    }
-    */
+
 }
 
 export default Blogger

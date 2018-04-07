@@ -64,7 +64,7 @@ class SignupForm extends React.Component  {
     componentWillReceiveProps(){
         console.log("Signup Received Props : " + JSON.stringify(this.props))
         let state = store.getState()
-        
+        sessionStorage.setItem("isLoggedIn" , "true");
         this.props.history.push({
             pathname: '/userprofile',
             user:state.user.user

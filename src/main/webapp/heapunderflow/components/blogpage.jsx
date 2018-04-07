@@ -1,7 +1,8 @@
 import React from 'react'
 import store from '../store/store'
 import { connect } from 'react-redux'
-
+import { fetchBlogByIdFromServer} from '../actions/blogactions'
+import {Link} from 'react-router-dom'
 
 class BlogPage extends React.Component{
     
@@ -11,9 +12,10 @@ class BlogPage extends React.Component{
     }
 
 
-    componentWillMount(){
-        console.log(this.props.blogId);
-        dispatch(store.fetchBlogById(this.props.blogId))
+    componentDidMount(){
+        
+        const { blogId } = this.props.match.params;
+        this.props.fetchBlogByIdFromServer(blogId);
     }
 
     componentWillReceiveProps(){
@@ -21,8 +23,16 @@ class BlogPage extends React.Component{
     }
 
     render(){
+        console.log(this.props.history)
+        if (!this.props.blog){
+            return (
+                <div></div>
+            )
+        }
         return (
+            
             <div>
+                <Link to="/" >Back</Link>
                 <div>
                     <h1>{this.props.blog.blogTitle}</h1>
                     <p> {this.props.blog.blogText}</p>
@@ -34,7 +44,10 @@ class BlogPage extends React.Component{
 }
 
 function mapStateToProps(state){
-    console.log(this.props.user.blog)
+//    console.log(this.props.user.blog)
+    return {
+        blog : state.blogs.blog
+    }
 }
 
-export default connect(mapStateToProps)(BlogPage)
+export default connect(mapStateToProps, {fetchBlogByIdFromServer})(BlogPage)

@@ -35,7 +35,7 @@ export function fetchBlogById(blog) {
 
 export function fetchBlogsFromServer() {
     console.log("fetchBlogsFromServer")
-    return (dispatch) => {  
+    return (dispatch) => {
         fetch(baseurl + "blog")
         .then((response) => {
                 return response.json();
@@ -44,12 +44,12 @@ export function fetchBlogsFromServer() {
 }
 
 export function fetchBlogByIdFromServer(blogId) {
-    console.log("fetchBlogsFromServer");
+    console.log("fetchBlogsFromServer  :" + baseurl + "blog/" + blogId);
     return (dispatch) => {
         fetch(baseurl + "blog/" + blogId)
         .then((response) => {
                 return response.json();
-        }).then((blog) => dispatch(fetchBlogbyId(blog)));
+        }).then((blog) => dispatch(fetchBlogById(blog)));
     };
 }
 

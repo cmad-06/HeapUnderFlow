@@ -40,13 +40,14 @@ class LoginForm extends React.Component  {
         console.log("Props at did mount" + JSON.stringify(this.props));
         console.log("Props at did mount" + JSON.stringify(this.state.userDetails));
         let state = store.getState()
-        
+        sessionStorage.setItem("isLoggedIn" , "true");
         this.props.history.push({
             pathname: '/userprofile',
             user:state.user.user,
         })
     }
     render(){
+        if ( sessionStorage.getItem("isLoggedIn") === true)
         return (
             <div class="container" id="login-form">
 			<div class="frm" styles="height: 580px; overflow: scroll">
