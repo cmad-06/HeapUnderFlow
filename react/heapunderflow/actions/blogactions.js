@@ -44,12 +44,12 @@ export function fetchBlogsFromServer() {
 }
 
 export function fetchBlogByIdFromServer(blogId) {
-    console.log("fetchBlogsFromServer");
+    console.log("fetchBlogsFromServer  :" + baseurl + "blog/" + blogId);
     return (dispatch) => {
-        fetch("http://localhost:8080/heapunderflow/service/" + "blog/" + blogId)
+        fetch(baseurl + "blog/" + blogId)
         .then((response) => {
                 return response.json();
-        }).then((blog) => dispatch(fetchBlogbyId(blog)));
+        }).then((blog) => dispatch(fetchBlogById(blog)));
     };
 }
 

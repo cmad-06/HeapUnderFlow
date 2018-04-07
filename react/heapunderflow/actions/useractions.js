@@ -6,6 +6,7 @@ export const ACTION_TYPES = {
     ADDED_BLOG: "added_blog",
     FETCHED_USER:"fetched_user",
     UPDATED_USER:"updated_user",
+    FETCH_BLOG:'fetch_blog'
  }
 
 let baseurl = "http://localhost:8080/heapunderflow/service/user/"
@@ -146,6 +147,18 @@ export function fetchUserBlogsFromServer(userId) {
         }).then((blogs) => dispatch(fetchUserBlogs(blogs)));
     };
 }
+
+export function fetchBlogById(blogId) {
+    console.log("fetchUserBlogsFromServer")
+    return (dispatch) => {
+        console.log("User Blogs at :" + baseurl + "/blog/"+blogId)
+        fetch(baseurl + "/blog/" + blogId)
+        .then((response) => {
+                return response.json();
+        }).then((blog) => dispatch(fetchUserBlog(blog)));
+    };
+}
+
 
 export function addBlogtoServer(blog){
     console.log("addBlogtoServer" + blog)

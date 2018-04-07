@@ -2,6 +2,7 @@ import React from 'react'
 import Home from "./home.jsx";
 import LoginForm from "./login.jsx";
 import UserProfile from "./userprofile.jsx";
+import BlogPage from './blogpage.jsx'
 import store from "../store/store.js";
 
 
@@ -19,19 +20,15 @@ class Blogger extends React.Component{
             data : {},
             
         }
-        
-        
+        sessionStorage.setItem("isLoggedIn" , false)
     }
 
     render(){
         const isLoggedIn=sessionStorage.getItem("isLoggedIn")
-        const buttons = isLoggedIn ? (
+        console.log(`is Logged in :${isLoggedIn}` )
+        const buttons = (
             <p className="navbar-text navbar-right" >
-					<Link to="/">Home</Link> | <Link to="/userprofile">Profile</Link> 
-						</p>
-        ):(
-            <p className="navbar-text navbar-right" >
-					<Link to="/">Home</Link> | <Link to="/signup">Signup</Link> | <Link to="/login">Login</Link> 
+					<Link className="btn btn-primary"  to="/">Home</Link> | <Link className="btn btn-primary"  to="/signup">Signup</Link> | <Link className="btn btn-primary" to="/login">Login</Link> 
 						</p>
         )
         return (
@@ -52,10 +49,11 @@ class Blogger extends React.Component{
 		</nav>
 
                     
-                    <Route exact path="/" component={Home}/>
+                    <Route exact path="/" component={Home} history={this.props.history}/>
                     <Route path="/signup" component={SignupForm}/>
                     <Route path="/login" component={LoginForm}/> 
-                    <Route path="/userprofile" component={UserProfile}/> 
+                    <Route path="/userprofile" component={UserProfile}/>
+                    <Route path="/blogPage/:blogId" component={BlogPage}/> 
                     <br/>
                     
                 </div>
@@ -65,25 +63,7 @@ class Blogger extends React.Component{
     }
 
     
-/*
-    render(){
-        return (
-            <Router>
-                <div>
-                    <h1>HeapUnderFlow</h1>
-                    <Link to="/">Home</Link> | <Link to="/signup">Signup</Link> | <Link to="/login">Login</Link>
-                    <hr/>
-                    <Route exact path="/" component={Home}/>
-                    <Route path="/signup" component={SignupForm}/>
-                    <Route path="/login" component={LoginForm}/> 
-                    <br/>
-                    
-                </div>
-                
-            </Router>
-        )
-    }
-    */
+
 }
 
 export default Blogger

@@ -32,6 +32,13 @@ class UserBlogs extends React.Component{
     }
 
     render(){
+
+        if ( !this.props.blogs){
+            return (
+                <div/>
+            )
+        }
+       
         return (
             <Table className="table table-striped table-condensed" >
             <thead>
