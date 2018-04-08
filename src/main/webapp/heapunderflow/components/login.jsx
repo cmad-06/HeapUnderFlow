@@ -47,7 +47,6 @@ class LoginForm extends React.Component  {
         })
     }
     render(){
-        if ( sessionStorage.getItem("isLoggedIn") === true)
         return (
             <div class="container" id="login-form">
 			<div class="frm" styles="height: 580px; overflow: scroll">
