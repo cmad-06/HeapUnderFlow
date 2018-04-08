@@ -1,7 +1,7 @@
 import React from 'react'
 import store from '../store/store'
 import { connect } from 'react-redux'
-import { fetchBlogByIdFromServer} from '../actions/blogactions'
+import { fetchBlogByIdFromServer, deleteBlogById} from '../actions/blogactions'
 import { updateBlogById} from '../actions/blogactions'
 import {Link} from 'react-router-dom'
 import {Button} from 'react-bootstrap'
@@ -16,8 +16,8 @@ class BlogPage extends React.Component{
         this.handleLikeButton = this.handleLikeButton.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
         this.handleUpdateBlog = this.handleUpdateBlog.bind(this);
+        this.handleDeleteBlog = this.handleDeleteBlog.bind(this);
     }
-
 
     componentDidMount(){
         
@@ -51,6 +51,14 @@ class BlogPage extends React.Component{
         updateBlogById(blog, data =>{
             this.setState({editBlog:false})
             this.forceUpdate();
+        });
+    }
+
+    handleDeleteBlog(){
+        let blog = this.props.blog
+        console.log("Deleting Blog : " + blog.blogId)
+        deleteBlogById(blog.blogId, data =>{
+            this.props.history.push("/")
         });
     }
 
@@ -93,6 +101,7 @@ class BlogPage extends React.Component{
                     </Button>
 
                     <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button>
+                    <Button bsStyle="primary" onClick= {this.handleDeleteBlog}>Delete Blog</Button>
                     
                     </p>
                 </div>
@@ -110,4 +119,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, {fetchBlogByIdFromServer, updateBlogById})(BlogPage)
+export default connect(mapStateToProps, {fetchBlogByIdFromServer, updateBlogById, deleteBlogById})(BlogPage)

@@ -5,7 +5,8 @@ export const ACTION_TYPES = {
     UPDATED_BLOG: 'updated_blog',
     REMOVED_BLOG: 'removed_blog',
     FETCHED_BLOGS: 'fetched_blogs',
-    FETCHED_BLOG_BY_ID: 'fetched_blog_by_id'
+    FETCHED_BLOG_BY_ID: 'fetched_blog_by_id',
+    DELETED_BLOG: 'deleted_blog',
 }
 
 let baseurl = "http://localhost:8080/heapunderflow/service/"
@@ -59,7 +60,16 @@ export function updateBlogById(blog, callback){
         type: ACTION_TYPES.UPDATED_BLOG,
         blog: request.data,
     };
-
+}
+export function deleteBlogById(blogId, callback){
+    const request = axios.delete(baseurl + "blog/" + blogId ).then(()=>{
+        console.log("BLog Deleted ");
+        callback();
+    })
+    return {
+        type: ACTION_TYPES.DELETED_BLOG,
+    };
+}
     /*
     return (dispatch) => {
         fetch(baseurl + "blog/" + blog.blogId, {
@@ -74,6 +84,6 @@ export function updateBlogById(blog, callback){
                 dispatch(updatedBlog(text))
             })
         }*/
-}
+
 
 

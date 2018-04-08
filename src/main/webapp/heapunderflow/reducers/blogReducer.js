@@ -19,6 +19,7 @@ export function blogReducer(state={blogs:[]}, action){
             return {
                 blog:action.blog
             };
+        case ACTION_TYPES.DELETED_BLOG:
         default:
             return {
                 blogs: []

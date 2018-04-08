@@ -3,6 +3,7 @@ package com.learning.cmad.blog.rest;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -42,10 +43,17 @@ public class BlogRootResource {
 	
 	@PUT
     @Path("/{id}")
-	public Response updateComment(Blog updatedBlog) {
+	public Response updateBlogById(Blog updatedBlog) {
 		System.out.println("RECEIVER USER for update");
 		System.out.println(updatedBlog);
 		blogObj.updateBlog(updatedBlog);
 		return Response.ok().entity(updatedBlog).build();
+	}
+	
+	@DELETE
+    @Path("/{id}")
+	public Response deleteBlogById(@PathParam("id") String blogId) {
+		blogObj.deleteBlogById(blogId);
+		return Response.ok().build();
 	}
 }
