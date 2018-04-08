@@ -11,9 +11,11 @@ class BlogPage extends React.Component{
         super(props);
         console.log("BlogPage props : " + JSON.stringify(props))
         this.state = {
-            blog:""
+            editBlog:false
         }
-        this.handleClick = this.handleClick.bind(this);
+        this.handleLikeButton = this.handleLikeButton.bind(this);
+        this.handleEditButton = this.handleEditButton.bind(this);
+        this.handleUpdateBlog = this.handleUpdateBlog.bind(this);
     }
 
 
@@ -32,9 +34,7 @@ class BlogPage extends React.Component{
         }
     }
 
-    handleClick(){
-        
-    
+    handleLikeButton(){
         let blog = this.props.blog
         blog.blogLikes = blog.blogLikes+1;
         console.log("Likes " + blog.blogLikes)
@@ -44,11 +44,36 @@ class BlogPage extends React.Component{
         });
     }
 
+    handleUpdateBlog(){
+        let blog = this.props.blog
+        blog.blogText = blog.blogText+" Updated Blog";
+        console.log("Updated Blog " +  blog.blogText)
+        updateBlogById(blog, data =>{
+            this.setState({editBlog:false})
+            this.forceUpdate();
+        });
+    }
+
+    handleEditButton(){
+        
+        this.setState({editBlog:true})
+            this.forceUpdate();
+
+    }
+
     render(){
         console.log(this.props.history)
         if (!this.props.blog){
             return (
                 <div></div>
+            )
+        }
+        if (this.state.editBlog){
+            return (
+                <div>
+                    <Button bsStyle="primary" onClick= {this.handleUpdateBlog}>Update Blog</Button>
+                </div>
+                
             )
         }
         return (
@@ -63,11 +88,11 @@ class BlogPage extends React.Component{
 
                     <p>Author : {this.props.blog.blogAuthor}  
                    
-                    <Button bsStyle="primary" 
-                        onClick= {this.handleClick}
-                    > <span className="glyphicon glyphicon-thumbs-up"></span>Like {this.props.blog.blogLikes}
-                        
+                    <Button bsStyle="primary" onClick= {this.handleLikeButton}>
+                        <span className="glyphicon glyphicon-thumbs-up"></span>Like {this.props.blog.blogLikes}
                     </Button>
+
+                    <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button>
                     
                     </p>
                 </div>
