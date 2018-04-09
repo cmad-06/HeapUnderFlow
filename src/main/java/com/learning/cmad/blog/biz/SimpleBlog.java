@@ -15,14 +15,12 @@ import com.learning.cmad.blog.api.InvalidBlogException;
 import com.learning.cmad.blog.data.BlogDAO;
 import com.learning.cmad.blog.data.MorphiaBlogDao;
 import com.learning.cmad.user.data.UserDAO;
+import com.learning.cmad.utils.Databasehandler;
 import com.mongodb.MongoClient;
 
 public class SimpleBlog implements BlogInterface{
-	
-	MongoClient mongoClient = new MongoClient("10.0.2.45:27017");
-	Morphia morphia = new Morphia();
-	String databaseName = "heapunderflow";
-	Datastore datastore = morphia.createDatastore(mongoClient, databaseName);
+
+	Datastore datastore = Databasehandler.getMongoDatastore();
 
 	private BlogDAO dao = new MorphiaBlogDao(Blog.class,datastore);
 

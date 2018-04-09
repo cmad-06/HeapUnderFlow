@@ -24,16 +24,14 @@ import com.learning.cmad.user.api.UserNotFoundException;
 
 import com.learning.cmad.user.data.MorphiaUserDAO;
 import com.learning.cmad.user.data.UserDAO;
+import com.learning.cmad.utils.Databasehandler;
 import com.learning.cmad.utils.EncryptorDecryptor;
 import com.mongodb.MongoClient;
 
 
 public class SimpleBlogUser implements BlogUser {
-	
-	MongoClient mongoClient = new MongoClient("10.0.2.45:27017");
-	Morphia morphia = new Morphia();
-	String databaseName = "heapunderflow";
-	Datastore datastore = morphia.createDatastore(mongoClient, databaseName);
+
+	Datastore datastore = Databasehandler.getMongoDatastore();
 
 	private UserDAO userDAO = new MorphiaUserDAO(User.class,datastore);
 //	private UserDAO userDAO = new JPAUserDAO();
