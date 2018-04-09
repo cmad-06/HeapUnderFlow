@@ -33,7 +33,6 @@ private CommentInterface commentObj = new SimpleComment();
 	@Path("/")
 	@Produces("application/vnd.heapunderflow-v1+json")
 	public Response addComment(Comment newComment) throws URISyntaxException {
-		System.out.println("Inside addComment for CommentRootResource");
 		commentObj.createComment(newComment);
 		return Response.ok().build();
 	}

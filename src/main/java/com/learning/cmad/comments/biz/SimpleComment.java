@@ -23,8 +23,6 @@ public class SimpleComment implements CommentInterface{
 	
 	@Override
 	public Comment createComment(Comment comment) throws InvalidCommentException, DuplicateCommentException, CommentException {
-		
-		System.out.println("Inside createComment for simplecomment");
 		comment.setCommentId(UUID.randomUUID().toString());
 		dao.createComment(comment);
 		return comment;
