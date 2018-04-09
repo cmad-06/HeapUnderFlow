@@ -60,7 +60,7 @@ class AddBlog extends React.Component{
     }
 
     componentWillReceiveProps(){
-        console.log("componentWillReceiveProps Complete");
+        console.log("componentWillReceiveProps Add Blog");
     }
 
     render(){
@@ -68,20 +68,20 @@ class AddBlog extends React.Component{
             <div>
                         <form id="addblogform" onSubmit={this.submitBlog}>
 
-                            <p class="form-group required">
-                                <label for="blogTitle" class='control-label'>Blog Title:</label>
-                                <input type="text" class="form-control" name="blogtitle"
+                            <p className="form-group required">
+                                <label for="blogTitle" className='control-label'>Blog Title:</label>
+                                <input type="text" className="form-control" name="blogtitle"
                                     id="blogtitle" placeholder="Enter Blog Title " defaultValue={this.state.blogTitle} onChange={this.changeBlogTitle} />
                             </p>
 
-                            <p class="form-group required">
-                                <label for="blogText" class='control-label'>Blog Text:</label>
-                                <textarea rows="4" cols="50" class="form-control"
+                            <p className="form-group required">
+                                <label for="blogText" className='control-label'>Blog Text:</label>
+                                <textarea rows="4" cols="50" className="form-control"
                                     name="blogtext" id="blogtext" placeholder="Enter Blog Text" defaultValue={this.state.blogText} onChange={this.changeBlogText}></textarea>
                             </p>
 
-                            <p class="form-group">
-                                <button id="addblog" type="submit" class="btn btn-success btn-lg">Submit</button>
+                            <p className="form-group">
+                                <button id="addblog" type="submit" className="btn btn-success btn-lg">Submit</button>
                             </p>
                         </form>
 				    </div>

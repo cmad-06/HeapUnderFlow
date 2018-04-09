@@ -18,14 +18,12 @@ class Blogs extends React.Component{
     }
 
     renderList(){
-        console.log("Props : " + JSON.stringify(this.props.blogs.blogs))
+        console.log("Props : " + JSON.stringify(this.props.blogs))
         return this.props.blogs.map((blog) => {
             return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} likes={blog.blogLikes} >
             </Blog>
         }) 
     }
-
-    
 
     componentWillMount(){
         console.log("Blogs" );
@@ -58,7 +56,7 @@ class Blogs extends React.Component{
 };
 
 function mapStateToProps(state){
-    console.log(JSON.stringify("State Details : " + JSON.stringify(state)))
+    console.log(JSON.stringify("State Details blogs.jsx : " + JSON.stringify(state)))
     return {
         blogs:state.blogs.blogs
     }

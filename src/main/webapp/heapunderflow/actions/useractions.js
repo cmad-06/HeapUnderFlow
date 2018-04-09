@@ -1,3 +1,4 @@
+import axios from 'axios'
 
 export const ACTION_TYPES = {
     ADDED_USER: 'added_user',
@@ -58,14 +59,18 @@ export function addBLog() {
     };
 }
 
-export function getUserById(userId){
-    return (dispatch) => {
+export function getUserById(userId, cb){
+    let response = axios.get(baseurl + userId).then(data => {
+        console.log("User Data : " + JSON.stringify(data))
+        cb(data);
+    })
+  /*  return (dispatch) => {
         console.log("User Blogs at :" + baseurl + userId + "/blog")
         fetch(baseurl + userId )
         .then((response) => {
                 return response.json();
         }).then((userDetails) => dispatch(fetchUser(userDetails)));
-    };
+    };*/
 }
 
 export function addUsertoServer(user){

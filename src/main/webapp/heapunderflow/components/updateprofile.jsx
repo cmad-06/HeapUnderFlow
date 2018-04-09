@@ -56,13 +56,6 @@ class UpdateProfile extends React.Component{
         e.preventDefault()
         let lUser = JSON.parse(sessionStorage.getItem("user"));
         console.log("Form Submit Clicked" + JSON.stringify(lUser));
-        this.compareAndUpdate(lUser)
-        console.log("Form Submit Clicked" + JSON.stringify(lUser));
-        store.dispatch(updateUsertoServer(lUser));
-        console.log("submitUser Complete" + JSON.stringify(this.state));``
-    }
-
-    compareAndUpdate(lUser){
 
         if (lUser.firstName != this.state.firstName)
         {
@@ -80,42 +73,41 @@ class UpdateProfile extends React.Component{
         {
             lUser.password = this.state.password;
         }
-
-       // return lUser;
-
+        console.log("Form Submit Clicked" + JSON.stringify(lUser));
+        store.dispatch(updateUsertoServer(lUser));
     }
 
     componentWillReceiveProps(){
-        console.log("Updated user : " + JSON.stringify(this.props.user))
+        console.log("After Update Profile : " + JSON.stringify(store.getState));
     }
 
     render(){
         return (
             <div>
                 <form id="profileupdateform" onSubmit={this.updateUser}>
-					<p class="form-group">
-						<label for="firstname" class='control-label'>First Name:</label> <input type="text"
-							class="form-control" name="firstname1" id="changefirstname" placeholder="Enter firstname" defaultValue={this.state.firstName} onChange={this.changeFirstName}/>
+					<p className="form-group">
+						<label for="firstname" className='control-label'>First Name:</label> <input type="text"
+							className="form-control" name="firstname1" id="changefirstname" placeholder="Enter firstname" defaultValue={this.state.firstName} onChange={this.changeFirstName}/>
 					</p>
-					<p class="form-group">
-						<label for="lastname" class='control-label'>Last Name:</label> <input type="text"
-							class="form-control" name="lastname1" id="changelastname" placeholder="Enter lastname" defaultValue={this.state.lastName} onChange={this.changeLastName} />
+					<p className="form-group">
+						<label for="lastname" className='control-label'>Last Name:</label> <input type="text"
+							className="form-control" name="lastname1" id="changelastname" placeholder="Enter lastname" defaultValue={this.state.lastName} onChange={this.changeLastName} />
 					</p>
 
-					<p class="form-group">
-						<label for="email" class='control-label'>Email:</label> <input type="email"
-							class="form-control" name="email1" id="changeemail" placeholder="Enter email" defaultValue={this.state.email} onChange={this.changeEmail} />
+					<p className="form-group">
+						<label for="email" className='control-label'>Email:</label> <input type="email"
+							className="form-control" name="email1" id="changeemail" placeholder="Enter email" defaultValue={this.state.email} onChange={this.changeEmail} />
 					</p>
-					<p class="form-group">
-						<label for="pwd" class='control-label'>Password:</label> <input type="password"
-							class="form-control" name="password1" id="changepassword" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord}/>
+					<p className="form-group">
+						<label for="pwd" className='control-label'>Password:</label> <input type="password"
+							className="form-control" name="password1" id="changepassword" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord}/>
 					</p>
-					<p class="form-group">
-						<label for="pwd" class='control-label'>Confirm Password:</label> <input type="password"
-							class="form-control" name="password2" id="changepassword2" placeholder="Confirm password" defaultValue={this.state.confirmpassword} onChange={this.changeConfirmPassWord}/> 
+					<p className="form-group">
+						<label for="pwd" className='control-label'>Confirm Password:</label> <input type="password"
+							className="form-control" name="password2" id="changepassword2" placeholder="Confirm password" defaultValue={this.state.confirmpassword} onChange={this.changeConfirmPassWord}/> 
 					</p>
-					<p class="form-group">
-						<button id="profileupdate" type="submit" class="btn btn-success btn-lg">Submit</button>
+					<p className="form-group">
+						<button id="profileupdate" type="submit" className="btn btn-success btn-lg">Submit</button>
 					</p>
 				</form>
             </div>

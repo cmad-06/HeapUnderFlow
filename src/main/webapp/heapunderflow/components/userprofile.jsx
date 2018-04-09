@@ -14,30 +14,44 @@ class UserProfile extends React.Component {
         console.log("UserProfile :" + props.location.user)
         this.state = {
             data : JSON.parse(props.location.user),
-            user :{}
+            user :{},
+            key:1
+
         }
         sessionStorage.setItem("userId" , this.state.data.userId)
         sessionStorage.setItem("token" ,this.state.data.token)
         console.log("UserProfile: Received Data : " + this.state.data);
+        this.handleSelect = this.handleSelect.bind(this);
     }
 
+    handleSelect(key) {
+
+        this.setState({ key });
+        
+      }
     componentWillMount(){
-        getUserById(this.state.data.userId);
+        getUserById(this.state.data.userId,data => {
+            sessionStorage.setItem("user" , JSON.stringify(data.data));
+        });
     }
 
     componentWillReceiveProps(){
-        console.log("UserProfile : componentWillReceiveProps" + JSON.stringify(this.props.user))
-        this.setState({
-            user:this.props.user
-        })
-        sessionStorage.setItem("user" , JSON.stringify(this.props.user));
+        console.log("After Update Profile UserProfile: " + JSON.stringify(store.getState));
+        this.setState({ key:1 });
+        this.forceUpdate();
     }
-
+    
     render(){
+
+        if (!this.state.data){
+            return (
+                <div/>
+            )
+        }
 
         return(
             <div>
-                <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+                <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="controlled-tab-example">
                     <Tab eventKey={1} lazy="false" title="My Blogs">
                         <UserBlogs userId = {this.state.data.userId}/>
                     </Tab>
