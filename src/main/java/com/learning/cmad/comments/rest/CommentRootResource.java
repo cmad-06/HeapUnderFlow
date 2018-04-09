@@ -23,16 +23,17 @@ import com.learning.cmad.user.api.User;
 @Produces({ MediaType.APPLICATION_JSON })
 
 
-@Path("/comments")
+@Path("/comment")
 
 public class CommentRootResource {
 	
 private CommentInterface commentObj = new SimpleComment();
 
 	@POST
-	@Path("/addcomment")
+	@Path("/")
 	@Produces("application/vnd.heapunderflow-v1+json")
 	public Response addComment(Comment newComment) throws URISyntaxException {
+		System.out.println("Inside addComment for CommentRootResource");
 		commentObj.createComment(newComment);
 		return Response.ok().build();
 	}

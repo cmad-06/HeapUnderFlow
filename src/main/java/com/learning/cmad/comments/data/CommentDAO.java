@@ -7,7 +7,7 @@ import com.learning.cmad.comments.api.Comment;
 public interface CommentDAO {
 	
 	//Create
-		public void createComment(Comment comment);
+		public String createComment(Comment comment);
 		
 		//Read
 		public List<Comment> getAllComments();

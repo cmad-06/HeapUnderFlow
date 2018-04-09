@@ -1,15 +1,16 @@
 package com.learning.cmad.comments.api;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
 
 @Entity
 public class Comment {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int commentId;
+	private String commentId;
 	private String comment;
 	private int blogId;
 	private int userId;
@@ -34,11 +35,11 @@ public class Comment {
 		
 	}
 	
-	public int getCommentId() {
+	public String getCommentId() {
 		return commentId;
 	}
-	public void setCommentId(int commentId) {
-		this.commentId = commentId;
+	public void setCommentId(String string) {
+		this.commentId = string;
 	}
 	public String getComment() {
 		return comment;

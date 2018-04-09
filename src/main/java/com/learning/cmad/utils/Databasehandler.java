@@ -1,5 +1,6 @@
 package com.learning.cmad.utils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,14 +21,14 @@ public class Databasehandler {
 	
 	
 	public static void init(){
-		
+		   
 		Properties prop = new Properties();
 		InputStream input = null;
 
 		try {
 
-			input = new FileInputStream("./conf/db_config.properties");
-
+			input = new FileInputStream("C:\\Users\\vibhjain\\Desktop\\CISCO_DOCS\\STUDY_17\\CMAD\\PROJECT\\HeapUnderFlow\\conf\\db_config.properties");
+			
 			// load a properties file
 			prop.load(input);
 

@@ -21,7 +21,6 @@ import com.mongodb.MongoClient;
 public class SimpleBlog implements BlogInterface{
 
 	Datastore datastore = Databasehandler.getMongoDatastore();
-
 	private BlogDAO dao = new MorphiaBlogDao(Blog.class,datastore);
 
 	@Override
