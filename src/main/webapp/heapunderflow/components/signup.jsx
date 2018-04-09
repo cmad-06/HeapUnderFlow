@@ -74,32 +74,38 @@ class SignupForm extends React.Component  {
     /* Implement connect */
 
     render(){
+        
+        var signupFormStyle = {
+          height: '580px',
+          overflow: 'scroll'
+        };
+        
         return (
-            <div class="container" id="registration-form">
-			<div class="frm" styles="height: 580px; overflow: scroll">
+            <div className="container" id="registration-form">
+			<div className="frm" style={signupFormStyle}>
 				<h1>Sign up</h1>
 				
 				<form onSubmit={this.submitUser}>
-                    <div class="form-group required">
-						<label for="firstname" class='control-label'>First Name:</label> 
+                    <div className="form-group required">
+						<label id="firstname" className='control-label'>First Name:</label> 
                         <input type="text"
-							class="form-control" name="firstname"  placeholder="Enter firstname" defaultValue={this.state.firstName} onChange={this.changeFirstName} />
+							className="form-control" name="firstname"  placeholder="Enter firstname" defaultValue={this.state.firstName} onChange={this.changeFirstName} />
 					</div>
-                    <div class="form-group required">
-						<label for="lastname" class='control-label'>Last Name:</label> <input type="text"
-							class="form-control" name="lastname" placeholder="Enter lastname" defaultValue={this.state.lastName} onChange={this.changeLastName}/>
+                    <div className="form-group required">
+						<label id="lastname" className='control-label'>Last Name:</label> <input type="text"
+							className="form-control" name="lastname" placeholder="Enter lastname" defaultValue={this.state.lastName} onChange={this.changeLastName}/>
 					</div>
-					<div class="form-group required">
-						<label for="username" class='control-label'>Username:</label> <input type="text"
-							class="form-control" name="username"  placeholder="Enter username" defaultValue={this.state.username} onChange={this.changeUserName}/>
+					<div className="form-group required">
+						<label id="username" className='control-label'>Username:</label> <input type="text"
+							className="form-control" name="username"  placeholder="Enter username" defaultValue={this.state.username} onChange={this.changeUserName}/>
 					</div>
-					<div class="form-group required">
-						<label for="email" class='control-label'>Email:</label> <input type="email"
-							class="form-control" name="email" placeholder="Enter email" defaultValue={this.state.email} onChange={this.changeEmail}/>
+					<div className="form-group required">
+						<label id="email" className='control-label'>Email:</label> <input type="email"
+							className="form-control" name="email" placeholder="Enter email" defaultValue={this.state.email} onChange={this.changeEmail}/>
 					</div>
-					<div class="form-group required">
-						<label for="pwd" class='control-label'>Password:</label> <input type="password"
-							class="form-control" name="password" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord}/>
+					<div className="form-group required">
+						<label id="pwd" className='control-label'>Password:</label> <input type="password"
+							className="form-control" name="password" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord}/>
 					</div>
                     <button>Submit</button>
                 </form>
