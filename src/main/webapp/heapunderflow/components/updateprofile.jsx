@@ -77,33 +77,35 @@ class UpdateProfile extends React.Component{
         store.dispatch(updateUsertoServer(lUser));
     }
 
-    componentWillReceiveProps(){
-        console.log("After Update Profile : " + JSON.stringify(store.getState));
-    }
-
+    
     render(){
+        if ( this.props.key != 3){
+            return (
+                <div/>
+            )
+        }
         return (
             <div>
                 <form id="profileupdateform" onSubmit={this.updateUser}>
 					<p className="form-group">
-						<label for="firstname" className='control-label'>First Name:</label> <input type="text"
+						<label className='control-label'>First Name:</label> <input type="text"
 							className="form-control" name="firstname1" id="changefirstname" placeholder="Enter firstname" defaultValue={this.state.firstName} onChange={this.changeFirstName}/>
 					</p>
 					<p className="form-group">
-						<label for="lastname" className='control-label'>Last Name:</label> <input type="text"
+						<label className='control-label'>Last Name:</label> <input type="text"
 							className="form-control" name="lastname1" id="changelastname" placeholder="Enter lastname" defaultValue={this.state.lastName} onChange={this.changeLastName} />
 					</p>
 
 					<p className="form-group">
-						<label for="email" className='control-label'>Email:</label> <input type="email"
+						<label className='control-label'>Email:</label> <input type="email"
 							className="form-control" name="email1" id="changeemail" placeholder="Enter email" defaultValue={this.state.email} onChange={this.changeEmail} />
 					</p>
 					<p className="form-group">
-						<label for="pwd" className='control-label'>Password:</label> <input type="password"
+						<label className='control-label'>Password:</label> <input type="password"
 							className="form-control" name="password1" id="changepassword" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord}/>
 					</p>
 					<p className="form-group">
-						<label for="pwd" className='control-label'>Confirm Password:</label> <input type="password"
+						<label className='control-label'>Confirm Password:</label> <input type="password"
 							className="form-control" name="password2" id="changepassword2" placeholder="Confirm password" defaultValue={this.state.confirmpassword} onChange={this.changeConfirmPassWord}/> 
 					</p>
 					<p className="form-group">

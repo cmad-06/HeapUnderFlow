@@ -59,11 +59,12 @@ class AddBlog extends React.Component{
         })
     }
 
-    componentWillReceiveProps(){
-        console.log("componentWillReceiveProps Add Blog");
-    }
-
     render(){
+        if ( this.props.key != 2){
+            return (
+                <div/>
+            )
+        }
         return (
             <div>
                         <form id="addblogform" onSubmit={this.submitBlog}>

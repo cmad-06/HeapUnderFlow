@@ -3,23 +3,30 @@ import store from '../store/store'
 import { connect } from 'react-redux'
 import { fetchBlogByIdFromServer, deleteBlogById} from '../actions/blogactions'
 import { updateBlogById} from '../actions/blogactions'
+import { addComment, getCommentsByBlogId} from '../actions/commentactions'
 import {Link} from 'react-router-dom'
 import {Button} from 'react-bootstrap'
+import { Field, reduxForm} from 'redux-form'
+
 class BlogPage extends React.Component{
     
     constructor(props){
         super(props);
         console.log("BlogPage props : " + JSON.stringify(props))
         this.state = {
-            editBlog:false
+            editBlog:false,
+            comment:''
         }
         this.handleLikeButton = this.handleLikeButton.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
         this.handleUpdateBlog = this.handleUpdateBlog.bind(this);
         this.handleDeleteBlog = this.handleDeleteBlog.bind(this);
+        this.renderField = this.renderField.bind(this);
+        this.changeComment = this.changeComment.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
+    componentWillMount(){
         
         const { blogId } = this.props.match.params;
         this.props.fetchBlogByIdFromServer(blogId);
@@ -69,6 +76,30 @@ class BlogPage extends React.Component{
 
     }
 
+    renderField(field){
+        console.log("renderField = " + JSON.stringify(field))
+        return (
+            <div>
+            </div>
+        )
+    }
+
+    handleSubmit(e){
+        e.preventDefault()
+        const commentDetails = {"comment":this.state.comment, 
+                                "blogId":this.props.blog.blogId,
+                                "userId":this.props.blog.blogAuthor
+                                }
+        addComment(commentDetails);
+        console.log("Comment Form Submitted : " + JSON.stringify(commentDetails))
+    }
+
+    changeComment(e){
+        this.setState({
+            comment:e.target.value
+        })
+    }
+
     render(){
         console.log(this.props.history)
         if (!this.props.blog){
@@ -87,29 +118,53 @@ class BlogPage extends React.Component{
         return (
             
             <div><font face="verdana" color="white">
-                <Link to="/" >Back</Link>
                 <div>
-                    <h1>{this.props.blog.blogTitle}</h1>
-                    <p> {this.props.blog.blogText}</p>
-                </div>
-                <div>
+                    <Link to="/" >Back</Link>
+                    <div>
+                        <h1>{this.props.blog.blogTitle}</h1>
+                        <p> {this.props.blog.blogText}</p>
+                    </div>
+                    <div>
 
-                    <p>Author : {this.props.blog.blogAuthor}  
-                   
-                    <Button bsStyle="primary" onClick= {this.handleLikeButton}>
-                        <span className="glyphicon glyphicon-thumbs-up"></span>Like {this.props.blog.blogLikes}
-                    </Button>
-
-                    <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button>
-                    <Button bsStyle="primary" onClick= {this.handleDeleteBlog}>Delete Blog</Button>
+                        <p>Author : {this.props.blog.blogAuthor}  
                     
-                    </p>
+                        <Button bsStyle="primary" onClick= {this.handleLikeButton}>
+                            <span className="glyphicon glyphicon-thumbs-up"></span>Like {this.props.blog.blogLikes}
+                        </Button>
+
+                        <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button>
+                        <Button bsStyle="primary" onClick= {this.handleDeleteBlog}>Delete Blog</Button>
+                        
+                        </p>
+                    </div>
                 </div>
+                <div>
+                <div id="comments" >
+                    <form onSubmit={this.handleSubmit}>
+                        <p className="form-group">
+                            <label className='control-label'>Add Comment :</label> <input type="text"
+                                className="form-control" name="firstname1" id="changefirstname" placeholder="Max 150 characters" defaultValue={this.state.comment} onChange={this.changeComment}/>
+                        </p>
+                        <button type="submit" className="btn btn-primary" >Submit</button>
+                    </form>
+                    
+                 </div>
+                    </div>
                 </font>
             </div>
         )
     }
 
+}
+
+function validate(values){
+    const errors={};
+
+    if ( !values.newComment ){
+        errors.title = "Enter a comment!!"
+    }
+
+    return errors;
 }
 
 function mapStateToProps(state){
@@ -119,4 +174,10 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, {fetchBlogByIdFromServer, updateBlogById, deleteBlogById})(BlogPage)
+BlogPage = connect(mapStateToProps, {fetchBlogByIdFromServer, updateBlogById, deleteBlogById, addComment,getCommentsByBlogId })(BlogPage)
+BlogPage = reduxForm ({
+    validate,
+    form:"PostCommentForm"
+})(BlogPage)
+
+ export default BlogPage

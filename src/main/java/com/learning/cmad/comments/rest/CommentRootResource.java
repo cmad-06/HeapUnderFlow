@@ -30,16 +30,18 @@ public class CommentRootResource {
 private CommentInterface commentObj = new SimpleComment();
 
 	@POST
-	@Path("/")
-	@Produces("application/vnd.heapunderflow-v1+json")
+	@Path("/add")
+	@Produces("application/json")
 	public Response addComment(Comment newComment) throws URISyntaxException {
-		commentObj.createComment(newComment);
-		return Response.ok().build();
+		System.out.println(newComment);
+		Comment comment = commentObj.createComment(newComment);
+		return Response.ok().entity(comment).build();
 	}
 	
 	@GET
     @Path("/")
 	public Response getAllComments() {
+		System.out.println("GET ALL COMMENTS");
 		List<Comment> comments = commentObj.getAllComments();
 		return Response.ok().entity(comments).build();
 	}

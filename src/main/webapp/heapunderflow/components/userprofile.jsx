@@ -29,10 +29,10 @@ class UserProfile extends React.Component {
         this.setState({ key });
         
       }
-    componentWillMount(){
-        getUserById(this.state.data.userId,data => {
+    componentDidMount(){
+   /*     getUserById(this.state.data.userId,data => {
             sessionStorage.setItem("user" , JSON.stringify(data.data));
-        });
+        });*/
     }
 
     componentWillReceiveProps(){
@@ -56,10 +56,10 @@ class UserProfile extends React.Component {
                         <UserBlogs userId = {this.state.data.userId}/>
                     </Tab>
                     <Tab eventKey={2} lazy="true" title="Create Blog">
-                        <AddBlog userId = {this.state.data.userId} user={this.state.user}/>
+                        <AddBlog userId = {this.state.data.userId} user={this.state.user} key={this.state.key}/>
                     </Tab>
-                    <Tab eventKey={3} lazy="true" title="Update Profile">
-                        <UpdateProfile />
+                    <Tab eventKey={3} lazy="true" title="Update Profile" >
+                        <UpdateProfile key={this.state.key}/>
                     </Tab>
                 </Tabs>
             </div>
