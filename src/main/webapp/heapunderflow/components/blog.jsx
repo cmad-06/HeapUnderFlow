@@ -1,6 +1,5 @@
 import React from "react";
 import store from "../store/store.js";
-import {Update} from "../actions/blogActions.js";
 import { Link } from "react-router-dom"
 
 class Blog extends React.Component{

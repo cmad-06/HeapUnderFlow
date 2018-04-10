@@ -47,16 +47,18 @@ private CommentInterface commentObj = new SimpleComment();
 	}
 	
 	@GET
-    @Path("/userId")
+    @Path("/user/{id}")
 	public Response getAllCommentsByUserId(String userId) {
 		List<Comment> comments = commentObj.getCommentsByUserId(userId);
 		return Response.ok().entity(comments).build();
 	}
 	
 	@GET
-    @Path("/blogId")
+    @Path("/blog/{id}")
 	public Response getAllCommentsByBlogId(String blogId) {
+		System.out.println(blogId);
 		List<Comment> comments = commentObj.getCommentsByBlogId(blogId);
+		System.out.println(comments);
 		return Response.ok().entity(comments).build();
 	}
 	

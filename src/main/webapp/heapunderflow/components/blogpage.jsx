@@ -7,6 +7,7 @@ import { addComment, getCommentsByBlogId} from '../actions/commentactions'
 import {Link} from 'react-router-dom'
 import {Button} from 'react-bootstrap'
 import { Field, reduxForm} from 'redux-form'
+import Comments from './comments.jsx'
 
 class BlogPage extends React.Component{
     
@@ -147,7 +148,9 @@ class BlogPage extends React.Component{
                         </p>
                         <button type="submit" className="btn btn-primary" >Submit</button>
                     </form>
-                    
+                    <div>
+                    <Comments blogId={this.props.blog.blogId}/>
+                    </div>
                  </div>
                     </div>
                 </font>
@@ -175,9 +178,10 @@ function mapStateToProps(state){
 }
 
 BlogPage = connect(mapStateToProps, {fetchBlogByIdFromServer, updateBlogById, deleteBlogById, addComment,getCommentsByBlogId })(BlogPage)
+/*
 BlogPage = reduxForm ({
     validate,
     form:"PostCommentForm"
-})(BlogPage)
+})(BlogPage)*/
 
  export default BlogPage
