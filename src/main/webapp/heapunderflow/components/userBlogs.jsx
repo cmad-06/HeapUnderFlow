@@ -19,8 +19,10 @@ class UserBlogs extends React.Component{
         console.log("Props : " + JSON.stringify(this.props.blogs))
         if (this.props.blogs != undefined){
             return this.props.blogs.map((blog) => {
+                if (blog != null){ /* Delete blog should delete blog emntry in user profile */
                 return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} likes={blog.blogLikes} >
                 </Blog>
+                }
             }) 
         }
     }

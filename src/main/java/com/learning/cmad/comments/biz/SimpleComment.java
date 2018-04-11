@@ -24,8 +24,8 @@ public class SimpleComment implements CommentInterface{
 	@Override
 	public Comment createComment(Comment comment) throws InvalidCommentException, DuplicateCommentException, CommentException {
 		comment.setCommentId(UUID.randomUUID().toString());
-		dao.createComment(comment);
-		return comment;
+		Comment createdComment = dao.createComment(comment);
+		return createdComment;
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class SimpleComment implements CommentInterface{
 
 	@Override
 	public List<Comment> getCommentsByBlogId(String blogId) throws CommentNotFoundException, CommentException {
-		return null;
+		return dao.getCommentByBlog(blogId);
 	}
 
 	@Override

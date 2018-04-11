@@ -12,22 +12,22 @@ public class Comment {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String commentId;
 	private String comment;
-	private int blogId;
-	private int userId;
+	private String blogId;
+	private String userId;
 	
-	public int getBlogId() {
+	public String getBlogId() {
 		return blogId;
 	}
 
-	public void setBlogId(int blogId) {
+	public void setBlogId(String blogId) {
 		this.blogId = blogId;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

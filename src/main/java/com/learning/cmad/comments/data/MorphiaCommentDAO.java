@@ -19,9 +19,9 @@ public class MorphiaCommentDAO extends BasicDAO<Comment, String> implements Comm
 //-----------------------------------------------------------------------------------------------------------
 
 	@Override
-	public String createComment(Comment comment) {
+	public Comment createComment(Comment comment) {
 		save(comment);
-		return comment.getCommentId();
+		return comment;
 		
 	}
 
@@ -77,8 +77,8 @@ public class MorphiaCommentDAO extends BasicDAO<Comment, String> implements Comm
 	
 	@Override
 	public List<Comment> getCommentByBlog(String BlogId) {
-		// TODO Auto-generated method stub
-		return null;
+		Query<Comment> query = createQuery().field("blogId").equal(BlogId);
+		return (List<Comment>) query.get();
 	}
 
 //-----------------------------------------------------------------------------------------------------------
