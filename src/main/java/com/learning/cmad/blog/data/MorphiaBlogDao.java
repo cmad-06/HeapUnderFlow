@@ -1,5 +1,6 @@
 package com.learning.cmad.blog.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mongodb.morphia.Datastore;
@@ -53,4 +54,11 @@ public class MorphiaBlogDao extends BasicDAO<Blog, String> implements BlogDAO{
 		
 	}
 
+	@Override
+	public List<Blog> searchBlogForField(String field, String q) {
+		List<Blog> searchResult = new ArrayList<Blog>();
+		searchResult = createQuery().field(field).contains(q).asList();
+		return searchResult;
+	}
+	
 }

@@ -9,6 +9,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -31,6 +32,13 @@ public class BlogRootResource {
     @Path("/")
 	public Response getAllBlogs() {
 		List<Blog> blogs = blogObj.getAllBlogs();
+		return Response.ok().entity(blogs).build();
+	}
+	
+	@GET
+    @Path("/search")
+	public Response searchBlog(@QueryParam("field") String field, @QueryParam("value") String value ) {
+		List<Blog> blogs = blogObj.searchBlogs(field, value);
 		return Response.ok().entity(blogs).build();
 	}
 	

@@ -59,4 +59,9 @@ public class SimpleBlog implements BlogInterface{
 		
 	}
 
+	@Override
+	public List<Blog> searchBlogs(String field, String query) throws BlogException {
+		return dao.searchBlogForField(field, query);
+	}
+
 }

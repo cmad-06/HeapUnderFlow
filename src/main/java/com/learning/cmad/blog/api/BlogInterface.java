@@ -17,4 +17,7 @@ public interface BlogInterface {
 		//Delete
 		public void deleteBlog(Blog blog) throws InvalidBlogException, DuplicateBlogException, BlogException;
 		public void deleteBlogById(String id) throws InvalidBlogException, DuplicateBlogException, BlogException;
+		
+		//Search
+		public List<Blog> searchBlogs(String field, String query) throws BlogException;
 }
