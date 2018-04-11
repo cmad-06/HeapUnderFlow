@@ -132,6 +132,9 @@ class BlogPage extends React.Component{
                         <Button bsStyle="primary" onClick= {this.handleLikeButton}>
                             <span className="glyphicon glyphicon-thumbs-up"></span>Like {this.props.blog.blogLikes}
                         </Button>
+                        <Button bsStyle="primary" >
+                            <span className="glyphicon"></span>Views {this.props.blog.blogViews}
+                        </Button>
 
                         <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button>
                         <Button bsStyle="primary" onClick= {this.handleDeleteBlog}>Delete Blog</Button>

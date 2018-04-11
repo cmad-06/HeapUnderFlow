@@ -37,7 +37,10 @@ public class SimpleBlog implements BlogInterface{
 
 	@Override
 	public Blog getBlogById(String id) throws BlogNotFoundException, BlogException {
-		return dao.getBlogById(id);
+		Blog blog = dao.getBlogById(id);
+		blog.setBlogViews(blog.getBlogViews()+1);
+		this.updateBlog(blog);
+		return blog;
 	}
 
 	

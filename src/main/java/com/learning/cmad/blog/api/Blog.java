@@ -31,6 +31,7 @@ public class Blog {
 	@JsonDeserialize(using=CustomerDateAndTimeDeserialize.class)
 	private Date blogCreation;
 	private int blogLikes;
+	private int blogViews;
 	
 	public int getBlogLikes() {
 		return blogLikes;
@@ -68,6 +69,14 @@ public class Blog {
 	}
 	public void setBlogCreation(Date blogCreation) {
 		this.blogCreation = blogCreation;
+	}
+
+	public int getBlogViews() {
+		return blogViews;
+	}
+
+	public void setBlogViews(int blogViews) {
+		this.blogViews = blogViews;
 	}
 	
 }
