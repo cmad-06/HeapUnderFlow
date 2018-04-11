@@ -35,10 +35,16 @@ class Blogger extends React.Component{
             <Router>
                 <div className="header-blue">
                     <nav className="navbar navbar-default navigation-clean-search">
-		    	        <div className="container">
+                        <div className="container">
+                        <span>
                         <div className="navbar-header">
-					    <a className="navbar-brand navbar-link" href="/">HeapUnderFlow</a>
-				</div>
+                        <a className="navbar-brand navbar-link" href="/">HeapUnderFlow</a>
+                        <form class="form-wrapper">
+                            <input type="text" id="search" placeholder="Search for..." required/>
+                            <input type="submit" value="go" id="submit"/>
+                        </form>
+                </div>
+                </span>
 				<div className="collapse navbar-collapse" id="navcol-1">
 					<div id="header"></div>
 					{buttons}

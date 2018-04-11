@@ -79,11 +79,7 @@ class UpdateProfile extends React.Component{
 
     
     render(){
-        if ( this.props.key != 3){
-            return (
-                <div/>
-            )
-        }
+        
         return (
             <div>
                 <form id="profileupdateform" onSubmit={this.updateUser}>

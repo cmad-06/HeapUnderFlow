@@ -60,11 +60,7 @@ class AddBlog extends React.Component{
     }
 
     render(){
-        if ( this.props.key != 2){
-            return (
-                <div/>
-            )
-        }
+       
         return (
             <div>
                         <form id="addblogform" onSubmit={this.submitBlog}>
