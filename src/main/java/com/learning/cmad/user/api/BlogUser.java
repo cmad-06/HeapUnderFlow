@@ -28,6 +28,8 @@ public interface BlogUser {
 	public User getUserByKey(String string, String username) throws UserNotFoundException, UserException;
 	
 	public void addBlogForUser(Blog blog, String userId) throws UserNotFoundException, UserException;
+	
+	public void deleteUserBlogById(String userId, String blogId) throws UserException;
 
 	public List<Blog> getBlogsForUser(String userId);
 	

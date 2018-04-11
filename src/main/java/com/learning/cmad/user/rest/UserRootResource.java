@@ -146,5 +146,13 @@ public class UserRootResource {
 
 	}
 	
+	@DELETE
+	@Path("/{id}/blog/{blogId}")
+	public Response deleteUserBlogById(@PathParam("id") String userId, @PathParam("blogId") String blogId){
+		List<Blog> userBlogs = user.getBlogsForUser(userId);
+		return Response.ok().entity(userBlogs).build();
+
+	}
+	
 	
 }

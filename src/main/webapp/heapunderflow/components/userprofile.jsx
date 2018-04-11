@@ -30,9 +30,9 @@ class UserProfile extends React.Component {
         
       }
     componentDidMount(){
-   /*     getUserById(this.state.data.userId,data => {
+       getUserById(this.state.data.userId,data => {
             sessionStorage.setItem("user" , JSON.stringify(data.data));
-        });*/
+        }); 
     }
 
     componentWillReceiveProps(){

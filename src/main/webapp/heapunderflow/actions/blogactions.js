@@ -61,15 +61,7 @@ export function updateBlogById(blog, callback){
         blog: request.data,
     };
 }
-export function deleteBlogById(blogId, callback){
-    const request = axios.delete(baseurl + "blog/" + blogId ).then(()=>{
-        console.log("BLog Deleted ");
-        callback();
-    })
-    return {
-        type: ACTION_TYPES.DELETED_BLOG,
-    };
-}
+
     /*
     return (dispatch) => {
         fetch(baseurl + "blog/" + blog.blogId, {

@@ -14,6 +14,7 @@ import com.learning.cmad.blog.api.DuplicateBlogException;
 import com.learning.cmad.blog.api.InvalidBlogException;
 import com.learning.cmad.blog.data.BlogDAO;
 import com.learning.cmad.blog.data.MorphiaBlogDao;
+import com.learning.cmad.user.api.InvalidUserException;
 import com.learning.cmad.user.data.UserDAO;
 import com.learning.cmad.utils.Databasehandler;
 import com.mongodb.MongoClient;
@@ -37,7 +38,9 @@ public class SimpleBlog implements BlogInterface{
 
 	@Override
 	public Blog getBlogById(String id) throws BlogNotFoundException, BlogException {
+		
 		Blog blog = dao.getBlogById(id);
+		int blogViews = blog.getBlogViews();
 		blog.setBlogViews(blog.getBlogViews()+1);
 		this.updateBlog(blog);
 		return blog;

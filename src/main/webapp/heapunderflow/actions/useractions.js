@@ -7,7 +7,8 @@ export const ACTION_TYPES = {
     ADDED_BLOG: "added_blog",
     FETCHED_USER:"fetched_user",
     UPDATED_USER:"updated_user",
-    FETCH_BLOG:'fetch_blog'
+    FETCH_BLOG:'fetch_blog',
+    DELETED_BLOG:'deleted_blog'
  }
 
 let baseurl = "http://localhost:8080/heapunderflow/service/user/"
@@ -185,6 +186,15 @@ export function addBlogtoServer(blog){
       }
     }
 
+export function deleteUserBlogById(userId, blogId, callback){
+    const request = axios.delete(baseurl + userId + "/blog/" + blogId ).then(()=>{
+        console.log("Blog Deleted ");
+        callback();
+    })
+    return {
+        type: ACTION_TYPES.DELETED_BLOG,
+    };
+}
 
     /*
     $.ajax({

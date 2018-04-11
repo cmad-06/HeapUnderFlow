@@ -128,4 +128,12 @@ public class SimpleBlogUser implements BlogUser {
 		
 		return blogs;
 	}
+
+	@Override
+	public void deleteUserBlogById(String userId, String blogId) throws UserException {
+		User user = userDAO.getUserById(userId);
+		blogIface.deleteBlogById(blogId);
+		user.getUserBlogs().remove(blogId);
+		return;
+	}
 }

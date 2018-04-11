@@ -1,9 +1,10 @@
 import React from 'react'
 import store from '../store/store'
 import { connect } from 'react-redux'
-import { fetchBlogByIdFromServer, deleteBlogById} from '../actions/blogactions'
+import { fetchBlogByIdFromServer} from '../actions/blogactions'
 import { updateBlogById} from '../actions/blogactions'
 import { addComment, getCommentsByBlogId} from '../actions/commentactions'
+import { deleteUserBlogById} from '../actions/useractions'
 import {Link} from 'react-router-dom'
 import {Button} from 'react-bootstrap'
 import { Field, reduxForm} from 'redux-form'
@@ -16,7 +17,8 @@ class BlogPage extends React.Component{
         console.log("BlogPage props : " + JSON.stringify(props))
         this.state = {
             editBlog:false,
-            comment:''
+            comment:'',
+            userId:this.props.userId
         }
         this.handleLikeButton = this.handleLikeButton.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
@@ -65,7 +67,7 @@ class BlogPage extends React.Component{
     handleDeleteBlog(){
         let blog = this.props.blog
         console.log("Deleting Blog : " + blog.blogId)
-        deleteBlogById(blog.blogId, data =>{
+        deleteUserBlogById(this.state.userId,blog.blogId, data =>{
             this.props.history.push("/")
         });
     }
@@ -178,7 +180,7 @@ function mapStateToProps(state){
     }
 }
 
-BlogPage = connect(mapStateToProps, {fetchBlogByIdFromServer, updateBlogById, deleteBlogById, addComment,getCommentsByBlogId })(BlogPage)
+BlogPage = connect(mapStateToProps, {fetchBlogByIdFromServer, updateBlogById, deleteUserBlogById, addComment,getCommentsByBlogId })(BlogPage)
 /*
 BlogPage = reduxForm ({
     validate,
