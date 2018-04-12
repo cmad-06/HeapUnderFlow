@@ -18,7 +18,8 @@ class BlogPage extends React.Component{
         this.state = {
             editBlog:false,
             comment:'',
-            userId:''
+            userId:'',
+            user:{}
         }
         this.handleLikeButton = this.handleLikeButton.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
@@ -34,10 +35,13 @@ class BlogPage extends React.Component{
         const { blogId } = this.props.match.params;
         this.props.fetchBlogByIdFromServer(blogId);
         const userId = sessionStorage.getItem("userId")
-        console.log("User Id : in Blog Page : " + userId  )
         this.setState ({
             userId : userId
         })
+        this.setState ({
+            user : JSON.parse(sessionStorage.getItem("user"))
+        })
+
     }
 
     componentWillReceiveProps(){
@@ -109,15 +113,19 @@ class BlogPage extends React.Component{
     }
 
     render(){
-        console.log(this.props.history);
 
-        const showDeleteBlogButton = this.state.userId === "" ? 
-        <div/> :
-        <Button bsStyle="primary" onClick= {this.handleDeleteBlog}>Delete Blog</Button>;
+        if (!this.props.blog){
+            return (
+                <div/>
+            )
+        }
 
-        const showEditBlogButton = this.state.userId === "" ? 
-        <div/> :
-        <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button>
+        const showDeleteBlogButton = (this.state.userId === "" ) ? <div/> :
+        this.props.blog.blogAuthor === this.state.user.username ? <Button bsStyle="primary" onClick= {this.handleDeleteBlog}>Delete Blog</Button> : <div/>
+
+        const showEditBlogButton = this.state.userId === "" ? <div/> :
+        this.props.blog.blogAuthor === this.state.user.username ? <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button> : <div/>
+        
 
         const showAddCommentsDiv = this.state.userId === "" ? <div/>:
         <div id="comments" >

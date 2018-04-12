@@ -22,7 +22,7 @@ class Blogger extends React.Component{
         }
         sessionStorage.setItem("isLoggedIn" , false)
         sessionStorage.setItem("userId" , "")
-        sessionStorage.setItem("user" , {})
+        sessionStorage.setItem("user" , JSON.stringify({}))
     }
 
     render(){
