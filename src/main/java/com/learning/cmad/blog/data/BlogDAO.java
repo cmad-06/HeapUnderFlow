@@ -3,12 +3,14 @@ package com.learning.cmad.blog.data;
 import java.util.List;
 
 import com.learning.cmad.blog.api.Blog;
+import com.learning.cmad.blog.api.BlogException;
+import com.learning.cmad.blog.api.DuplicateBlogException;
 
 public interface BlogDAO {
 
 
 	//Create
-	public void createBlog(Blog blog);
+	public void createBlog(Blog blog) throws DuplicateBlogException, BlogException;
 	
 	//Read
 	public List<Blog> getAllBlogs();

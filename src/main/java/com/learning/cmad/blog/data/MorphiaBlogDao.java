@@ -11,6 +11,8 @@ import org.mongodb.morphia.query.Query;
 
 import com.learning.cmad.blog.api.Blog;
 import com.learning.cmad.blog.api.BlogException;
+import com.learning.cmad.blog.api.BlogNotFoundException;
+import com.learning.cmad.blog.api.DuplicateBlogException;
 
 public class MorphiaBlogDao extends BasicDAO<Blog, String> implements BlogDAO{
 	
@@ -21,7 +23,11 @@ public class MorphiaBlogDao extends BasicDAO<Blog, String> implements BlogDAO{
 
 	@Override
 	public void createBlog(Blog blog) {
-		save(blog);
+		try{
+			save(blog);
+		}catch(Exception e){
+			throw new BlogException();
+		}
 	}
 
 	@Override
@@ -32,8 +38,11 @@ public class MorphiaBlogDao extends BasicDAO<Blog, String> implements BlogDAO{
 
 	@Override
 	public Blog getBlogById(String id) {
-		Query<Blog> query = createQuery().field("blogId").equal(id);
-		return query.get();
+			Query<Blog> query = createQuery().field("blogId").equal(id);
+			Blog result = query.get();
+			if(result == null)
+				throw new BlogNotFoundException();
+			return result;
 	}
 
 	@Override
@@ -52,6 +61,8 @@ public class MorphiaBlogDao extends BasicDAO<Blog, String> implements BlogDAO{
 	public void deleteBlogById(String id) {
 		Query<Blog> query = createQuery().field("blogId").equal(id);
 		Blog blog = query.get();
+		if(blog == null)
+			throw new BlogNotFoundException();
 		delete(blog);
 		
 	}
