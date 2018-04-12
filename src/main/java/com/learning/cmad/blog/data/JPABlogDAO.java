@@ -63,8 +63,9 @@ public class JPABlogDAO implements BlogDAO {
 		
 	}
 
+
 	@Override
-	public List<Blog> searchBlogForField(String field, String query) {
+	public List<Blog> searchBlog(String q) {
 		// TODO Auto-generated method stub
 		return null;
 	}

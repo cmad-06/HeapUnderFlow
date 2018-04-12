@@ -37,8 +37,8 @@ public class BlogRootResource {
 	
 	@GET
     @Path("/search")
-	public Response searchBlog(@QueryParam("field") String field, @QueryParam("value") String value ) {
-		List<Blog> blogs = blogObj.searchBlogs(field, value);
+	public Response searchBlog(@QueryParam("q") String q ) {
+		List<Blog> blogs = blogObj.searchBlogs(q);
 		return Response.ok().entity(blogs).build();
 	}
 	

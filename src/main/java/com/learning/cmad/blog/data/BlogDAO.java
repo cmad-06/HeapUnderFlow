@@ -23,5 +23,5 @@ public interface BlogDAO {
 	public void deleteBlogById(String id);
 	
 	//Search
-	public List<Blog> searchBlogForField(String field, String query);
+	public List<Blog> searchBlog(String q);
 }
