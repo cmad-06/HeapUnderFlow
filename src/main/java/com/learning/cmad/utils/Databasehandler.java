@@ -18,6 +18,7 @@ public class Databasehandler {
 	public static String DB_SERVER_DATABASE = null;
 	public static String DB_SERVER_USERNAME = null;
 	public static String DB_SERVER_PASSWORD = null;
+	public static Datastore datastore;
 	
 	
 	public static void init(){
@@ -59,7 +60,8 @@ public class Databasehandler {
 		Databasehandler.init();		
 		MongoClient mongoClient = new MongoClient(DB_SERVER_IP+":"+DB_SERVER_PORT);
 		Morphia morphia = new Morphia();
-		Datastore datastore = morphia.createDatastore(mongoClient, DB_SERVER_DATABASE);
+		if(datastore == null)
+			datastore = morphia.createDatastore(mongoClient, DB_SERVER_DATABASE);
 		return datastore;
 		
 	}
