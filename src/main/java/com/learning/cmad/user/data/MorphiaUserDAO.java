@@ -8,6 +8,8 @@ import org.mongodb.morphia.dao.BasicDAO;
 
 import com.learning.cmad.blog.api.Blog;
 import com.learning.cmad.user.api.User;
+import com.learning.cmad.user.api.UserNotFoundException;
+
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
@@ -35,7 +37,10 @@ public class MorphiaUserDAO extends BasicDAO<User, String> implements UserDAO  {
 	@Override
 	public User getUserById(String id) {
 		Query<User> query = createQuery().field("userId").equal(id);
-		return query.get();
+		User user = query.get();
+		if(user == null)
+			throw new UserNotFoundException();
+		return user;
 		
 	}
 
@@ -59,6 +64,9 @@ public class MorphiaUserDAO extends BasicDAO<User, String> implements UserDAO  {
 	public void deleteUserById(String id) {
 		Query<User> query = createQuery().field("userId").equal(id);
 		User user = query.get();
+		if(user == null)
+			throw new UserNotFoundException();
+		
 		 delete(user);
 		
 	}
@@ -87,6 +95,9 @@ public class MorphiaUserDAO extends BasicDAO<User, String> implements UserDAO  {
 	public List<String> getBlogsForUser(String userId) {
 		Query<User> query = createQuery().field("userId").equal(userId);
 		User user = query.get();
+		if(user == null)
+			throw new UserNotFoundException();
+		
 		return user.getUserBlogs();
 	}
 
