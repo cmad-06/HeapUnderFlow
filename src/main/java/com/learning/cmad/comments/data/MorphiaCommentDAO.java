@@ -1,5 +1,6 @@
 package com.learning.cmad.comments.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mongodb.morphia.Datastore;
@@ -7,6 +8,7 @@ import org.mongodb.morphia.Key;
 import org.mongodb.morphia.dao.BasicDAO;
 import org.mongodb.morphia.query.Query;
 
+import com.learning.cmad.blog.api.Blog;
 import com.learning.cmad.comments.api.Comment;
 import com.learning.cmad.comments.api.CommentException;
 import com.learning.cmad.comments.api.CommentNotFoundException;
@@ -95,8 +97,9 @@ public class MorphiaCommentDAO extends BasicDAO<Comment, String> implements Comm
 	
 	@Override
 	public List<Comment> getCommentByBlog(String BlogId) {
-		Query<Comment> query = createQuery().field("blogId").equal(BlogId);
-		return (List<Comment>) query.get();
+		List<Comment> commentList = new ArrayList<Comment>();
+		commentList = createQuery().field("blogId").equal(BlogId).asList();
+		return commentList;
 	}
 
 //-----------------------------------------------------------------------------------------------------------

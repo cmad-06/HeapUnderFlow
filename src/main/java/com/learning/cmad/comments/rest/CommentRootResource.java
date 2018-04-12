@@ -55,10 +55,10 @@ private CommentInterface commentObj = new SimpleComment();
 	
 	@GET
     @Path("/blog/{id}")
-	public Response getAllCommentsByBlogId(String blogId) {
+	public Response getAllCommentsByBlogId(@PathParam("id") String blogId) {
 		System.out.println(blogId);
 		List<Comment> comments = commentObj.getCommentsByBlogId(blogId);
-		System.out.println(comments);
+	//	System.out.println(comments);
 		return Response.ok().entity(comments).build();
 	}
 	

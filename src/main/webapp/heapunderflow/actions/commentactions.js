@@ -21,9 +21,12 @@ export function addComment(comment){
     };
 }
 
-export function getCommentsByBlogId(blogId){
+export function getCommentsByBlogId(blogId, cb){
     console.log(`Commets URL : ${baseurl}/blog/${blogId}`)
-    const request = axios.get(`${baseurl}/blog/${blogId}`)
+    const request = axios.get(`${baseurl}/blog/${blogId}`).then(data=>{
+        console.log("Comments = " + JSON.stringify(data))
+        cb(data)
+    })
 
     return {
         type: ACTION_TYPES.FETCHED_COMMENTS_BY_BLOGID,

@@ -5,9 +5,11 @@ import { fetchBlogByIdFromServer} from '../actions/blogactions'
 import { updateBlogById} from '../actions/blogactions'
 import { addComment, getCommentsByBlogId} from '../actions/commentactions'
 import { deleteUserBlogById} from '../actions/useractions'
+import Comment from "./comment.jsx";
 import {Link} from 'react-router-dom'
-import {Button} from 'react-bootstrap'
+import {Button, Table} from 'react-bootstrap'
 import { Field, reduxForm} from 'redux-form'
+
 //import Comments from './comments.jsx'
 
 class BlogPage extends React.Component{
@@ -19,13 +21,13 @@ class BlogPage extends React.Component{
             editBlog:false,
             comment:'',
             userId:'',
-            user:{}
+            user:{},
+            comments:''
         }
         this.handleLikeButton = this.handleLikeButton.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
         this.handleUpdateBlog = this.handleUpdateBlog.bind(this);
         this.handleDeleteBlog = this.handleDeleteBlog.bind(this);
-        this.renderField = this.renderField.bind(this);
         this.changeComment = this.changeComment.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -42,6 +44,13 @@ class BlogPage extends React.Component{
             user : JSON.parse(sessionStorage.getItem("user"))
         })
 
+        this.props.getCommentsByBlogId(blogId, data=>{
+            this.setState ({
+                comments : data.data
+            })
+            this.forceUpdate();
+        });
+
     }
 
     componentWillReceiveProps(){
@@ -49,16 +58,18 @@ class BlogPage extends React.Component{
             this.setState ({
                 blog : this.props.blog
             })
+            
             console.log ("BLLOG : " + this.state.blog)
         }
     }
+
+
 
     handleLikeButton(){
         let blog = this.props.blog
         blog.blogLikes = blog.blogLikes+1;
         console.log("Likes " + blog.blogLikes)
         updateBlogById(blog, data =>{
-            console.log("Hello")
             this.forceUpdate();
         });
     }
@@ -88,19 +99,11 @@ class BlogPage extends React.Component{
 
     }
 
-    renderField(field){
-        console.log("renderField = " + JSON.stringify(field))
-        return (
-            <div>
-            </div>
-        )
-    }
-
     handleSubmit(e){
         e.preventDefault()
         const commentDetails = {"comment":this.state.comment, 
                                 "blogId":this.props.blog.blogId,
-                                "userId":this.props.blog.blogAuthor
+                                "userId":this.state.user.username
                                 }
         addComment(commentDetails);
         console.log("Comment Form Submitted : " + JSON.stringify(commentDetails))
@@ -112,6 +115,16 @@ class BlogPage extends React.Component{
         })
     }
 
+    renderList(){
+        console.log("Props renderList: " + JSON.stringify(this.state.comments))
+        if ( this.state.comments){
+            return this.state.comments.map((comment) => {
+                return (<Comment commentText={ comment.comment } key={comment.commentId} user={comment.userId} >
+                </Comment>)
+           }) 
+        }
+    }
+    
     render(){
 
         if (!this.props.blog){
@@ -137,6 +150,18 @@ class BlogPage extends React.Component{
                         <button type="submit" className="btn btn-primary" >Submit</button>
                     </form>
                  </div>
+
+        const commentsDiv = <Table className="table" >
+                                <thead>
+                                    <tr>
+                                        <th>Comments</th>
+                                        <th>Posted By</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {this.renderList()}
+                                </tbody>
+                            </Table>
 
         if (!this.props.blog){
             return (
@@ -178,7 +203,9 @@ class BlogPage extends React.Component{
                 </div>
                 
                 {showAddCommentsDiv}
-                    
+                <div>
+                    {commentsDiv}
+                    </div>
                 </font>
             </div>
         )
@@ -199,15 +226,11 @@ function validate(values){
 function mapStateToProps(state){
 //    console.log(this.props.user.blog)
     return {
-        blog : state.blogs.blog
+        blog : state.blogs.blog,
+        comments : state.comments.comments
     }
 }
 
 BlogPage = connect(mapStateToProps, {fetchBlogByIdFromServer, updateBlogById, deleteUserBlogById, addComment,getCommentsByBlogId })(BlogPage)
-/*
-BlogPage = reduxForm ({
-    validate,
-    form:"PostCommentForm"
-})(BlogPage)*/
 
- export default BlogPage
+export default BlogPage
