@@ -18,7 +18,7 @@ class BlogPage extends React.Component{
         this.state = {
             editBlog:false,
             comment:'',
-            userId:this.props.userId
+            userId:''
         }
         this.handleLikeButton = this.handleLikeButton.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
@@ -33,6 +33,11 @@ class BlogPage extends React.Component{
         
         const { blogId } = this.props.match.params;
         this.props.fetchBlogByIdFromServer(blogId);
+        const userId = sessionStorage.getItem("userId")
+        console.log("User Id : in Blog Page : " + userId  )
+        this.setState ({
+            userId : userId
+        })
     }
 
     componentWillReceiveProps(){
@@ -104,7 +109,27 @@ class BlogPage extends React.Component{
     }
 
     render(){
-        console.log(this.props.history)
+        console.log(this.props.history);
+
+        const showDeleteBlogButton = this.state.userId === "" ? 
+        <div/> :
+        <Button bsStyle="primary" onClick= {this.handleDeleteBlog}>Delete Blog</Button>;
+
+        const showEditBlogButton = this.state.userId === "" ? 
+        <div/> :
+        <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button>
+
+        const showAddCommentsDiv = this.state.userId === "" ? <div/>:
+        <div id="comments" >
+                    <form onSubmit={this.handleSubmit}>
+                        <p className="form-group">
+                            <label className='control-label'>Add Comment :</label> <input type="text"
+                                className="form-control" name="firstname1" id="changefirstname" placeholder="Max 150 characters" defaultValue={this.state.comment} onChange={this.changeComment}/>
+                        </p>
+                        <button type="submit" className="btn btn-primary" >Submit</button>
+                    </form>
+                 </div>
+
         if (!this.props.blog){
             return (
                 <div></div>
@@ -138,24 +163,14 @@ class BlogPage extends React.Component{
                             <span className="glyphicon"></span>Views {this.props.blog.blogViews}
                         </Button>
 
-                        <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button>
-                        <Button bsStyle="primary" onClick= {this.handleDeleteBlog}>Delete Blog</Button>
-                        
+                        {showEditBlogButton}
+                        {showDeleteBlogButton}
                         </p>
                     </div>
                 </div>
-                <div>
-                <div id="comments" >
-                    <form onSubmit={this.handleSubmit}>
-                        <p className="form-group">
-                            <label className='control-label'>Add Comment :</label> <input type="text"
-                                className="form-control" name="firstname1" id="changefirstname" placeholder="Max 150 characters" defaultValue={this.state.comment} onChange={this.changeComment}/>
-                        </p>
-                        <button type="submit" className="btn btn-primary" >Submit</button>
-                    </form>
+                
+                {showAddCommentsDiv}
                     
-                 </div>
-                    </div>
                 </font>
             </div>
         )
