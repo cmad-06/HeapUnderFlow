@@ -134,6 +134,7 @@ public class SimpleBlogUser implements BlogUser {
 		User user = userDAO.getUserById(userId);
 		blogIface.deleteBlogById(blogId);
 		user.getUserBlogs().remove(blogId);
+		userDAO.updateUser(user);
 		return;
 	}
 }
