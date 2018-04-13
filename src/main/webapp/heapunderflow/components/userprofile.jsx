@@ -28,7 +28,8 @@ class UserProfile extends React.Component {
 
         this.setState({ key });
         
-      }
+    }
+    
     componentDidMount(){
        getUserById(this.state.data.userId,data => {
             sessionStorage.setItem("user" , JSON.stringify(data.data));
@@ -65,8 +66,6 @@ class UserProfile extends React.Component {
             </div>
         )
     }
-
-
 }
 
 function mapStateToProps(state){
