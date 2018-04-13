@@ -17,6 +17,7 @@ import com.learning.cmad.blog.api.Blog;
 import com.learning.cmad.blog.api.BlogInterface;
 import com.learning.cmad.blog.biz.SimpleBlog;
 import com.learning.cmad.comments.api.Comment;
+import com.learning.cmad.utils.Secured;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces({ MediaType.APPLICATION_JSON })
@@ -36,6 +37,7 @@ public class BlogRootResource {
 	}
 	
 	@GET
+	@Secured
     @Path("/search")
 	public Response searchBlog(@QueryParam("q") String q ) {
 		List<Blog> blogs = blogObj.searchBlogs(q);
