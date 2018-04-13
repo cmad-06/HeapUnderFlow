@@ -8,10 +8,11 @@ import store from "../store/store.js";
 
 import {fetchBlogsFromServer} from "../actions/blogActions.js";
 import SignupForm from "./signup.jsx";
+import { Button } from "react-bootstrap"
 import {BootstrapTable, 
     TableHeaderColumn} from 'react-bootstrap-table';
 
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {hashHistory, BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 class Blogger extends React.Component{
     constructor(props){
@@ -34,17 +35,21 @@ class Blogger extends React.Component{
 						</p>
         )
         return (
-            <Router>
+            <Router history={hashHistory}>
                 <div className="header-blue">
                     <nav className="navbar navbar-default navigation-clean-search">
                         <div className="container">
                         <span>
                         <div className="navbar-header">
                         <a className="navbar-brand navbar-link" href="/">HeapUnderFlow</a>
-                        <form class="form-wrapper">
-                            <input type="text" id="search" placeholder="Search for..." required/>
-                            <input type="submit" value="go" id="submit"/>
-                        </form>
+                        <form className="navbar-form navbar-left" target="_self">
+                            <div className="form-group">
+                                <input className="form-control search-field" type="search" name="search" id="search-field" placeholder="Search" />
+                                <label className="control-label" style={{padding:'5px'}}>
+                                    <i	className="glyphicon glyphicon-search"></i>
+                                </label>
+                            </div>
+	                    </form>
                 </div>
                 </span>
 				<div className="collapse navbar-collapse" id="navcol-1">

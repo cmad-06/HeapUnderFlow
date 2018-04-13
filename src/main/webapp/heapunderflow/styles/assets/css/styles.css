@@ -177,6 +177,11 @@ header{
    color:red;
 }
 
+.panel-custom {
+    background-color: purple;
+    color: black
+}
+
 
 .form-wrapper {
 	background-color: #f6f6f6;

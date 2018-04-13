@@ -31,16 +31,16 @@ class Blogs extends React.Component{
         console.log("Blogs Received Data?" );
     }
     render(){   
-
+        
         if (!this.props.blogs){
             return (
                 <div/>
             )
         }
         return(
-             <Table className="table" >
+             <Table bsClass="table" className='table-users'  >
                 <thead>
-                    <tr>
+                    <tr style={{font:'verdena', color:'white'}}>
                         <th>BlogTitle</th>
                         <th>BlogId</th>
                         <th>BlogLikes</th>

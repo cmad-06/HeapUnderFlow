@@ -173,13 +173,14 @@
 }
 
 .header-blue .navbar .navbar-form .search-field{
-  background:none;
-  border:none;
+  background:#2c44a5;
+  border:2px;
   border-bottom:1px solid transparent;
   border-radius:0;
   color:#ccc;
-  box-shadow:none;
+  box-shadow:10px;
   color:inherit;
+  display:inline-block;
   transition:border-bottom-color 0.3s;
 }
 

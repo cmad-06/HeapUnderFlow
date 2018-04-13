@@ -189,13 +189,12 @@ class BlogPage extends React.Component{
 
                         <p>Author : {this.props.blog.blogAuthor}  
                     
-                        <Button bsStyle="primary" onClick= {this.handleLikeButton}>
+                        <Button bsStyle="primary" onClick= {this.handleLikeButton} style={{padding:'5px'}}>
                             <span className="glyphicon glyphicon-thumbs-up"></span>Like {this.props.blog.blogLikes}
                         </Button>
                         <Button bsStyle="primary" >
                             <span className="glyphicon"></span>Views {this.props.blog.blogViews}
                         </Button>
-
                         {showEditBlogButton}
                         {showDeleteBlogButton}
                         </p>
@@ -203,10 +202,11 @@ class BlogPage extends React.Component{
                 </div>
                 
                 {showAddCommentsDiv}
-                <div>
+                </font>
+                <div >
                     {commentsDiv}
                     </div>
-                </font>
+                
             </div>
         )
     }
