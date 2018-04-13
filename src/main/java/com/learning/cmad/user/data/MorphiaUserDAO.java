@@ -9,6 +9,7 @@ import org.mongodb.morphia.dao.BasicDAO;
 import com.learning.cmad.blog.api.Blog;
 import com.learning.cmad.user.api.User;
 import com.learning.cmad.user.api.UserNotFoundException;
+import com.learning.cmad.utils.EncryptorDecryptor;
 
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -99,6 +100,20 @@ public class MorphiaUserDAO extends BasicDAO<User, String> implements UserDAO  {
 			throw new UserNotFoundException();
 		
 		return user.getUserBlogs();
+	}
+	
+//----------------------------------------------------------------------------------------
+	
+	public boolean isValidUser(String username, String plainPassword){
+		
+		String encPassword = EncryptorDecryptor.encryptData(plainPassword);
+		boolean isValid = false;
+		Query<User> query = createQuery().field("username").equal(username).field("password").equal(encPassword);
+		User user = query.get();
+		if(user != null)
+			isValid = true;
+		
+		return isValid;
 	}
 
 }

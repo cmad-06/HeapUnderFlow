@@ -12,12 +12,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
 import org.glassfish.jersey.internal.util.Base64;
+import org.mongodb.morphia.Datastore;
+
+import com.learning.cmad.user.api.User;
+import com.learning.cmad.user.data.MorphiaUserDAO;
+import com.learning.cmad.user.data.UserDAO;
 
 @Secured
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class SecurityFilter implements ContainerRequestFilter{
 
+	
+	Datastore datastore = Databasehandler.getMongoDatastore();
+	private MorphiaUserDAO userDAO = new MorphiaUserDAO(User.class,datastore);
+	
 	private static final String AUTHORIZATION_HEADER = "Authorization";
 	private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
 	private static final String SECURED_URL_PREFIX = "auth";
@@ -33,8 +42,10 @@ public class SecurityFilter implements ContainerRequestFilter{
 				String username = tokenizer.nextToken();
 				String password = tokenizer.nextToken();
 
-				if("user".equals(username) && "password".equals(password))
-					return;
+				boolean isValidUser = userDAO.isValidUser(username, password);
+				if(isValidUser){
+					return;	//successful credentials match
+				}
 			}
 		
 			Response unauthorizedStatus = Response.status(Response.Status.UNAUTHORIZED).entity("Unauthorized access!").build();
