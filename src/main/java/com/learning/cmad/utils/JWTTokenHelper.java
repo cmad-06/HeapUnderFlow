@@ -16,7 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JWTTokenHelper {
 
 	
-	public String createJWT(String id, String issuer, String subject, long ttlMillis) {
+	public static String createJWT(String id, String issuer, String subject, long ttlMillis) {
 
 		//The JWT signature algorithm we will be using to sign the token
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -47,10 +47,10 @@ public class JWTTokenHelper {
 		return builder.compact();
 	}
 	
-	
+//-------------------------------------------------------------------------------------------------------------------	
 	
 	//Sample method to validate and read the JWT
-	public void parseJWT(String jwt) {
+	public static void parseJWT(String jwt) {
 	//This line will throw an exception if it is not a signed JWS (as expected)
 	Claims claims = Jwts.parser()
 	   .setSigningKey(DatatypeConverter.parseBase64Binary("secret"))
@@ -60,5 +60,7 @@ public class JWTTokenHelper {
 	System.out.println("Issuer: " + claims.getIssuer());
 	System.out.println("Expiration: " + claims.getExpiration());
 	}
-		
+	
+//-------------------------------------------------------------------------------------------------------------------
+	
 }

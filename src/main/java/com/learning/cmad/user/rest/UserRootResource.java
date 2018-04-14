@@ -20,8 +20,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import org.bson.types.ObjectId;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.learning.cmad.blog.api.Blog;
@@ -38,7 +36,6 @@ import com.learning.cmad.utils.JWTTokenHelper;
 public class UserRootResource {
 
 	private BlogUser user = new SimpleBlogUser();
-	private JWTTokenHelper jwtTokenHelper = new JWTTokenHelper();
 	
 	@GET
     @Path("/")
@@ -80,7 +77,8 @@ public class UserRootResource {
 		System.out.println(newUser.getPassword());
 		
 		String userId = user.createUser(newUser);
-		String token = jwtTokenHelper.createJWT("1", newUser.getUsername(), "sample subject", 15000);
+		String token = JWTTokenHelper.createJWT(UUID.randomUUID().toString(), newUser.getUsername(), "sample subject", (7*86400000));	//setting expiry to 7 days
+		
 		System.out.println(newUser.getPassword());
 		Map<String , String> data = new HashMap<String , String>();
 		data.put("userId", userId);
@@ -100,7 +98,7 @@ public class UserRootResource {
 		System.out.println(newUser.getLastName());
 		newUser.setPassword(EncryptorDecryptor.encryptData(newUser.getPassword())); 	//encrypt password before persisting
 		String userId = user.createUser(newUser);
-		String token = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), newUser.getUsername(), "sample subject", 15000);
+		String token = JWTTokenHelper.createJWT(UUID.randomUUID().toString(), newUser.getUsername(), "sample subject", (7*86400000));	//setting expiry to 7 days
 		UriBuilder builder = uriInfo.getBaseUriBuilder();
         builder.path(userId.toString());
         return Response.created(builder.build()).header("userId", userId).header("username", username).header("token", token).build();
@@ -114,7 +112,7 @@ public class UserRootResource {
 		Map<String, Object> map = gson.fromJson(userDetail, new TypeToken<Map<String, Object>>(){}.getType());
 		try {
 			User loginuser = user.loginUser(map);
-			String token1 = jwtTokenHelper.createJWT(UUID.randomUUID().toString(), (String) map.get("username"), "sample subject", 15000);
+			String token1 = JWTTokenHelper.createJWT(UUID.randomUUID().toString(), (String) map.get("username"), "sample subject", (7*86400000));	//setting expiry to 7 days
 
 			Map<String , String> responseData = new HashMap<String , String>();
 			responseData.put("userId", loginuser.getUserId().toString());

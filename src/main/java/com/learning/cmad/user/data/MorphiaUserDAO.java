@@ -116,4 +116,6 @@ public class MorphiaUserDAO extends BasicDAO<User, String> implements UserDAO  {
 		return isValid;
 	}
 
+//----------------------------------------------------------------------------------------
+
 }
