@@ -28,6 +28,7 @@ import com.learning.cmad.user.api.User;
 import com.learning.cmad.user.api.UserNotFoundException;
 import com.learning.cmad.user.biz.SimpleBlogUser;
 import com.learning.cmad.utils.EncryptorDecryptor;
+import com.learning.cmad.utils.JWTRequired;
 import com.learning.cmad.utils.JWTTokenHelper;
 
 @Consumes(MediaType.APPLICATION_JSON)
@@ -106,8 +107,9 @@ public class UserRootResource {
 	}
 	
 	@POST
+	@JWTRequired
     @Path("/login")
-	public Response loginUser(String userDetail, @HeaderParam("token") String token) {
+	public Response loginUser(String userDetail) {
 		Gson gson = new Gson();
 		Map<String, Object> map = gson.fromJson(userDetail, new TypeToken<Map<String, Object>>(){}.getType());
 		try {

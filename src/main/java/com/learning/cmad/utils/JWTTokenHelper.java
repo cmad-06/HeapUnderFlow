@@ -43,7 +43,6 @@ public class JWTTokenHelper {
 		}
 
 		//Builds the JWT and serializes it to a compact, URL-safe string
-		System.out.println(builder);
 		return builder.compact();
 	}
 	
