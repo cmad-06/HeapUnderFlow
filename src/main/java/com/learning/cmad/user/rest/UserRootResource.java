@@ -107,7 +107,6 @@ public class UserRootResource {
 	}
 	
 	@POST
-	@JWTRequired
     @Path("/login")
 	public Response loginUser(String userDetail) {
 		Gson gson = new Gson();
