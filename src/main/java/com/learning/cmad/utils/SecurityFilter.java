@@ -29,7 +29,7 @@ public class SecurityFilter implements ContainerRequestFilter{
 	
 	private static final String AUTHORIZATION_HEADER = "Authorization";
 	private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
-	private static final String SECURED_URL_PREFIX = "auth";
+
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 
