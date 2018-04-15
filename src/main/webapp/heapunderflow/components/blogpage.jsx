@@ -7,7 +7,7 @@ import { addComment, getCommentsByBlogId} from '../actions/commentactions'
 import { deleteUserBlogById} from '../actions/useractions'
 import Comment from "./comment.jsx";
 import {Link} from 'react-router-dom'
-import {Button, Table} from 'react-bootstrap'
+import {Button, Table, PanelGroup} from 'react-bootstrap'
 import { Field, reduxForm} from 'redux-form'
 
 //import Comments from './comments.jsx'
@@ -151,17 +151,11 @@ class BlogPage extends React.Component{
                     </form>
                  </div>
 
-        const commentsDiv = <Table className="table" >
-                                <thead>
-                                    <tr>
-                                        <th>Comments</th>
-                                        <th>Posted By</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+        const commentsDiv = <PanelGroup accordion
+        id="accordion-controlled-example" >
+                                
                                 {this.renderList()}
-                                </tbody>
-                            </Table>
+                            </PanelGroup>
 
         if (!this.props.blog){
             return (
@@ -203,7 +197,9 @@ class BlogPage extends React.Component{
                 
                 {showAddCommentsDiv}
                 </font>
-                <div >
+                <div ><font face="verdana" color="white">
+                    <h3>Comments</h3>
+                    </font>
                     {commentsDiv}
                     </div>
                 
