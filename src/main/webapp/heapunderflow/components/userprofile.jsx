@@ -25,9 +25,7 @@ class UserProfile extends React.Component {
     }
 
     handleSelect(key) {
-
         this.setState({ key });
-        
     }
     
     componentDidMount(){

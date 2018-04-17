@@ -4,6 +4,7 @@ import LoginForm from "./login.jsx";
 import UserProfile from "./userprofile.jsx";
 import BlogPage from './blogpage.jsx'
 import store from "../store/store.js";
+import LoginButtons from './loginButtons.jsx'
 
 
 import {fetchBlogsFromServer} from "../actions/blogActions.js";
@@ -19,21 +20,32 @@ class Blogger extends React.Component{
         super(props);
         this.state = {
             data : {},
+            isLoggedIn:false
             
         }
-        sessionStorage.setItem("isLoggedIn" , false)
+        this.handleLogin = this.handleLogin.bind(this);
+        
+        store.subscribe( this.handleLogin );
+        this.resetSessionVaribles();
+    }
+
+    handleLogin(){
+        const isLoggedIn=sessionStorage.getItem("isLoggedIn")
+        if ( isLoggedIn != this.state.isLoggedIn){
+            this.setState({isLoggedIn})
+            this.forceUpdate;
+        }
+    }
+
+    resetSessionVaribles(){
+        sessionStorage.setItem("isLoggedIn" , "false")
         sessionStorage.setItem("userId" , "")
         sessionStorage.setItem("user" , JSON.stringify({}))
+        sessionStorage.setItem("token" , "")
     }
 
     render(){
-        const isLoggedIn=sessionStorage.getItem("isLoggedIn")
-        console.log(`is Logged in :${isLoggedIn}` )
-        const buttons = (
-            <p className="navbar-text navbar-right" >
-					<Link className="btn btn-primary"  to="/">Home</Link> | <Link className="btn btn-primary"  to="/signup">Signup</Link> | <Link className="btn btn-primary" to="/login">Login</Link> 
-						</p>
-        )
+        
         return (
             <Router history={hashHistory}>
                 <div className="header-blue">
@@ -54,13 +66,12 @@ class Blogger extends React.Component{
                 </span>
 				<div className="collapse navbar-collapse" id="navcol-1">
 					<div id="header"></div>
-					{buttons}
+					<LoginButtons />
                             
 				</div>
 
 			</div>
 		</nav>
-
                     
                     <Route exact path="/" component={Home} history={this.props.history}/>
                     <Route path="/signup" component={SignupForm}/>
