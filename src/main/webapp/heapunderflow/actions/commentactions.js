@@ -6,7 +6,7 @@ export const ACTION_TYPES = {
     
  }
  
- const baseurl = "http://localhost:8080/heapunderflow/service/comment"
+ const baseurl = "http://localhost:8080/service/comment"
 
 export function addComment(comment){
     console.log("Comment : " + comment )

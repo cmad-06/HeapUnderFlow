@@ -11,7 +11,7 @@ export const ACTION_TYPES = {
     DELETED_BLOG:'deleted_blog'
  }
 
-let baseurl = "http://localhost:8080/heapunderflow/service/user/"
+let baseurl = "http://localhost:8080/service/user/"
 
 export function fetchUser(userDetails) {
     console.log("addBLog details" )
@@ -202,7 +202,7 @@ export function deleteUserBlogById(userId, blogId, callback){
 		contentType: "application/json; charset=utf-8",
 		async: false,
 		dataType:"text",
-		url: "/heapunderflow/service/blog",
+		url: "/service/blog",
 		success: function(response) {
 			plotData(response);
 		},

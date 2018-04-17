@@ -2,7 +2,7 @@ config = {
    entry: './main.js',
 	
    output: {
-      path:'/Users/adprasad/Code/CMAD/react/project',
+      path:'C:\\Users\\vibhjain\\Desktop\\CISCO_DOCS\\STUDY_17\\CMAD\\PROJECT\\HeapUnderFlow\\src\\main\\webapp\\',
       filename: 'index.js',
    },
 	
