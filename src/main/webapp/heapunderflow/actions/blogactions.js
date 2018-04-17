@@ -33,9 +33,22 @@ export function fetchBlogById(blog) {
     };
 }
 
+
+
 export function fetchBlogsFromServer() {
     return (dispatch) => {
         fetch(baseurl + "blog")
+        .then((response) => {
+                return response.json();
+        }).then((blogs) => dispatch(fetchBlogs(blogs)));
+    };
+}
+
+export function searchBlogsByKey(key){
+    console.log(baseurl + "blog/search?q="+key)
+
+    return (dispatch) => {
+        fetch(baseurl + "blog/search?q="+key)
         .then((response) => {
                 return response.json();
         }).then((blogs) => dispatch(fetchBlogs(blogs)));

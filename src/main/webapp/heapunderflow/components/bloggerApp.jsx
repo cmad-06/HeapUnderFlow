@@ -56,10 +56,7 @@ class Blogger extends React.Component{
                         <a className="navbar-brand navbar-link" href="/">HeapUnderFlow</a>
                         <form className="navbar-form navbar-left" target="_self">
                             <div className="form-group">
-                                <input className="form-control search-field" type="search" name="search" id="search-field" placeholder="Search" />
-                                <label className="control-label" style={{padding:'5px'}}>
-                                    <i	className="glyphicon glyphicon-search"></i>
-                                </label>
+                                <input className="form-control search-field" type="search" name="search" id="search-field" placeholder="Search"/>
                             </div>
 	                    </form>
                 </div>
@@ -72,12 +69,11 @@ class Blogger extends React.Component{
 
 			</div>
 		</nav>
-                    
                     <Route exact path="/" component={Home} history={this.props.history}/>
-                    <Route path="/signup" component={SignupForm}/>
-                    <Route path="/login" component={LoginForm}/> 
-                    <Route path="/userprofile" component={UserProfile}/>
-                    <Route path="/blogPage/:blogId" component={BlogPage}/> 
+                    <Route path="/signup" component={SignupForm} history={this.props.history}/>
+                    <Route path="/login" component={LoginForm} history={this.props.history}/> 
+                    <Route path="/userprofile" component={UserProfile} history={this.props.history}/>
+                    <Route path="/blogPage/:blogId" component={BlogPage} history={this.props.history}/> 
                     <br/>
                     
                 </div>
