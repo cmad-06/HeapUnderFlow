@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2ce71ec0b617844b698d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "23d00039ad67fc8e80f9"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -2937,7 +2937,7 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     DELETED_BLOG: 'deleted_blog'
 };
 
-var baseurl = "http://localhost:8080/heapunderflow/service/user/";
+var baseurl = "http://localhost:8080/service/user/";
 
 function fetchUser(userDetails) {
     console.log("addBLog details");
@@ -3130,7 +3130,7 @@ type: "GET",
 contentType: "application/json; charset=utf-8",
 async: false,
 dataType:"text",
-url: "/heapunderflow/service/blog",
+url: "/service/blog",
 success: function(response) {
 plotData(response);
 },
@@ -6495,7 +6495,7 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     DELETED_BLOG: 'deleted_blog'
 };
 
-var baseurl = "http://localhost:8080/heapunderflow/service/";
+var baseurl = "http://localhost:8080/service/";
 
 function addBlog(blogDetails) {
     return {
@@ -10498,7 +10498,7 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
 
 };
 
-var baseurl = "http://localhost:8080/heapunderflow/service/comment";
+var baseurl = "http://localhost:8080/service/comment";
 
 function addComment(comment) {
     console.log("Comment : " + comment);
@@ -68516,7 +68516,7 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     DELETED_BLOG: 'deleted_blog'
 };
 
-var baseurl = "http://localhost:8080/heapunderflow/service/";
+var baseurl = "http://localhost:8080/service/";
 
 function addBlog(blogDetails) {
     return {

@@ -9,7 +9,7 @@ export const ACTION_TYPES = {
     DELETED_BLOG: 'deleted_blog',
 }
 
-let baseurl = "http://localhost:8080/heapunderflow/service/"
+let baseurl = "http://localhost:8080/service/"
 
 export function addBlog(blogDetails) {
     return {
