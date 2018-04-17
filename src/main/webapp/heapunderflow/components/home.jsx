@@ -17,7 +17,7 @@ class Home extends React.Component{
         return(
             
                // <ErrorBoundary>
-                <Blogs>BLog Data</Blogs>
+                <Blogs history={this.props.history}></Blogs>
                 //</ErrorBoundary>  
              
         );

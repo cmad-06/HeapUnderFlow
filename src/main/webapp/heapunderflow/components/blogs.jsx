@@ -2,7 +2,7 @@
 import React from "react";
 import Blog from "./Blog.jsx";
 import { connect } from 'react-redux';
-import {fetchBlogsFromServer} from "../actions/blogactions.js";
+import {fetchBlogsFromServer,searchBlogsByKey } from "../actions/blogactions.js";
 import {Table} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
@@ -12,9 +12,6 @@ class Blogs extends React.Component{
     
     constructor(props){
         super(props);
-        
-        console.log("Blogs cons" + JSON.stringify(props));
-       // this.onClickHandler = this.onClickHandler.bind(this);
     }
 
     renderList(){
@@ -26,8 +23,16 @@ class Blogs extends React.Component{
     }
 
     componentWillMount(){
-        console.log("Blogs" );
-        this.props.fetchBlogsFromServer();
+        
+        const { search } = this.props.history.location
+        const searchString = search.split("=")[1]
+        console.log("PROPS " + searchString);
+        if (searchString){
+            this.props.searchBlogsByKey(searchString)
+        }
+        else {
+            this.props.fetchBlogsFromServer();
+        }
         console.log("Blogs Received Data?" );
     }
     render(){   
@@ -112,4 +117,4 @@ function mapStateToProps(state){
 
 
 
-export default connect(mapStateToProps,{fetchBlogsFromServer})(Blogs);
+export default connect(mapStateToProps,{fetchBlogsFromServer, searchBlogsByKey})(Blogs);

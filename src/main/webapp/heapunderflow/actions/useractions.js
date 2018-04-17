@@ -166,25 +166,29 @@ export function fetchBlogById(blogId) {
 }
 
 
-export function addBlogtoServer(blog){
+export function addBlogtoServer(blog, cb){
     console.log("addBlogtoServer" + blog)
-    return (dispatch) => {
-        fetch(baseurl + blog.userId + "/blog", {
-              method: 'post',
+    const blogdata = JSON.stringify({
+        blogTitle: blog.blogTitle,
+        blogAuthor: blog.blogAuthor,
+        blogText: blog.blogText,
+        blogCreation: blog.blogCreation
+      });
+    
+        axios.post(baseurl + blog.userId + "/blog", blogdata, {
               headers: {
                   'Content-Type':'application/json',
-              },
-              body: JSON.stringify({
-                blogTitle: blog.blogTitle,
-                blogAuthor: blog.blogAuthor,
-                blogText: blog.blogText,
-                blogCreation: blog.blogCreation
-              })
+              }
+             
           }).then(function(response){
-              return dispatch(addBLog());
+              console.log("Blog Posted")
+              
           });
+
+          return {
+            type: ACTION_TYPES.ADDED_BLOG,
+        };
       }
-    }
 
 export function deleteUserBlogById(userId, blogId, callback){
     const request = axios.delete(baseurl + userId + "/blog/" + blogId ).then(()=>{

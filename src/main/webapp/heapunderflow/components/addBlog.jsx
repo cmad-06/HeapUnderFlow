@@ -40,20 +40,17 @@ class AddBlog extends React.Component{
     submitBlog(e){
         e.preventDefault();
         let lUser = JSON.parse(sessionStorage.getItem("user"));
-        console.log("User  from sessionStorage.getItem : " + lUser);
-        console.log("User  from sessionStorage.getItem : " + JSON.stringify(lUser));
-        console.log("Username  from sessionStorage.getItem : " + lUser.username);
         
         console.log("User Id from sessionStorage.getItem : " + sessionStorage.getItem("userId")); 
         let date = Date.now();
-        console.log("Date is :" + date);
         
         this.setState({blogCreation:date} , ()=>{
             this.setState({
                 blogAuthor:lUser.username
             } , ()=> {
-                console.log("Form Submit Clicked" , JSON.stringify(this.state));
-                store.dispatch(addBlogtoServer(this.state));
+                addBlogtoServer(this.state, ()=>{
+                    this.props.history.push("/userprofile")
+                });
                 console.log("submitUser Complete");
             })
         })
@@ -95,4 +92,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps)(AddBlog)
+export default connect(mapStateToProps, {addBlogtoServer})(AddBlog)
