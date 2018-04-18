@@ -28,7 +28,7 @@ public class Databasehandler {
 
 		try {
 
-			input = new FileInputStream("/Users/adprasad/Code/CMAD/project/HeapUnderFlow_Main/conf/db_config.properties");
+			input = new FileInputStream("/var/lib/tomcat8/webapps/ROOT/conf/db_config.properties");
 			
 			// load a properties file
 			prop.load(input);
