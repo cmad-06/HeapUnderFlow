@@ -32,7 +32,7 @@ public class MorphiaBlogDao extends BasicDAO<Blog, String> implements BlogDAO{
 
 	@Override
 	public List<Blog> getAllBlogs() {
-		List<Blog> blogs = createQuery().asList();
+		List<Blog> blogs = createQuery().order("-blogViews").asList();
 		return blogs;
 	}
 
