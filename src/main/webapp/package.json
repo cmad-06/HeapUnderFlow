@@ -1,5 +1,5 @@
 {
-  "name": "glarimy-reactjs-03",
+  "name": "HeapUnderFlow",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --hot",
     "build": "webpack"
   },
-  "author": "Krishna Mohan Koyya",
+  "author": "Vibhor Jain and Adidurga Prasad",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
