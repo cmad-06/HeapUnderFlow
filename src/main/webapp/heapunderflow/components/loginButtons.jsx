@@ -1,19 +1,14 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { Button } from "react-bootstrap"
+import {withRouter} from "react-router-dom";
 
 class LoginButtons extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-            user:{},
-            compProps:props
-           
-        }
+       
         this.handleProfileButton = this.handleProfileButton.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
-        console.log("props in LoginButtons : " + JSON.stringify(props))
-        
         
     }
 
@@ -25,12 +20,11 @@ class LoginButtons extends React.Component{
     handleProfileButton(e){
         e.preventDefault()
         console.log("handleProfileButton");
-        this.setState({user:sessionStorage.getItem("user")})
-        console.log("props in LoginButtons : " + JSON.stringify(this.state.compProps))
-        console.log("UserDetails in LoginButtons : " + JSON.stringify(this.state.user))
+        const user = sessionStorage.getItem("user");
+        console.log("UserDetails in LoginButtons : " + JSON.stringify(user))
         this.props.history.push({
             pathname: '/userprofile',
-            user:this.state.user,
+            user:user,
         })
     }
 
@@ -64,4 +58,4 @@ class LoginButtons extends React.Component{
     }
 }
 
-export default LoginButtons
+export default withRouter(LoginButtons)

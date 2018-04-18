@@ -28,7 +28,7 @@ public class Databasehandler {
 
 		try {
 
-			input = new FileInputStream("C:\\Users\\vibhjain\\Desktop\\CISCO_DOCS\\STUDY_17\\CMAD\\PROJECT\\HeapUnderFlow\\conf\\db_config.properties");
+			input = new FileInputStream("/Users/adprasad/Code/CMAD/project/HeapUnderFlow_Main/conf/db_config.properties");
 			
 			// load a properties file
 			prop.load(input);

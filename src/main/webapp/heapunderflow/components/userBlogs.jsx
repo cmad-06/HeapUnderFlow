@@ -40,18 +40,20 @@ class UserBlogs extends React.Component{
                 <div/>
             )
         }
-       
+        var blogTds = {
+            color: 'white'
+          };
         return (
             <Table className="table table-condensed" >
             <thead>
-                <tr>
+                <tr style={{font:'verdena', color:'white'}}>
                     <th>Blog Title</th>
                     <th>Author</th>
                     <th>Blog Likes</th>
                     <th>Blog Views</th>
                 </tr>
              </thead>
-            <tbody>
+            <tbody style={blogTds}>
              {this.renderList()}
             </tbody>
         </Table>

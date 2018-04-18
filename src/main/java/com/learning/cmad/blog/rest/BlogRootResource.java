@@ -37,7 +37,6 @@ public class BlogRootResource {
 	}
 	
 	@GET
-	@Secured
     @Path("/search")
 	public Response searchBlog(@QueryParam("q") String q ) {
 		List<Blog> blogs = blogObj.searchBlogs(q);
