@@ -42,6 +42,11 @@ class Blogs extends React.Component{
                 <div/>
             )
         }
+                
+        var blogTds = {
+          color: 'white'
+        };
+                
         return(
              <Table bsClass="table" className='table-users'  >
                 <thead>
@@ -51,7 +56,7 @@ class Blogs extends React.Component{
                         <th>BlogLikes</th>
                     </tr>
                  </thead>
-                <tbody>
+                <tbody style={blogTds}>
                  {this.renderList()}
                 </tbody>
             </Table>

@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "13cf27501d6a18f94b5d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "4fba1490fe26f74b73fb"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -38715,6 +38715,11 @@ var Blogs = function (_React$Component) {
             if (!this.props.blogs) {
                 return _react2.default.createElement("div", null);
             }
+
+            var blogTds = {
+                color: 'white'
+            };
+
             return _react2.default.createElement(
                 _reactBootstrap.Table,
                 { bsClass: "table", className: "table-users" },
@@ -38743,7 +38748,7 @@ var Blogs = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     "tbody",
-                    null,
+                    { style: blogTds },
                     this.renderList()
                 )
             );
