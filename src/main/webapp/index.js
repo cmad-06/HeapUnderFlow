@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4fba1490fe26f74b73fb"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "696a626f1172c552a1d9"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -3110,6 +3110,7 @@ function addBlogtoServer(blog, cb) {
 
     }).then(function (response) {
         console.log("Blog Posted");
+        cb();
     });
 
     return {
@@ -9644,13 +9645,16 @@ var Blogger = function (_React$Component) {
 
         _this.state = {
             data: {},
-            isLoggedIn: false
+            isLoggedIn: "false"
 
         };
         _this.handleLogin = _this.handleLogin.bind(_this);
 
         _store2.default.subscribe(_this.handleLogin);
-        _this.resetSessionVaribles();
+        var isLoggedIn = sessionStorage.getItem("isLoggedIn");
+        if (isLoggedIn === "false") {
+            _this.resetSessionVaribles();
+        }
         return _this;
     }
 
@@ -9694,8 +9698,8 @@ var Blogger = function (_React$Component) {
                                     "div",
                                     { className: "navbar-header" },
                                     _react2.default.createElement(
-                                        "a",
-                                        { className: "navbar-brand navbar-link", href: "/" },
+                                        _reactRouterDom.Link,
+                                        { className: "navbar-brand ", to: "/" },
                                         "HeapUnderFlow"
                                     ),
                                     _react2.default.createElement(
@@ -9713,7 +9717,7 @@ var Blogger = function (_React$Component) {
                                 "div",
                                 { className: "collapse navbar-collapse", id: "navcol-1" },
                                 _react2.default.createElement("div", { id: "header" }),
-                                _react2.default.createElement(_loginButtons2.default, null)
+                                _react2.default.createElement(_loginButtons2.default, { history: this.props.history })
                             )
                         )
                     ),
@@ -9781,6 +9785,7 @@ var Blog = function (_React$Component) {
     }, {
         key: "render",
         value: function render() {
+
             return _react2.default.createElement(
                 "tr",
                 { className: "table-row" },
@@ -9796,12 +9801,17 @@ var Blog = function (_React$Component) {
                 _react2.default.createElement(
                     "td",
                     null,
-                    this.props.blogId
+                    this.props.blogAuthor
                 ),
                 _react2.default.createElement(
                     "td",
                     null,
                     this.props.likes
+                ),
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    this.props.views
                 )
             );
         }
@@ -38691,7 +38701,7 @@ var Blogs = function (_React$Component) {
         value: function renderList() {
             console.log("Props : " + JSON.stringify(this.props.blogs));
             return this.props.blogs.map(function (blog) {
-                return _react2.default.createElement(_Blog2.default, { title: blog.blogTitle, key: blog.blogId, blogId: blog.blogId, likes: blog.blogLikes });
+                return _react2.default.createElement(_Blog2.default, { title: blog.blogTitle, key: blog.blogId, blogId: blog.blogId, blogAuthor: blog.blogAuthor, likes: blog.blogLikes, views: blog.blogViews });
             });
         }
     }, {
@@ -38732,17 +38742,22 @@ var Blogs = function (_React$Component) {
                         _react2.default.createElement(
                             "th",
                             null,
-                            "BlogTitle"
+                            "Blog Title"
                         ),
                         _react2.default.createElement(
                             "th",
                             null,
-                            "BlogId"
+                            "Author"
                         ),
                         _react2.default.createElement(
                             "th",
                             null,
-                            "BlogLikes"
+                            "Blog Likes"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Blog Views"
                         )
                     )
                 ),
@@ -38761,7 +38776,7 @@ var Blogs = function (_React$Component) {
 ;
 
 function mapStateToProps(state) {
-    console.log(JSON.stringify("State Details blogs.jsx : " + JSON.stringify(state)));
+    //  console.log(JSON.stringify("State Details blogs.jsx : " + JSON.stringify(state)))
     return {
         blogs: state.blogs.blogs
     };
@@ -67499,7 +67514,7 @@ var UserBlogs = function (_React$Component) {
                 return this.props.blogs.map(function (blog) {
                     if (blog != null) {
                         /* Delete blog should delete blog emntry in user profile */
-                        return _react2.default.createElement(_Blog2.default, { title: blog.blogTitle, key: blog.blogId, blogId: blog.blogId, likes: blog.blogLikes });
+                        return _react2.default.createElement(_Blog2.default, { title: blog.blogTitle, key: blog.blogId, blogId: blog.blogId, blogAuthor: blog.blogAuthor, likes: blog.blogLikes, views: blog.blogViews });
                     }
                 });
             }
@@ -67521,7 +67536,7 @@ var UserBlogs = function (_React$Component) {
 
             return _react2.default.createElement(
                 _reactBootstrap.Table,
-                { className: "table table-striped table-condensed" },
+                { className: "table table-condensed" },
                 _react2.default.createElement(
                     "thead",
                     null,
@@ -67531,17 +67546,22 @@ var UserBlogs = function (_React$Component) {
                         _react2.default.createElement(
                             "th",
                             null,
-                            "BlogTitle"
+                            "Blog Title"
                         ),
                         _react2.default.createElement(
                             "th",
                             null,
-                            "BlogId"
+                            "Author"
                         ),
                         _react2.default.createElement(
                             "th",
                             null,
-                            "BlogLikes"
+                            "Blog Likes"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Blog Views"
                         )
                     )
                 ),
@@ -68342,7 +68362,7 @@ var Comment = function (_React$Component) {
                 _react2.default.createElement(
                     _reactBootstrap.Panel.Footer,
                     null,
-                    this.props.commentText
+                    this.props.userId
                 )
             );
         }
@@ -68400,11 +68420,13 @@ var LoginButtons = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (LoginButtons.__proto__ || Object.getPrototypeOf(LoginButtons)).call(this, props));
 
         _this.state = {
-            user: {}
+            user: {},
+            compProps: props
 
         };
         _this.handleProfileButton = _this.handleProfileButton.bind(_this);
         _this.handleLogout = _this.handleLogout.bind(_this);
+        console.log("props in LoginButtons : " + JSON.stringify(props));
 
         return _this;
     }
@@ -68418,7 +68440,8 @@ var LoginButtons = function (_React$Component) {
             e.preventDefault();
             console.log("handleProfileButton");
             this.setState({ user: sessionStorage.getItem("user") });
-            console.log("UserDetails in LoginButtons : " + this.state.user);
+            console.log("props in LoginButtons : " + JSON.stringify(this.state.compProps));
+            console.log("UserDetails in LoginButtons : " + JSON.stringify(this.state.user));
             this.props.history.push({
                 pathname: '/userprofile',
                 user: this.state.user
