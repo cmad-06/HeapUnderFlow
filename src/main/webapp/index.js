@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "23d00039ad67fc8e80f9"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "13cf27501d6a18f94b5d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -3094,23 +3094,26 @@ function fetchBlogById(blogId) {
     };
 }
 
-function addBlogtoServer(blog) {
+function addBlogtoServer(blog, cb) {
     console.log("addBlogtoServer" + blog);
-    return function (dispatch) {
-        fetch(baseurl + blog.userId + "/blog", {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                blogTitle: blog.blogTitle,
-                blogAuthor: blog.blogAuthor,
-                blogText: blog.blogText,
-                blogCreation: blog.blogCreation
-            })
-        }).then(function (response) {
-            return dispatch(addBLog());
-        });
+    var blogdata = JSON.stringify({
+        blogTitle: blog.blogTitle,
+        blogAuthor: blog.blogAuthor,
+        blogText: blog.blogText,
+        blogCreation: blog.blogCreation
+    });
+
+    _axios2.default.post(baseurl + blog.userId + "/blog", blogdata, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    }).then(function (response) {
+        console.log("Blog Posted");
+    });
+
+    return {
+        type: ACTION_TYPES.ADDED_BLOG
     };
 }
 
@@ -6477,6 +6480,7 @@ exports.addBlog = addBlog;
 exports.fetchBlogs = fetchBlogs;
 exports.fetchBlogById = fetchBlogById;
 exports.fetchBlogsFromServer = fetchBlogsFromServer;
+exports.searchBlogsByKey = searchBlogsByKey;
 exports.fetchBlogByIdFromServer = fetchBlogByIdFromServer;
 exports.updateBlogById = updateBlogById;
 
@@ -6522,6 +6526,18 @@ function fetchBlogById(blog) {
 function fetchBlogsFromServer() {
     return function (dispatch) {
         fetch(baseurl + "blog").then(function (response) {
+            return response.json();
+        }).then(function (blogs) {
+            return dispatch(fetchBlogs(blogs));
+        });
+    };
+}
+
+function searchBlogsByKey(key) {
+    console.log(baseurl + "blog/search?q=" + key);
+
+    return function (dispatch) {
+        fetch(baseurl + "blog/search?q=" + key).then(function (response) {
             return response.json();
         }).then(function (blogs) {
             return dispatch(fetchBlogs(blogs));
@@ -9688,12 +9704,7 @@ var Blogger = function (_React$Component) {
                                         _react2.default.createElement(
                                             "div",
                                             { className: "form-group" },
-                                            _react2.default.createElement("input", { className: "form-control search-field", type: "search", name: "search", id: "search-field", placeholder: "Search" }),
-                                            _react2.default.createElement(
-                                                "label",
-                                                { className: "control-label", style: { padding: '5px' } },
-                                                _react2.default.createElement("i", { className: "glyphicon glyphicon-search" })
-                                            )
+                                            _react2.default.createElement("input", { className: "form-control search-field", type: "search", name: "search", id: "search-field", placeholder: "Search" })
                                         )
                                     )
                                 )
@@ -9707,10 +9718,10 @@ var Blogger = function (_React$Component) {
                         )
                     ),
                     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _home2.default, history: this.props.history }),
-                    _react2.default.createElement(_reactRouterDom.Route, { path: "/signup", component: _signup2.default }),
-                    _react2.default.createElement(_reactRouterDom.Route, { path: "/login", component: _login2.default }),
-                    _react2.default.createElement(_reactRouterDom.Route, { path: "/userprofile", component: _userprofile2.default }),
-                    _react2.default.createElement(_reactRouterDom.Route, { path: "/blogPage/:blogId", component: _blogpage2.default }),
+                    _react2.default.createElement(_reactRouterDom.Route, { path: "/signup", component: _signup2.default, history: this.props.history }),
+                    _react2.default.createElement(_reactRouterDom.Route, { path: "/login", component: _login2.default, history: this.props.history }),
+                    _react2.default.createElement(_reactRouterDom.Route, { path: "/userprofile", component: _userprofile2.default, history: this.props.history }),
+                    _react2.default.createElement(_reactRouterDom.Route, { path: "/blogPage/:blogId", component: _blogpage2.default, history: this.props.history }),
                     _react2.default.createElement("br", null)
                 )
             );
@@ -38611,11 +38622,7 @@ var Home = function (_React$Component) {
             return (
 
                 // <ErrorBoundary>
-                _react2.default.createElement(
-                    _blogs2.default,
-                    null,
-                    "BLog Data"
-                )
+                _react2.default.createElement(_blogs2.default, { history: this.props.history })
                 //</ErrorBoundary>  
 
             );
@@ -38676,11 +38683,7 @@ var Blogs = function (_React$Component) {
     function Blogs(props) {
         _classCallCheck(this, Blogs);
 
-        var _this = _possibleConstructorReturn(this, (Blogs.__proto__ || Object.getPrototypeOf(Blogs)).call(this, props));
-
-        console.log("Blogs cons" + JSON.stringify(props));
-        // this.onClickHandler = this.onClickHandler.bind(this);
-        return _this;
+        return _possibleConstructorReturn(this, (Blogs.__proto__ || Object.getPrototypeOf(Blogs)).call(this, props));
     }
 
     _createClass(Blogs, [{
@@ -38694,8 +38697,15 @@ var Blogs = function (_React$Component) {
     }, {
         key: "componentWillMount",
         value: function componentWillMount() {
-            console.log("Blogs");
-            this.props.fetchBlogsFromServer();
+            var search = this.props.history.location.search;
+
+            var searchString = search.split("=")[1];
+            console.log("PROPS " + searchString);
+            if (searchString) {
+                this.props.searchBlogsByKey(searchString);
+            } else {
+                this.props.fetchBlogsFromServer();
+            }
             console.log("Blogs Received Data?");
         }
     }, {
@@ -38800,7 +38810,7 @@ render() {
     );
   }*/
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchBlogsFromServer: _blogactions.fetchBlogsFromServer })(Blogs);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchBlogsFromServer: _blogactions.fetchBlogsFromServer, searchBlogsByKey: _blogactions.searchBlogsByKey })(Blogs);
 
 /***/ }),
 /* 297 */
@@ -67225,12 +67235,13 @@ var LoginForm = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+
             return _react2.default.createElement(
                 'div',
-                { className: 'container', id: 'login-form' },
+                { className: 'container', id: 'registration-form' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'frm', styles: 'height: 580px; overflow: scroll' },
+                    { className: 'frm' },
                     _react2.default.createElement(
                         'h1',
                         null,
@@ -67244,19 +67255,17 @@ var LoginForm = function (_React$Component) {
                             { className: 'form-group required' },
                             _react2.default.createElement(
                                 'label',
-                                { className: 'control-label' },
+                                { id: 'username', className: 'control-label' },
                                 'Username:'
                             ),
-                            ' ',
-                            _react2.default.createElement('input', { type: 'text',
-                                className: 'form-control', name: 'username', placeholder: 'Enter username', defaultValue: this.state.username, onChange: this.changeUserName })
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'username', placeholder: 'Enter username', defaultValue: this.state.username, onChange: this.changeUserName })
                         ),
                         _react2.default.createElement(
                             'div',
                             { className: 'form-group required' },
                             _react2.default.createElement(
                                 'label',
-                                { className: 'control-label' },
+                                { id: 'password', className: 'control-label' },
                                 'Password:'
                             ),
                             ' ',
@@ -67631,20 +67640,17 @@ var AddBlog = function (_React$Component) {
 
             e.preventDefault();
             var lUser = JSON.parse(sessionStorage.getItem("user"));
-            console.log("User  from sessionStorage.getItem : " + lUser);
-            console.log("User  from sessionStorage.getItem : " + JSON.stringify(lUser));
-            console.log("Username  from sessionStorage.getItem : " + lUser.username);
 
             console.log("User Id from sessionStorage.getItem : " + sessionStorage.getItem("userId"));
             var date = Date.now();
-            console.log("Date is :" + date);
 
             this.setState({ blogCreation: date }, function () {
                 _this2.setState({
                     blogAuthor: lUser.username
                 }, function () {
-                    console.log("Form Submit Clicked", JSON.stringify(_this2.state));
-                    _store2.default.dispatch((0, _useractions.addBlogtoServer)(_this2.state));
+                    (0, _useractions.addBlogtoServer)(_this2.state, function () {
+                        _this2.props.history.push("/userprofile");
+                    });
                     console.log("submitUser Complete");
                 });
             });
@@ -67706,7 +67712,7 @@ function mapStateToProps(state) {
     };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(AddBlog);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { addBlogtoServer: _useractions.addBlogtoServer })(AddBlog);
 
 /***/ }),
 /* 707 */
@@ -68498,6 +68504,7 @@ exports.addBlog = addBlog;
 exports.fetchBlogs = fetchBlogs;
 exports.fetchBlogById = fetchBlogById;
 exports.fetchBlogsFromServer = fetchBlogsFromServer;
+exports.searchBlogsByKey = searchBlogsByKey;
 exports.fetchBlogByIdFromServer = fetchBlogByIdFromServer;
 exports.updateBlogById = updateBlogById;
 
@@ -68543,6 +68550,18 @@ function fetchBlogById(blog) {
 function fetchBlogsFromServer() {
     return function (dispatch) {
         fetch(baseurl + "blog").then(function (response) {
+            return response.json();
+        }).then(function (blogs) {
+            return dispatch(fetchBlogs(blogs));
+        });
+    };
+}
+
+function searchBlogsByKey(key) {
+    console.log(baseurl + "blog/search?q=" + key);
+
+    return function (dispatch) {
+        fetch(baseurl + "blog/search?q=" + key).then(function (response) {
             return response.json();
         }).then(function (blogs) {
             return dispatch(fetchBlogs(blogs));

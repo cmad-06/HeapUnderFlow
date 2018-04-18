@@ -47,18 +47,19 @@ class LoginForm extends React.Component  {
         })
     }
     render(){
+        
         return (
-            <div className="container" id="login-form">
-			<div className="frm" styles="height: 580px; overflow: scroll">
+            <div className="container" id="registration-form">
+			<div className="frm">
 				<h1>Login</h1>
 				
 				<form onSubmit={this.loginUserSubmit}>
                     <div className="form-group required">
-						<label className='control-label'>Username:</label> <input type="text"
-							className="form-control" name="username"  placeholder="Enter username" defaultValue={this.state.username} onChange={this.changeUserName}/>
+						<label id="username" className='control-label'>Username:</label> 
+                        <input type="text" className="form-control" name="username"  placeholder="Enter username" defaultValue={this.state.username} onChange={this.changeUserName}/>
 					</div>
 					<div className="form-group required">
-						<label className='control-label'>Password:</label> <input type="password"
+						<label id="password" className='control-label'>Password:</label> <input type="password"
 							className="form-control" name="password" placeholder="Enter password"defaultValue={this.state.password} onChange={this.changePassWord}/>
 					</div>
                     <button>Login</button>
