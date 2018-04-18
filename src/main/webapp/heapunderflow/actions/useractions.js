@@ -182,7 +182,7 @@ export function addBlogtoServer(blog, cb){
              
           }).then(function(response){
               console.log("Blog Posted")
-              
+            cb();              
           });
 
           return {

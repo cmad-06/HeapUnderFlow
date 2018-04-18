@@ -17,7 +17,7 @@ class Blogs extends React.Component{
     renderList(){
         console.log("Props : " + JSON.stringify(this.props.blogs))
         return this.props.blogs.map((blog) => {
-            return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} likes={blog.blogLikes} >
+            return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} blogAuthor={blog.blogAuthor} likes={blog.blogLikes} views={blog.blogViews}>
             </Blog>
         }) 
     }
@@ -51,9 +51,10 @@ class Blogs extends React.Component{
              <Table bsClass="table" className='table-users'  >
                 <thead>
                     <tr style={{font:'verdena', color:'white'}}>
-                        <th>BlogTitle</th>
-                        <th>BlogId</th>
-                        <th>BlogLikes</th>
+                        <th>Blog Title</th>
+                        <th>Author</th>
+                        <th>Blog Likes</th>
+                        <th>Blog Views</th>
                     </tr>
                  </thead>
                 <tbody style={blogTds}>
@@ -66,7 +67,7 @@ class Blogs extends React.Component{
 };
 
 function mapStateToProps(state){
-    console.log(JSON.stringify("State Details blogs.jsx : " + JSON.stringify(state)))
+  //  console.log(JSON.stringify("State Details blogs.jsx : " + JSON.stringify(state)))
     return {
         blogs:state.blogs.blogs
     }

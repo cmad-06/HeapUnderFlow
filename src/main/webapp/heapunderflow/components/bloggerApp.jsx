@@ -20,13 +20,16 @@ class Blogger extends React.Component{
         super(props);
         this.state = {
             data : {},
-            isLoggedIn:false
+            isLoggedIn:"false"
             
         }
         this.handleLogin = this.handleLogin.bind(this);
         
         store.subscribe( this.handleLogin );
-        this.resetSessionVaribles();
+        const isLoggedIn=sessionStorage.getItem("isLoggedIn");
+        if (isLoggedIn==="false"){
+            this.resetSessionVaribles()
+        }
     }
 
     handleLogin(){
@@ -53,7 +56,7 @@ class Blogger extends React.Component{
                         <div className="container">
                         <span>
                         <div className="navbar-header">
-                        <a className="navbar-brand navbar-link" href="/">HeapUnderFlow</a>
+                        <Link className="navbar-brand " to="/">HeapUnderFlow</Link>
                         <form className="navbar-form navbar-left" target="_self">
                             <div className="form-group">
                                 <input className="form-control search-field" type="search" name="search" id="search-field" placeholder="Search"/>
@@ -63,7 +66,7 @@ class Blogger extends React.Component{
                 </span>
 				<div className="collapse navbar-collapse" id="navcol-1">
 					<div id="header"></div>
-					<LoginButtons />
+					<LoginButtons history={this.props.history}/>
                             
 				</div>
 

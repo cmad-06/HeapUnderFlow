@@ -6,11 +6,13 @@ class LoginButtons extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            user:{}
+            user:{},
+            compProps:props
            
         }
         this.handleProfileButton = this.handleProfileButton.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
+        console.log("props in LoginButtons : " + JSON.stringify(props))
         
         
     }
@@ -24,7 +26,8 @@ class LoginButtons extends React.Component{
         e.preventDefault()
         console.log("handleProfileButton");
         this.setState({user:sessionStorage.getItem("user")})
-        console.log("UserDetails in LoginButtons : " + this.state.user)
+        console.log("props in LoginButtons : " + JSON.stringify(this.state.compProps))
+        console.log("UserDetails in LoginButtons : " + JSON.stringify(this.state.user))
         this.props.history.push({
             pathname: '/userprofile',
             user:this.state.user,

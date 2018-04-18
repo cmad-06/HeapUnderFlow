@@ -24,7 +24,7 @@ class Comment extends React.Component{
             
             <Panel bsStyle="success" className="custom" style={panelText}>
                <Panel.Body >{ this.props.commentText }</Panel.Body>
-               <Panel.Footer>{ this.props.commentText }</Panel.Footer>
+               <Panel.Footer>{ this.props.userId }</Panel.Footer>
             </Panel>
             
             

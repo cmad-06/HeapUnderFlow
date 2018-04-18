@@ -20,7 +20,7 @@ class UserBlogs extends React.Component{
         if (this.props.blogs != undefined){
             return this.props.blogs.map((blog) => {
                 if (blog != null){ /* Delete blog should delete blog emntry in user profile */
-                return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} likes={blog.blogLikes} >
+                return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} blogAuthor={blog.blogAuthor} likes={blog.blogLikes} views={blog.blogViews} >
                 </Blog>
                 }
             }) 
@@ -42,12 +42,13 @@ class UserBlogs extends React.Component{
         }
        
         return (
-            <Table className="table table-striped table-condensed" >
+            <Table className="table table-condensed" >
             <thead>
                 <tr>
-                    <th>BlogTitle</th>
-                    <th>BlogId</th>
-                    <th>BlogLikes</th>
+                    <th>Blog Title</th>
+                    <th>Author</th>
+                    <th>Blog Likes</th>
+                    <th>Blog Views</th>
                 </tr>
              </thead>
             <tbody>
