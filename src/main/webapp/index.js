@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8b53917ab91d82cc8863"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5961d50fc6e877bab5c8"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -3027,8 +3027,9 @@ function addUsertoServer(user) {
     };
 }
 
-function updateUsertoServer(user) {
+function updateUsertoServer(user, cb) {
     console.log("updateUsertoServer");
+    var data = JSON.stringify(user);
 
     return function (dispatch) {
         console.log(" Updating User at : " + baseurl + user.userId);
@@ -67385,6 +67386,7 @@ var UserProfile = function (_React$Component) {
         sessionStorage.setItem("token", _this.state.data.token);
         console.log("UserProfile: Received Data : " + _this.state.data);
         _this.handleSelect = _this.handleSelect.bind(_this);
+        _this.handleChangeTab = _this.handleChangeTab.bind(_this);
         return _this;
     }
 
@@ -67408,6 +67410,11 @@ var UserProfile = function (_React$Component) {
             this.forceUpdate();
         }
     }, {
+        key: 'handleChangeTab',
+        value: function handleChangeTab(key) {
+            this.setState({ key: key });
+        }
+    }, {
         key: 'render',
         value: function render() {
 
@@ -67429,12 +67436,12 @@ var UserProfile = function (_React$Component) {
                     _react2.default.createElement(
                         _reactBootstrap.Tab,
                         { eventKey: 2, lazy: 'true', title: 'Create Blog' },
-                        _react2.default.createElement(_addBlog2.default, { userId: this.state.data.userId, user: this.state.user, key: this.state.key })
+                        _react2.default.createElement(_addBlog2.default, { userId: this.state.data.userId, user: this.state.user, changeTab: this.handleChangeTab })
                     ),
                     _react2.default.createElement(
                         _reactBootstrap.Tab,
                         { eventKey: 3, lazy: 'true', title: 'Update Profile' },
-                        _react2.default.createElement(_updateprofile2.default, { key: this.state.key })
+                        _react2.default.createElement(_updateprofile2.default, { key: this.state.key, changeTab: this.handleChangeTab })
                     )
                 )
             );
@@ -67676,7 +67683,8 @@ var AddBlog = function (_React$Component) {
                     blogAuthor: lUser.username
                 }, function () {
                     (0, _useractions.addBlogtoServer)(_this2.state, function () {
-                        _this2.props.history.push("/userprofile");
+                        _this2.props.changeTab(1);
+                        _this2.forceUpdate();
                     });
                     console.log("submitUser Complete");
                 });
@@ -67837,6 +67845,8 @@ var UpdateProfile = function (_React$Component) {
     }, {
         key: 'updateUser',
         value: function updateUser(e) {
+            var _this2 = this;
+
             e.preventDefault();
             var lUser = JSON.parse(sessionStorage.getItem("user"));
             console.log("Form Submit Clicked" + JSON.stringify(lUser));
@@ -67853,8 +67863,10 @@ var UpdateProfile = function (_React$Component) {
             if (this.state.confirmpassword === this.state.password) {
                 lUser.password = this.state.password;
             }
-            console.log("Form Submit Clicked" + JSON.stringify(lUser));
-            _store2.default.dispatch((0, _useractions.updateUsertoServer)(lUser));
+            console.log("Form Submit After Changes" + JSON.stringify(lUser));
+            (0, _useractions.updateUsertoServer)(lUser, function () {
+                _this2.props.changeTab(1);
+            });
         }
     }, {
         key: 'render',
@@ -67949,7 +67961,7 @@ function mapStateToServer(state) {
     };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToServer)(UpdateProfile);
+exports.default = (0, _reactRedux.connect)(mapStateToServer, { updateUsertoServer: _useractions.updateUsertoServer })(UpdateProfile);
 
 /***/ }),
 /* 708 */
