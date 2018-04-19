@@ -3,3 +3,8 @@ os: linux
 files:
   - source: /
     destination: /var/lib/tomcat8/webapps/
+hooks:
+AfterInstall:
+  - location: scripts/post_install.sh
+    timeout: 300
+    runas: root
