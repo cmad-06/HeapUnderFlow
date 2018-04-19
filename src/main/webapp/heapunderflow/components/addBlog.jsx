@@ -49,7 +49,8 @@ class AddBlog extends React.Component{
                 blogAuthor:lUser.username
             } , ()=> {
                 addBlogtoServer(this.state, ()=>{
-                    this.props.history.push("/userprofile")
+                    this.props.changeTab(1)
+                    this.forceUpdate()
                 });
                 console.log("submitUser Complete");
             })

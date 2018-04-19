@@ -22,6 +22,7 @@ class UserProfile extends React.Component {
         sessionStorage.setItem("token" ,this.state.data.token)
         console.log("UserProfile: Received Data : " + this.state.data);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleChangeTab = this.handleChangeTab.bind(this);
     }
 
     handleSelect(key) {
@@ -39,6 +40,10 @@ class UserProfile extends React.Component {
         this.setState({ key:1 });
         this.forceUpdate();
     }
+
+    handleChangeTab(key){
+        this.setState({ key : key })
+     }
     
     render(){
 
@@ -55,10 +60,10 @@ class UserProfile extends React.Component {
                         <UserBlogs userId = {this.state.data.userId}/>
                     </Tab>
                     <Tab eventKey={2} lazy="true" title="Create Blog">
-                        <AddBlog userId = {this.state.data.userId} user={this.state.user} key={this.state.key}/>
+                        <AddBlog userId = {this.state.data.userId} user={this.state.user} changeTab={this.handleChangeTab}/>
                     </Tab>
                     <Tab eventKey={3} lazy="true" title="Update Profile" >
-                        <UpdateProfile key={this.state.key}/>
+                        <UpdateProfile key={this.state.key} changeTab={this.handleChangeTab}/>
                     </Tab>
                 </Tabs>
             </div>

@@ -100,8 +100,9 @@ export function addUsertoServer(user){
       }
     }
 
-export function updateUsertoServer(user){
+export function updateUsertoServer(user,cb){
     console.log("updateUsertoServer")
+   let  data = JSON.stringify(user);
     
     return (dispatch) => {
         console.log(" Updating User at : " + baseurl + user.userId)

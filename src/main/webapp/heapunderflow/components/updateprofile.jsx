@@ -73,8 +73,10 @@ class UpdateProfile extends React.Component{
         {
             lUser.password = this.state.password;
         }
-        console.log("Form Submit Clicked" + JSON.stringify(lUser));
-        store.dispatch(updateUsertoServer(lUser));
+        console.log("Form Submit After Changes" + JSON.stringify(lUser));
+        updateUsertoServer(lUser, ()=>{
+            this.props.changeTab(1)
+        });
     }
 
     
@@ -119,4 +121,4 @@ function mapStateToServer(state){
     }
 }
 
-export default connect(mapStateToServer)(UpdateProfile)
+export default connect(mapStateToServer, {updateUsertoServer})(UpdateProfile)
