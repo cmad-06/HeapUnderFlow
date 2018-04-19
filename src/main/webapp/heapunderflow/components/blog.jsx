@@ -1,7 +1,7 @@
 import React from "react";
 import store from "../store/store.js";
 import { Link } from "react-router-dom"
-import Moment from 'react-moment'
+
 
 class Blog extends React.Component{
     constructor(props){
