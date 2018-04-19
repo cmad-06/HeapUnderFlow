@@ -3,6 +3,8 @@ os: linux
 files:
   - source: /
     destination: /var/lib/tomcat8/webapps/
+  - source: /var/lib/tomcat8/webapps/*.war
+    destination: /var/lib/tomcat8/webapps/ROOT
 hooks:
 AfterInstall:
   - location: scripts/post_install.sh
