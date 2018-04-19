@@ -73,54 +73,6 @@ function mapStateToProps(state){
     }
 }
 
-/*
-    render(){
-        const rowEvents = {
-            onClick: (e, row, rowIndex) => {
-              console.log(row)
-              console.log(rowIndex)
-              console.log(this.props.history)
-              this.props.history.push({
-                pathname: '/blogpage',
-                blogId:rwo.blogId,
-            })
-            }
-          };
-        const columns = [{
-            dataField: 'blogId',
-            text: 'Blog ID',
-          
-          }, {
-            dataField: 'blogTitle',
-            text: 'Blog Title'
-          }, {
-            dataField: 'blogLikes',
-            text: 'Blog Likes'
-          }];
-          
-          return(
-          <BootstrapTable keyField='blogId' data={ this.props.blogs } columns={ columns } rowEvents={ rowEvents }  hover />
-          )
-    }
-*/
-    /*
-    render() {
-        const rowEvents = {
-            onClick: (e, row, rowIndex) => {
-              console.log("Hello, World!!")
-            }
-          };
-        
-        return (
-          <BootstrapTable data={ this.props.blogs }   hover height='120' scrollTop={ 'Bottom'  } bordered={ false } rowEvents={ rowEvents }> 
-              
-              <TableHeaderColumn dataField='blogId'  isKey>Blog Id</TableHeaderColumn>
-              <TableHeaderColumn dataField='blogTitle'>Blog Title </TableHeaderColumn>
-              <TableHeaderColumn dataField='blogLikes'>Blog Likes</TableHeaderColumn>
-          </BootstrapTable>
-        );
-      }*/
-
 
 
 export default connect(mapStateToProps,{fetchBlogsFromServer, searchBlogsByKey})(Blogs);
