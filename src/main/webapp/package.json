@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "proxy": "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/"
   "scripts": {
     "start": "webpack-dev-server --hot",
     "build": "webpack"
