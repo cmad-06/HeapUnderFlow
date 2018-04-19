@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "696a626f1172c552a1d9"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "862150dd63a80f87e5d6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -67533,7 +67533,9 @@ var UserBlogs = function (_React$Component) {
             if (!this.props.blogs) {
                 return _react2.default.createElement("div", null);
             }
-
+            var blogTds = {
+                color: 'white'
+            };
             return _react2.default.createElement(
                 _reactBootstrap.Table,
                 { className: "table table-condensed" },
@@ -67542,7 +67544,7 @@ var UserBlogs = function (_React$Component) {
                     null,
                     _react2.default.createElement(
                         "tr",
-                        null,
+                        { style: { font: 'verdena', color: 'white' } },
                         _react2.default.createElement(
                             "th",
                             null,
@@ -67567,7 +67569,7 @@ var UserBlogs = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     "tbody",
-                    null,
+                    { style: blogTds },
                     this.renderList()
                 )
             );
@@ -68419,14 +68421,8 @@ var LoginButtons = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (LoginButtons.__proto__ || Object.getPrototypeOf(LoginButtons)).call(this, props));
 
-        _this.state = {
-            user: {},
-            compProps: props
-
-        };
         _this.handleProfileButton = _this.handleProfileButton.bind(_this);
         _this.handleLogout = _this.handleLogout.bind(_this);
-        console.log("props in LoginButtons : " + JSON.stringify(props));
 
         return _this;
     }
@@ -68439,12 +68435,11 @@ var LoginButtons = function (_React$Component) {
         value: function handleProfileButton(e) {
             e.preventDefault();
             console.log("handleProfileButton");
-            this.setState({ user: sessionStorage.getItem("user") });
-            console.log("props in LoginButtons : " + JSON.stringify(this.state.compProps));
-            console.log("UserDetails in LoginButtons : " + JSON.stringify(this.state.user));
+            var user = sessionStorage.getItem("user");
+            console.log("UserDetails in LoginButtons : " + JSON.stringify(user));
             this.props.history.push({
                 pathname: '/userprofile',
-                user: this.state.user
+                user: user
             });
         }
     }, {
@@ -68515,7 +68510,7 @@ var LoginButtons = function (_React$Component) {
     return LoginButtons;
 }(_react2.default.Component);
 
-exports.default = LoginButtons;
+exports.default = (0, _reactRouterDom.withRouter)(LoginButtons);
 
 /***/ }),
 /* 711 */
