@@ -70,6 +70,12 @@ public class JPABlogDAO implements BlogDAO {
 		return null;
 	}
 
+	@Override
+	public List<Blog> getAllBlogsPagination(int limit, int start) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

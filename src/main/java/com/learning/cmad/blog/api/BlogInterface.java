@@ -9,6 +9,8 @@ public interface BlogInterface {
 		
 		//Read
 		public List<Blog> getAllBlogs() throws BlogException;
+		public List<Blog> getAllBlogsPagination(int limit, int start);
+		
 		public Blog getBlogById(String id) throws BlogNotFoundException, BlogException;
 		
 		//Update

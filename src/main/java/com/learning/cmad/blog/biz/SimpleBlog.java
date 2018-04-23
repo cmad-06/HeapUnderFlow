@@ -70,4 +70,9 @@ public class SimpleBlog implements BlogInterface{
 		return dao.searchBlog(query);
 	}
 
+	@Override
+	public List<Blog> getAllBlogsPagination(int limit, int start) {
+		return dao.getAllBlogsPagination(limit, start);
+	}
+
 }

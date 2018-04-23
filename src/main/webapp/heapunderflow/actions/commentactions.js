@@ -6,7 +6,8 @@ export const ACTION_TYPES = {
     
  }
  
- const baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/comment"
+const baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/comment"
+//const baseurl = "http://localhost:8080/service/comment"
 
 export function addComment(comment){
     console.log("Comment : " + comment )

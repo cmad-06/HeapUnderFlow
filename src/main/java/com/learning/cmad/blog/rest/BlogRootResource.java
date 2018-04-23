@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -33,6 +34,13 @@ public class BlogRootResource {
     @Path("/")
 	public Response getAllBlogs() {
 		List<Blog> blogs = blogObj.getAllBlogs();
+		return Response.ok().entity(blogs).build();
+	}
+	
+	@GET
+    @Path("/page")
+	public Response getAllBlogsPagination(@DefaultValue("50") @QueryParam("limit") int limit, @DefaultValue("0") @QueryParam("start") int start) {
+		List<Blog> blogs = blogObj.getAllBlogsPagination(limit, start);
 		return Response.ok().entity(blogs).build();
 	}
 	

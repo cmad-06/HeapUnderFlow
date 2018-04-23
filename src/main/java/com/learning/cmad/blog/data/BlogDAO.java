@@ -14,6 +14,7 @@ public interface BlogDAO {
 	
 	//Read
 	public List<Blog> getAllBlogs();
+	public List<Blog> getAllBlogsPagination(int limit, int start);
 	public Blog getBlogById(String id);
 	
 	//Update

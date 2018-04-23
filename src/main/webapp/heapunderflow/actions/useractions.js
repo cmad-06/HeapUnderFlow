@@ -12,6 +12,7 @@ export const ACTION_TYPES = {
  }
 
 let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/user/"
+//let baseurl = "http://localhost:8080/service/user/"
 
 export function fetchUser(userDetails) {
     console.log("addBLog details" )

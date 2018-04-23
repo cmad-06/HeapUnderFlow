@@ -89,5 +89,12 @@ public class MorphiaBlogDao extends BasicDAO<Blog, String> implements BlogDAO{
 		}
 		
 	}
+
+	@Override
+	public List<Blog> getAllBlogsPagination(int limit, int start) {
+		List<Blog> blogs = createQuery().order("-blogViews").offset(start).limit(limit).asList();
+		return blogs;
+	
+	}
 	
 }
