@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "601a7a678ed73ad17c2a"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "34d1542a7330108b6edc"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -2935,9 +2935,10 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     UPDATED_USER: "updated_user",
     FETCH_BLOG: 'fetch_blog',
     DELETED_BLOG: 'deleted_blog'
+};
 
-    //let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/user/"
-};var baseurl = "http://localhost:8080/service/user/";
+var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/user/";
+//let baseurl = "http://localhost:8080/service/user/"
 
 function fetchUser(userDetails) {
     console.log("addBLog details");
@@ -6499,9 +6500,10 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     FETCHED_BLOGS: 'fetched_blogs',
     FETCHED_BLOG_BY_ID: 'fetched_blog_by_id',
     DELETED_BLOG: 'deleted_blog'
+};
 
-    //let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/"
-};var baseurl = "http://localhost:8080/service/";
+var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/";
+//let baseurl = "http://localhost:8080/service/"
 
 function addBlog(blogDetails) {
     return {
@@ -10518,8 +10520,10 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     ADDED_BLOG: 'added_comment',
     FETCHED_COMMENTS_BY_BLOGID: "fetched_comments_by_blogId"
 
-    //const baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/comment"
-};var baseurl = "http://localhost:8080/service/comment";
+};
+
+var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/comment";
+//const baseurl = "http://localhost:8080/service/comment"
 
 function addComment(comment) {
     console.log("Comment : " + comment);
@@ -38781,54 +38785,6 @@ function mapStateToProps(state) {
         blogs: state.blogs.blogs
     };
 }
-
-/*
-    render(){
-        const rowEvents = {
-            onClick: (e, row, rowIndex) => {
-              console.log(row)
-              console.log(rowIndex)
-              console.log(this.props.history)
-              this.props.history.push({
-                pathname: '/blogpage',
-                blogId:rwo.blogId,
-            })
-            }
-          };
-        const columns = [{
-            dataField: 'blogId',
-            text: 'Blog ID',
-          
-          }, {
-            dataField: 'blogTitle',
-            text: 'Blog Title'
-          }, {
-            dataField: 'blogLikes',
-            text: 'Blog Likes'
-          }];
-          
-          return(
-          <BootstrapTable keyField='blogId' data={ this.props.blogs } columns={ columns } rowEvents={ rowEvents }  hover />
-          )
-    }
-*/
-/*
-render() {
-    const rowEvents = {
-        onClick: (e, row, rowIndex) => {
-          console.log("Hello, World!!")
-        }
-      };
-    
-    return (
-      <BootstrapTable data={ this.props.blogs }   hover height='120' scrollTop={ 'Bottom'  } bordered={ false } rowEvents={ rowEvents }> 
-          
-          <TableHeaderColumn dataField='blogId'  isKey>Blog Id</TableHeaderColumn>
-          <TableHeaderColumn dataField='blogTitle'>Blog Title </TableHeaderColumn>
-          <TableHeaderColumn dataField='blogLikes'>Blog Likes</TableHeaderColumn>
-      </BootstrapTable>
-    );
-  }*/
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchBlogsFromServer: _blogactions.fetchBlogsFromServer, searchBlogsByKey: _blogactions.searchBlogsByKey })(Blogs);
 
@@ -68555,9 +68511,10 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     FETCHED_BLOGS: 'fetched_blogs',
     FETCHED_BLOG_BY_ID: 'fetched_blog_by_id',
     DELETED_BLOG: 'deleted_blog'
+};
 
-    //let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/"
-};var baseurl = "http://localhost:8080/service/";
+var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/";
+//let baseurl = "http://localhost:8080/service/"
 
 function addBlog(blogDetails) {
     return {
