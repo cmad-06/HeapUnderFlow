@@ -104,7 +104,7 @@ export function addUsertoServer(user){
 export function updateUsertoServer(user,cb){
     console.log("updateUsertoServer")
    let  data = JSON.stringify(user);
-    
+    let token = sessionStorage.getItem("token")
     return (dispatch) => {
         console.log(" Updating User at : " + baseurl + user.userId)
         fetch(baseurl + user.userId, {
@@ -112,6 +112,7 @@ export function updateUsertoServer(user,cb){
                 headers: {
                     'Content-Type':'application/json',
                     "Accept":'application/json',
+                    "Authorization":token
                 },
                 body: JSON.stringify(user)
             }).then((response) => response.text())
@@ -147,9 +148,16 @@ export function updateUsertoServer(user,cb){
     
 export function fetchUserBlogsFromServer(userId) {
     console.log("fetchUserBlogsFromServer")
+    let token = sessionStorage.getItem("token")
     return (dispatch) => {
         console.log("User Blogs at :" + baseurl + userId + "/blog")
-        fetch(baseurl + userId + "/blog")
+        fetch(baseurl + userId + "/blog", {
+            headers: {
+                'Content-Type':'application/json',
+                "Accept":'application/json',
+                "Authorization":token
+            }
+        })
         .then((response) => {
                 return response.json();
         }).then((blogs) => dispatch(fetchUserBlogs(blogs)));
@@ -158,6 +166,7 @@ export function fetchUserBlogsFromServer(userId) {
 
 export function fetchBlogById(blogId) {
     console.log("fetchUserBlogsFromServer")
+    let token = sessionStorage.getItem("token")
     return (dispatch) => {
         console.log("User Blogs at :" + baseurl + "/blog/"+blogId)
         fetch(baseurl + "/blog/" + blogId)
@@ -170,6 +179,7 @@ export function fetchBlogById(blogId) {
 
 export function addBlogtoServer(blog, cb){
     console.log("addBlogtoServer" + blog)
+    let token = sessionStorage.getItem("token")
     const blogdata = JSON.stringify({
         blogTitle: blog.blogTitle,
         blogAuthor: blog.blogAuthor,
@@ -180,6 +190,7 @@ export function addBlogtoServer(blog, cb){
         axios.post(baseurl + blog.userId + "/blog", blogdata, {
               headers: {
                   'Content-Type':'application/json',
+                  "Authorization":token
               }
              
           }).then(function(response){
@@ -193,7 +204,13 @@ export function addBlogtoServer(blog, cb){
       }
 
 export function deleteUserBlogById(userId, blogId, callback){
-    const request = axios.delete(baseurl + userId + "/blog/" + blogId ).then(()=>{
+    let token = sessionStorage.getItem("token")
+    const request = axios.delete(baseurl + userId + "/blog/" + blogId,  {
+        headers: {
+            'Content-Type':'application/json',
+            "Authorization":token
+        }
+    } ).then(()=>{
         console.log("Blog Deleted ");
         callback();
     })

@@ -38,6 +38,7 @@ public class UserRootResource {
 
 	private BlogUser user = new SimpleBlogUser();
 	
+	@JWTRequired
 	@GET
     @Path("/")
 	public Response getAllUsers() {
@@ -45,6 +46,7 @@ public class UserRootResource {
 		return Response.ok().entity(users).build();
 	}
 	
+	@JWTRequired
 	@GET
     @Path("/{id}")
 	public Response getUserById(@PathParam("id") String userId) {
@@ -52,6 +54,7 @@ public class UserRootResource {
 		return Response.ok().entity(currentUser).build();
 	}
 	
+	@JWTRequired
 	@PUT
     @Path("/{id}")
 	public Response updateUser(User updatedUser) {
@@ -61,6 +64,7 @@ public class UserRootResource {
 		return Response.ok().entity(updatedUser).build();
 	}
 	
+	@JWTRequired
 	@DELETE
     @Path("/{id}")
 	public Response deleteUser(@PathParam("id") String userId) {
@@ -127,7 +131,7 @@ public class UserRootResource {
 		
 	}
 	
-	
+	@JWTRequired
 	@POST
 	@Path("/{id}/blog")
 	public Response addBlogForUser(@PathParam("id") String userId, Blog blog){
@@ -137,6 +141,7 @@ public class UserRootResource {
 	}
 	
 	
+	@JWTRequired
 	@GET
 	@Path("/{id}/blog")
 	public Response getBlogsForUser(@PathParam("id") String userId){
@@ -145,6 +150,7 @@ public class UserRootResource {
 
 	}
 	
+	@JWTRequired
 	@DELETE
 	@Path("/{id}/blog/{blogId}")
 	public Response deleteUserBlogById(@PathParam("id") String userId, @PathParam("blogId") String blogId){
