@@ -155,29 +155,6 @@ export function updateUsertoServer(user,cb){
             };
           }
     
-    export function loginUser1(user){
-        console.log("loginUser")
-        
-        return (dispatch) => {
-            fetch(baseurl + "login", {
-                  method: 'post',
-                  headers: {
-                      'Content-Type':'application/json',
-                      
-                  },
-                  body: JSON.stringify({
-                    username: user.username,
-                    password: user.password
-                  })
-              }).then((response) => response.text())
-              .then(text => {
-                  
-                  sessionStorage.setItem("isLoggedIn" , true)
-                  dispatch(loggedinUser(text))
-              })
-          }
-        }
-
     
 export function fetchUserBlogsFromServer(userId) {
     console.log("fetchUserBlogsFromServer")

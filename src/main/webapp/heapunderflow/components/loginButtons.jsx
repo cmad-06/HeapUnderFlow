@@ -19,12 +19,11 @@ class LoginButtons extends React.Component{
 
     handleProfileButton(e){
         e.preventDefault()
-        console.log("handleProfileButton");
-        const user = sessionStorage.getItem("user");
-        console.log("UserDetails in LoginButtons : " + JSON.stringify(user))
+        const user = JSON.parse(sessionStorage.getItem("user"))
+        console.log("UserDetails in LoginButtons : " + user.userId)
         this.props.history.push({
             pathname: '/userprofile',
-            user:user,
+            user:user.userId,
         })
     }
 
