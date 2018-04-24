@@ -2,17 +2,52 @@
 import React from "react";
 import Blog from "./Blog.jsx";
 import { connect } from 'react-redux';
-import {fetchBlogsFromServer,searchBlogsByKey } from "../actions/blogactions.js";
+import {fetchBlogsFromServer,fetchBlogsFromServerForPage,searchBlogsByKey } from "../actions/blogactions.js";
 import {Table} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 import BootstrapTable from 'react-bootstrap-table-next';
 
 class Blogs extends React.Component{
+
+//--------------------------------------------------------------------------
     
     constructor(props){
         super(props);
+        this.handleNext = this.handleNext.bind(this);
+        this.handlePrev = this.handlePrev.bind(this);
+        this.state = {
+        	page: 1
+        }  
     }
+
+//--------------------------------------------------------------------------
+    
+     handleNext(){
+    	alert("Next clicked");
+    	const currentPage = this.state.page + 1;
+    	alert("moving to page: " + currentPage);
+    	this.setState((prevState) => {
+            return { 
+                page: prevState.page + 1
+            }
+        });
+        
+        fetchBlogsFromServerForPage(currentPage);
+    }
+    
+//--------------------------------------------------------------------------
+    handlePrev(){
+    	console.log("Prev clicked");
+    	alert("Prev clicked Fresh");
+    	this.setState((prevState) => {
+            return { 
+                page: prevState.page - 1
+            }
+        });
+    }
+
+//--------------------------------------------------------------------------
 
     renderList(){
         console.log("Props : " + JSON.stringify(this.props.blogs))
@@ -21,6 +56,8 @@ class Blogs extends React.Component{
             </Blog>
         }) 
     }
+
+//--------------------------------------------------------------------------
 
     componentWillMount(){
         
@@ -31,10 +68,25 @@ class Blogs extends React.Component{
             this.props.searchBlogsByKey(searchString)
         }
         else {
-            this.props.fetchBlogsFromServer();
+        	const currentpage = this.state.page;
+            this.props.fetchBlogsFromServerForPage(currentpage);
         }
         console.log("Blogs Received Data?" );
     }
+
+//--------------------------------------------------------------------------
+
+	componentWillReceiveProps(){
+		alert("inside componentWillReceiveProps");
+		this.forceUpdate();
+   	}
+	
+
+//--------------------------------------------------------------------------
+
+
+
+
     render(){   
         
         if (!this.props.blogs){
@@ -46,8 +98,14 @@ class Blogs extends React.Component{
         var blogTds = {
           color: 'white'
         };
-                
+        
+        var buttonStyle = {
+        	textAlign: 'center'
+        };
+        
+       
         return(
+        	<div>
              <Table bsClass="table" className='table-users'  >
                 <thead>
                     <tr style={{font:'verdena', color:'white'}}>
@@ -61,10 +119,19 @@ class Blogs extends React.Component{
                  {this.renderList()}
                 </tbody>
             </Table>
+	            <div style= {buttonStyle}>
+		            <button disabled={this.state.page <= 1} onClick={this.handlePrev}>Previous</button>
+		            &nbsp;
+		            <button onClick={this.handleNext}>Next</button>
+	            </div>
+            </div>
         );
     }
     
 };
+
+
+//--------------------------------------------------------------------------
 
 function mapStateToProps(state){
   //  console.log(JSON.stringify("State Details blogs.jsx : " + JSON.stringify(state)))
@@ -73,6 +140,7 @@ function mapStateToProps(state){
     }
 }
 
+//--------------------------------------------------------------------------
 
+export default connect(mapStateToProps,{fetchBlogsFromServer, fetchBlogsFromServerForPage, searchBlogsByKey})(Blogs);
 
-export default connect(mapStateToProps,{fetchBlogsFromServer, searchBlogsByKey})(Blogs);

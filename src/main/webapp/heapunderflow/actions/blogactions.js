@@ -45,6 +45,17 @@ export function fetchBlogsFromServer() {
     };
 }
 
+export function fetchBlogsFromServerForPage(page) {
+    const currentStart = 15 * (page - 1);
+    console.log("Fetching blogs for URL: " + baseurl + "blog/page?limit=15&start=" + currentStart);
+	return (dispatch) => {
+        fetch(baseurl + "blog/page?limit=15&start=" + currentStart)
+        .then((response) => {
+                return response.json();
+        }).then((blogs) => dispatch(fetchBlogs(blogs)));
+    };
+}
+
 export function searchBlogsByKey(key){
     console.log(baseurl + "blog/search?q="+key)
 
