@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "34d1542a7330108b6edc"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ebffeaeea214171f8786"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -3031,14 +3031,15 @@ function addUsertoServer(user) {
 function updateUsertoServer(user, cb) {
     console.log("updateUsertoServer");
     var data = JSON.stringify(user);
-
+    var token = sessionStorage.getItem("token");
     return function (dispatch) {
         console.log(" Updating User at : " + baseurl + user.userId);
         fetch(baseurl + user.userId, {
             method: 'put',
             headers: {
                 'Content-Type': 'application/json',
-                "Accept": 'application/json'
+                "Accept": 'application/json',
+                "Authorization": token
             },
             body: JSON.stringify(user)
         }).then(function (response) {
@@ -3074,9 +3075,16 @@ function loginUser(user) {
 
 function fetchUserBlogsFromServer(userId) {
     console.log("fetchUserBlogsFromServer");
+    var token = sessionStorage.getItem("token");
     return function (dispatch) {
         console.log("User Blogs at :" + baseurl + userId + "/blog");
-        fetch(baseurl + userId + "/blog").then(function (response) {
+        fetch(baseurl + userId + "/blog", {
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept": 'application/json',
+                "Authorization": token
+            }
+        }).then(function (response) {
             return response.json();
         }).then(function (blogs) {
             return dispatch(fetchUserBlogs(blogs));
@@ -3086,6 +3094,7 @@ function fetchUserBlogsFromServer(userId) {
 
 function fetchBlogById(blogId) {
     console.log("fetchUserBlogsFromServer");
+    var token = sessionStorage.getItem("token");
     return function (dispatch) {
         console.log("User Blogs at :" + baseurl + "/blog/" + blogId);
         fetch(baseurl + "/blog/" + blogId).then(function (response) {
@@ -3098,6 +3107,7 @@ function fetchBlogById(blogId) {
 
 function addBlogtoServer(blog, cb) {
     console.log("addBlogtoServer" + blog);
+    var token = sessionStorage.getItem("token");
     var blogdata = JSON.stringify({
         blogTitle: blog.blogTitle,
         blogAuthor: blog.blogAuthor,
@@ -3107,7 +3117,8 @@ function addBlogtoServer(blog, cb) {
 
     _axios2.default.post(baseurl + blog.userId + "/blog", blogdata, {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": token
         }
 
     }).then(function (response) {
@@ -3121,7 +3132,13 @@ function addBlogtoServer(blog, cb) {
 }
 
 function deleteUserBlogById(userId, blogId, callback) {
-    var request = _axios2.default.delete(baseurl + userId + "/blog/" + blogId).then(function () {
+    var token = sessionStorage.getItem("token");
+    var request = _axios2.default.delete(baseurl + userId + "/blog/" + blogId, {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": token
+        }
+    }).then(function () {
         console.log("Blog Deleted ");
         callback();
     });
@@ -38627,16 +38644,46 @@ var Home = function (_React$Component) {
     function Home(props) {
         _classCallCheck(this, Home);
 
-        return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+        _this.handleNext = _this.handleNext.bind(_this);
+        _this.handlePrev = _this.handlePrev.bind(_this);
+        return _this;
     }
 
     _createClass(Home, [{
+        key: "handleNext",
+        value: function handleNext() {
+            console.log("Next clicked");
+            alert("Next clicked");
+        }
+    }, {
+        key: "handlePrev",
+        value: function handlePrev() {
+            console.log("Prev clicked");
+            alert("Prev clicked");
+        }
+    }, {
         key: "render",
         value: function render() {
             return (
 
                 // <ErrorBoundary>
-                _react2.default.createElement(_blogs2.default, { history: this.props.history })
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement(_blogs2.default, { history: this.props.history }),
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: this.handlePrev },
+                        "Previous"
+                    ),
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: this.handleNext },
+                        "Next"
+                    )
+                )
                 //</ErrorBoundary>  
 
             );
