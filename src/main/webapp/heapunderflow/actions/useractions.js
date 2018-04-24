@@ -13,7 +13,7 @@ export const ACTION_TYPES = {
 
 let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/user/"
 //let baseurl = "http://localhost:8080/service/user/"
-
+  
 export function fetchUser(userDetails) {
     console.log("addBLog details" )
     return {
@@ -62,9 +62,18 @@ export function addBLog() {
 }
 
 export function getUserById(userId, cb){
-    let response = axios.get(baseurl + userId).then(data => {
+    
+    let AUTH_TOKEN = sessionStorage.getItem("token")
+    console.log("AUTH_TOKEN : " + AUTH_TOKEN)
+    let response = axios.get(baseurl+userId, {
+        headers: {
+            'Content-Type':'application/json',
+            "Authorization":AUTH_TOKEN
+        },
+        credentials: 'same-origin'
+    }).then(data => {
         console.log("User Data : " + JSON.stringify(data))
-        cb(data);
+        cb(data.data);
     })
   /*  return (dispatch) => {
         console.log("User Blogs at :" + baseurl + userId + "/blog")
@@ -95,7 +104,7 @@ export function addUsertoServer(user){
               })
           }).then((response) => response.text())
             .then(text=>{
-                sessionStorage.setItem("isLoggedIn" , true)
+                sessionStorage.setItem("isLoggedIn" , "true")
                 dispatch(addUser(text))
             })
       }
@@ -114,6 +123,7 @@ export function updateUsertoServer(user,cb){
                     "Accept":'application/json',
                     "Authorization":token
                 },
+                credentials: 'same-origin',
                 body: JSON.stringify(user)
             }).then((response) => response.text())
             .then(text=>{
@@ -122,8 +132,30 @@ export function updateUsertoServer(user,cb){
         }
     }
 
+    export function loginUser(user, cb){
+        console.log("loginUser" + user)
+        const body = JSON.stringify({
+            username: user.username,
+            password: user.password
+          })
+        
+            axios.post(baseurl + "login", body, {
+                  headers: {
+                      'Content-Type':'application/json',
+                      "Accept":'application/json',
+                  },
+              }).then(function(response){
+                sessionStorage.setItem("isLoggedIn" , "true");
+                  console.log("User Logged In + " + JSON.stringify(response.data))
+                cb(response.data);              
+              });
     
-    export function loginUser(user){
+              return {
+                type: ACTION_TYPES.LOGGED_IN,
+            };
+          }
+    
+    export function loginUser1(user){
         console.log("loginUser")
         
         return (dispatch) => {
@@ -131,7 +163,7 @@ export function updateUsertoServer(user,cb){
                   method: 'post',
                   headers: {
                       'Content-Type':'application/json',
-                      "Accept":'application/json',
+                      
                   },
                   body: JSON.stringify({
                     username: user.username,
@@ -139,6 +171,7 @@ export function updateUsertoServer(user,cb){
                   })
               }).then((response) => response.text())
               .then(text => {
+                  
                   sessionStorage.setItem("isLoggedIn" , true)
                   dispatch(loggedinUser(text))
               })
@@ -156,11 +189,15 @@ export function fetchUserBlogsFromServer(userId) {
                 'Content-Type':'application/json',
                 "Accept":'application/json',
                 "Authorization":token
-            }
+            },
+            credentials: 'same-origin'
         })
         .then((response) => {
+            console.log("Success in fetchUserBlogsFromServer " + response);
                 return response.json();
-        }).then((blogs) => dispatch(fetchUserBlogs(blogs)));
+        }).then((blogs) => dispatch(fetchUserBlogs(blogs))).catch(err=>{
+            console.log("ERROR in fetchUserBlogsFromServer " + err);
+        })
     };
 }
 
@@ -191,8 +228,8 @@ export function addBlogtoServer(blog, cb){
               headers: {
                   'Content-Type':'application/json',
                   "Authorization":token
-              }
-             
+              },
+              credentials: 'same-origin'
           }).then(function(response){
               console.log("Blog Posted")
             cb();              
@@ -209,7 +246,8 @@ export function deleteUserBlogById(userId, blogId, callback){
         headers: {
             'Content-Type':'application/json',
             "Authorization":token
-        }
+        },
+        credentials: 'same-origin'
     } ).then(()=>{
         console.log("Blog Deleted ");
         callback();

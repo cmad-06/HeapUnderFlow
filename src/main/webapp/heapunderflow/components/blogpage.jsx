@@ -40,6 +40,7 @@ class BlogPage extends React.Component{
         this.setState ({
             userId : userId
         })
+        console.log("sessionStorage.getItem()  user " + sessionStorage.getItem("user"))
         this.setState ({
             user : JSON.parse(sessionStorage.getItem("user"))
         })
@@ -132,15 +133,15 @@ class BlogPage extends React.Component{
                 <div/>
             )
         }
-
-        const showDeleteBlogButton = (this.state.userId === "" ) ? <div/> :
+        console.log("this.state.userId  + " + this.state.userId )
+        const showDeleteBlogButton = (this.state.userId === null ) ? <div/> :
         this.props.blog.blogAuthor === this.state.user.username ? <Button bsStyle="primary" onClick= {this.handleDeleteBlog}>Delete Blog</Button> : <div/>
 
-        const showEditBlogButton = this.state.userId === "" ? <div/> :
+        const showEditBlogButton = this.state.userId === null ? <div/> :
         this.props.blog.blogAuthor === this.state.user.username ? <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button> : <div/>
         
 
-        const showAddCommentsDiv = this.state.userId === "" ? <div/>:
+        const showAddCommentsDiv = this.state.userId === null ? <div/>:
         <div id="comments" >
                     <form onSubmit={this.handleSubmit}>
                         <p className="form-group">

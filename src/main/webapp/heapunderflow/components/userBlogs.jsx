@@ -17,6 +17,7 @@ class UserBlogs extends React.Component{
 
     renderList(){
         console.log("Props : " + JSON.stringify(this.props.blogs))
+
         if (this.props.blogs != undefined){
             return this.props.blogs.map((blog) => {
                 if (blog != null){ /* Delete blog should delete blog emntry in user profile */
@@ -29,7 +30,8 @@ class UserBlogs extends React.Component{
 
     componentWillMount(){
         console.log("Blogs" );
-        store.dispatch(fetchUserBlogsFromServer(this.state.data));
+        const userId = sessionStorage.getItem("userId" );
+        store.dispatch(fetchUserBlogsFromServer(userId));
         console.log("Blogs Received Data?" );
     }
 

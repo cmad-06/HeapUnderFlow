@@ -1,7 +1,7 @@
 import React from 'react'
 import store from '../store/store.js'
 import { connect } from 'react-redux';
-import {loginUser} from '../actions/useractions'
+import {loginUser, getUserById} from '../actions/useractions'
 import {ACTION_TYPES} from '../actions/useractions'
 
 class LoginForm extends React.Component  {
@@ -32,19 +32,33 @@ class LoginForm extends React.Component  {
     loginUserSubmit(e){
         e.preventDefault()
         console.log("Login Form Submit Clicked");
-        store.dispatch(loginUser(this.state));
+        sessionStorage.setItem("userId" , "");
+        sessionStorage.setItem("token" , "");
+        loginUser(this.state, data => {
+            console.log("DATA  : " + JSON.stringify(data))
+            sessionStorage.setItem("userId" , data.userId);
+            sessionStorage.setItem("token" , data.token);
+            getUserById(data.userId,data => {
+                sessionStorage.setItem("user" , JSON.stringify(data));
+                this.props.history.push({
+                    pathname: '/userprofile',
+                    user:data.userId,
+                })
+            }); 
+            
+        })
         console.log(this.state.username);
     }
 
     componentWillReceiveProps(){
-        console.log("Props at did mount" + JSON.stringify(this.props));
+    /*    console.log("Props at did mount" + JSON.stringify(this.props));
         console.log("Props at did mount" + JSON.stringify(this.state.userDetails));
         let state = store.getState()
         sessionStorage.setItem("isLoggedIn" , "true");
         this.props.history.push({
             pathname: '/userprofile',
             user:state.user.user,
-        })
+        })*/
     }
     render(){
         
@@ -81,4 +95,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(LoginForm)
+export default connect(mapStateToProps, {loginUser, getUserById})(LoginForm)

@@ -89,14 +89,6 @@ class Blogs extends React.Component{
 
 //--------------------------------------------------------------------------
 
-	componentWillReceiveProps(){
-		//alert("inside componentWillReceiveProps");
-		this.forceUpdate();
-   	}
-	
-
-//--------------------------------------------------------------------------
-
 
 
 
