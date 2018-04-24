@@ -17,33 +17,39 @@ class Blogs extends React.Component{
         this.handleNext = this.handleNext.bind(this);
         this.handlePrev = this.handlePrev.bind(this);
         this.state = {
-        	page: 1
+            page: 1,
+            blogs:false
         }  
     }
 
 //--------------------------------------------------------------------------
     
      handleNext(){
-    	alert("Next clicked");
+    //	alert("Next clicked");
     	const currentPage = this.state.page + 1;
-    	alert("moving to page: " + currentPage);
-    	this.setState((prevState) => {
-            return { 
-                page: prevState.page + 1
-            }
+        console.log("moving to page: " + currentPage);
+        fetchBlogsFromServerForPage(currentPage, data=>{
+            this.setState((prevState) => {
+                return { 
+                    page: prevState.page + 1,
+                    blogs: data.data
+                }
+            });
         });
-        
-        fetchBlogsFromServerForPage(currentPage);
+    	
     }
     
 //--------------------------------------------------------------------------
     handlePrev(){
     	console.log("Prev clicked");
-    	alert("Prev clicked Fresh");
-    	this.setState((prevState) => {
-            return { 
-                page: prevState.page - 1
-            }
+        const currentPage = this.state.page - 1;
+    	fetchBlogsFromServerForPage(currentPage, data=>{
+            this.setState((prevState) => {
+                return { 
+                    page: prevState.page - 1,
+                    blogs: data.data
+                }
+            });
         });
     }
 
@@ -51,7 +57,7 @@ class Blogs extends React.Component{
 
     renderList(){
         console.log("Props : " + JSON.stringify(this.props.blogs))
-        return this.props.blogs.map((blog) => {
+        return this.state.blogs.map((blog) => {
             return <Blog title={ blog.blogTitle } key={blog.blogId} blogId={blog.blogId} blogAuthor={blog.blogAuthor} likes={blog.blogLikes} views={blog.blogViews}>
             </Blog>
         }) 
@@ -69,15 +75,22 @@ class Blogs extends React.Component{
         }
         else {
         	const currentpage = this.state.page;
-            this.props.fetchBlogsFromServerForPage(currentpage);
+            this.props.fetchBlogsFromServerForPage(currentpage , data =>{
+                console.log("Blogs Received Data?" + JSON.stringify(data.data) );
+                this.setState((prevState) => {
+                    return { 
+                        blogs: data.data
+                    }
+                });
+            });
         }
-        console.log("Blogs Received Data?" );
+        
     }
 
 //--------------------------------------------------------------------------
 
 	componentWillReceiveProps(){
-		alert("inside componentWillReceiveProps");
+		//alert("inside componentWillReceiveProps");
 		this.forceUpdate();
    	}
 	
@@ -89,7 +102,7 @@ class Blogs extends React.Component{
 
     render(){   
         
-        if (!this.props.blogs){
+        if (!this.state.blogs){
             return (
                 <div/>
             )

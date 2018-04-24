@@ -45,16 +45,21 @@ export function fetchBlogsFromServer() {
     };
 }
 
-export function fetchBlogsFromServerForPage(page) {
+export function fetchBlogsFromServerForPage(page, callback) {
     const currentStart = 15 * (page - 1);
     console.log("Fetching blogs for URL: " + baseurl + "blog/page?limit=15&start=" + currentStart);
-	return (dispatch) => {
-        fetch(baseurl + "blog/page?limit=15&start=" + currentStart)
-        .then((response) => {
-                return response.json();
-        }).then((blogs) => dispatch(fetchBlogs(blogs)));
+
+    const request = axios.get(baseurl + "blog/page?limit=15&start=" + currentStart ).then(data=>{
+        console.log("Blog Data : " + JSON.stringify(data))
+        callback(data);
+    })
+    return {
+        type: ACTION_TYPES.UPDATED_BLOG,
+        blog: request.data,
     };
+	
 }
+
 
 export function searchBlogsByKey(key){
     console.log(baseurl + "blog/search?q="+key)
