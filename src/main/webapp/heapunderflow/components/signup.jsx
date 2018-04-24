@@ -1,6 +1,6 @@
 import React from 'react'
 import store from '../store/store.js'
-import {addUsertoServer} from "../actions/useractions.js";
+import {addUsertoServer, getUserById} from "../actions/useractions.js";
 import { connect } from 'react-redux'
 
 
@@ -57,18 +57,19 @@ class SignupForm extends React.Component  {
     submitUser(e){
         e.preventDefault()
         console.log("Form Submit Clicked");
-       store.dispatch(addUsertoServer(this.state));
+        addUsertoServer(this.state , data =>{
+            console.log("DATA  : " + JSON.stringify(data))
+            sessionStorage.setItem("userId" , data.userId);
+            sessionStorage.setItem("token" , data.token);
+            getUserById(data.userId,data => {
+                sessionStorage.setItem("user" , JSON.stringify(data));
+                this.props.history.push({
+                    pathname: '/userprofile',
+                    user:data.userId,
+                })
+            }); 
+        });
         console.log("submitUser Complete");
-    }
-
-    componentWillReceiveProps(){
-        console.log("Signup Received Props : " + JSON.stringify(this.props))
-        let state = store.getState()
-        sessionStorage.setItem("isLoggedIn" , "true");
-        this.props.history.push({
-            pathname: '/userprofile',
-            user:state.user.user
-        })
     }
 
     /* Implement connect */
@@ -121,4 +122,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(SignupForm)
+export default connect(mapStateToProps, {addUsertoServer, getUserById})(SignupForm)

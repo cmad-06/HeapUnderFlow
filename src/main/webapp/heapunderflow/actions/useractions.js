@@ -84,31 +84,32 @@ export function getUserById(userId, cb){
     };*/
 }
 
-export function addUsertoServer(user){
+export function addUsertoServer(user, cb){
     console.log("addUsertoServer")
+    const body = JSON.stringify({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        password: user.password
+      })
+
+      axios.post(baseurl + "signup", body, {
+        headers: {
+            'Content-Type':'application/json',
+            "Accept":'application/json',
+        },
+    }).then(function(response){
+      sessionStorage.setItem("isLoggedIn" , "true");
+        console.log("User Logged In + " + JSON.stringify(response.data))
+      cb(response.data);
+    });
+
+    return {
+      type: ACTION_TYPES.ADDED_USER,
+  };
+}
    
-    return (dispatch) => {
-       
-        fetch(baseurl + "signup", {
-              method: 'post',
-              headers: {
-                  'Content-Type':'application/json',
-                  "Accept":'application/json',
-              },
-              body: JSON.stringify({
-                firstName: user.firstName,
-                lastName: user.lastName,
-                username: user.username,
-                email: user.email,
-                password: user.password
-              })
-          }).then((response) => response.text())
-            .then(text=>{
-                sessionStorage.setItem("isLoggedIn" , "true")
-                dispatch(addUser(text))
-            })
-      }
-    }
 
 export function updateUsertoServer(user,cb){
     console.log("updateUsertoServer")
