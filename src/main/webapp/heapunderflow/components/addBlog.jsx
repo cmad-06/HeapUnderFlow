@@ -66,13 +66,13 @@ class AddBlog extends React.Component{
                             <p className="form-group required">
                                 <label for="blogTitle" className='control-label'>Blog Title:</label>
                                 <input type="text" className="form-control" name="blogtitle"
-                                    id="blogtitle" placeholder="Enter Blog Title " defaultValue={this.state.blogTitle} onChange={this.changeBlogTitle} />
+                                    id="blogtitle" placeholder="Enter Blog Title " defaultValue={this.state.blogTitle} onChange={this.changeBlogTitle} required />
                             </p>
 
                             <p className="form-group required">
                                 <label for="blogText" className='control-label'>Blog Text:</label>
                                 <textarea rows="4" cols="50" className="form-control"
-                                    name="blogtext" id="blogtext" placeholder="Enter Blog Text" defaultValue={this.state.blogText} onChange={this.changeBlogText}></textarea>
+                                    name="blogtext" id="blogtext" placeholder="Enter Blog Text" defaultValue={this.state.blogText} onChange={this.changeBlogText} required></textarea>
                             </p>
 
                             <p className="form-group">

@@ -87,24 +87,24 @@ class UpdateProfile extends React.Component{
                 <form id="profileupdateform" onSubmit={this.updateUser}>
 					<p className="form-group">
 						<label className='control-label'>First Name:</label> <input type="text"
-							className="form-control" name="firstname1" id="changefirstname" placeholder="Enter firstname" defaultValue={this.state.firstName} onChange={this.changeFirstName}/>
+							className="form-control" name="firstname1" id="changefirstname" placeholder="Enter firstname" defaultValue={this.state.firstName} onChange={this.changeFirstName} required />
 					</p>
 					<p className="form-group">
 						<label className='control-label'>Last Name:</label> <input type="text"
-							className="form-control" name="lastname1" id="changelastname" placeholder="Enter lastname" defaultValue={this.state.lastName} onChange={this.changeLastName} />
+							className="form-control" name="lastname1" id="changelastname" placeholder="Enter lastname" defaultValue={this.state.lastName} onChange={this.changeLastName} required />
 					</p>
 
 					<p className="form-group">
 						<label className='control-label'>Email:</label> <input type="email"
-							className="form-control" name="email1" id="changeemail" placeholder="Enter email" defaultValue={this.state.email} onChange={this.changeEmail} />
+							className="form-control" name="email1" id="changeemail" placeholder="Enter email" defaultValue={this.state.email} onChange={this.changeEmail} required />
 					</p>
 					<p className="form-group">
 						<label className='control-label'>Password:</label> <input type="password"
-							className="form-control" name="password1" id="changepassword" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord}/>
+							className="form-control" name="password1" id="changepassword" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord} required />
 					</p>
 					<p className="form-group">
 						<label className='control-label'>Confirm Password:</label> <input type="password"
-							className="form-control" name="password2" id="changepassword2" placeholder="Confirm password" defaultValue={this.state.confirmpassword} onChange={this.changeConfirmPassWord}/> 
+							className="form-control" name="password2" id="changepassword2" placeholder="Confirm password" defaultValue={this.state.confirmpassword} onChange={this.changeConfirmPassWord} required /> 
 					</p>
 					<p className="form-group">
 						<button id="profileupdate" type="submit" className="btn btn-success btn-lg">Submit</button>

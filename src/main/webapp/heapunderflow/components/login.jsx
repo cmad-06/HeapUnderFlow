@@ -70,11 +70,11 @@ class LoginForm extends React.Component  {
 				<form onSubmit={this.loginUserSubmit}>
                     <div className="form-group required">
 						<label id="username" className='control-label'>Username:</label> 
-                        <input type="text" className="form-control" name="username"  placeholder="Enter username" defaultValue={this.state.username} onChange={this.changeUserName}/>
+                        <input type="text" className="form-control" name="username"  placeholder="Enter username" defaultValue={this.state.username} onChange={this.changeUserName} required/>
 					</div>
 					<div className="form-group required">
 						<label id="password" className='control-label'>Password:</label> <input type="password"
-							className="form-control" name="password" placeholder="Enter password"defaultValue={this.state.password} onChange={this.changePassWord}/>
+							className="form-control" name="password" placeholder="Enter password"defaultValue={this.state.password} onChange={this.changePassWord} required/>
 					</div>
                     <button>Login</button>
                 </form>

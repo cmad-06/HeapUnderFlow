@@ -90,23 +90,23 @@ class SignupForm extends React.Component  {
                     <div className="form-group required">
 						<label id="firstname" className='control-label'>First Name:</label> 
                         <input type="text"
-							className="form-control" name="firstname"  placeholder="Enter firstname" defaultValue={this.state.firstName} onChange={this.changeFirstName} />
+							className="form-control" name="firstname"  placeholder="Enter firstname" defaultValue={this.state.firstName} onChange={this.changeFirstName} required />
 					</div>
                     <div className="form-group required">
 						<label id="lastname" className='control-label'>Last Name:</label> <input type="text"
-							className="form-control" name="lastname" placeholder="Enter lastname" defaultValue={this.state.lastName} onChange={this.changeLastName}/>
+							className="form-control" name="lastname" placeholder="Enter lastname" defaultValue={this.state.lastName} onChange={this.changeLastName} required/>
 					</div>
 					<div className="form-group required">
 						<label id="username" className='control-label'>Username:</label> <input type="text"
-							className="form-control" name="username"  placeholder="Enter username" defaultValue={this.state.username} onChange={this.changeUserName}/>
+							className="form-control" name="username"  placeholder="Enter username" defaultValue={this.state.username} onChange={this.changeUserName} required/>
 					</div>
 					<div className="form-group required">
 						<label id="email" className='control-label'>Email:</label> <input type="email"
-							className="form-control" name="email" placeholder="Enter email" defaultValue={this.state.email} onChange={this.changeEmail}/>
+							className="form-control" name="email" placeholder="Enter email" defaultValue={this.state.email} onChange={this.changeEmail} required/>
 					</div>
 					<div className="form-group required">
 						<label id="pwd" className='control-label'>Password:</label> <input type="password"
-							className="form-control" name="password" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord}/>
+							className="form-control" name="password" placeholder="Enter password" defaultValue={this.state.password} onChange={this.changePassWord} required/>
 					</div>
                     <button>Submit</button>
                 </form>
