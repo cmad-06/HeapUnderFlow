@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ebffeaeea214171f8786"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8f48a30bb3eceb85e50c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -2883,7 +2883,7 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 var store = __webpack_require__(130)('wks');
 var uid = __webpack_require__(88);
-var Symbol = __webpack_require__(33).Symbol;
+var Symbol = __webpack_require__(32).Symbol;
 var USE_SYMBOL = typeof Symbol == 'function';
 
 var $exports = module.exports = function (name) {
@@ -2896,6 +2896,215 @@ $exports.store = store;
 
 /***/ }),
 /* 30 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (isObject);
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(32);
+var core = __webpack_require__(28);
+var ctx = __webpack_require__(124);
+var hide = __webpack_require__(45);
+var has = __webpack_require__(40);
+var PROTOTYPE = 'prototype';
+
+var $export = function (type, name, source) {
+  var IS_FORCED = type & $export.F;
+  var IS_GLOBAL = type & $export.G;
+  var IS_STATIC = type & $export.S;
+  var IS_PROTO = type & $export.P;
+  var IS_BIND = type & $export.B;
+  var IS_WRAP = type & $export.W;
+  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
+  var expProto = exports[PROTOTYPE];
+  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
+  var key, own, out;
+  if (IS_GLOBAL) source = name;
+  for (key in source) {
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if (own && has(exports, key)) continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function (C) {
+      var F = function (a, b, c) {
+        if (this instanceof C) {
+          switch (arguments.length) {
+            case 0: return new C();
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if (IS_PROTO) {
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if (type & $export.R && expProto && !expProto[key]) hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library`
+module.exports = $export;
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+module.exports = exports['default'];
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+function makeEmptyFunction(arg) {
+  return function () {
+    return arg;
+  };
+}
+
+/**
+ * This function accepts and discards inputs; it has no side effects. This is
+ * primarily useful idiomatically for overridable function endpoints which
+ * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+ */
+var emptyFunction = function emptyFunction() {};
+
+emptyFunction.thatReturns = makeEmptyFunction;
+emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+emptyFunction.thatReturnsThis = function () {
+  return this;
+};
+emptyFunction.thatReturnsArgument = function (arg) {
+  return arg;
+};
+
+module.exports = emptyFunction;
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (isObjectLike);
+
+
+/***/ }),
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2988,9 +3197,18 @@ function addBLog() {
 }
 
 function getUserById(userId, cb) {
-    var response = _axios2.default.get(baseurl + userId).then(function (data) {
+
+    var AUTH_TOKEN = sessionStorage.getItem("token");
+    console.log("AUTH_TOKEN : " + AUTH_TOKEN);
+    var response = _axios2.default.get(baseurl + userId, {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": AUTH_TOKEN
+        },
+        credentials: 'same-origin'
+    }).then(function (data) {
         console.log("User Data : " + JSON.stringify(data));
-        cb(data);
+        cb(data.data);
     });
     /*  return (dispatch) => {
           console.log("User Blogs at :" + baseurl + userId + "/blog")
@@ -3001,30 +3219,29 @@ function getUserById(userId, cb) {
       };*/
 }
 
-function addUsertoServer(user) {
+function addUsertoServer(user, cb) {
     console.log("addUsertoServer");
+    var body = JSON.stringify({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        password: user.password
+    });
 
-    return function (dispatch) {
+    _axios2.default.post(baseurl + "signup", body, {
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept": 'application/json'
+        }
+    }).then(function (response) {
+        sessionStorage.setItem("isLoggedIn", "true");
+        console.log("User Logged In + " + JSON.stringify(response.data));
+        cb(response.data);
+    });
 
-        fetch(baseurl + "signup", {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                "Accept": 'application/json'
-            },
-            body: JSON.stringify({
-                firstName: user.firstName,
-                lastName: user.lastName,
-                username: user.username,
-                email: user.email,
-                password: user.password
-            })
-        }).then(function (response) {
-            return response.text();
-        }).then(function (text) {
-            sessionStorage.setItem("isLoggedIn", true);
-            dispatch(addUser(text));
-        });
+    return {
+        type: ACTION_TYPES.ADDED_USER
     };
 }
 
@@ -3041,6 +3258,7 @@ function updateUsertoServer(user, cb) {
                 "Accept": 'application/json',
                 "Authorization": token
             },
+            credentials: 'same-origin',
             body: JSON.stringify(user)
         }).then(function (response) {
             return response.text();
@@ -3050,26 +3268,26 @@ function updateUsertoServer(user, cb) {
     };
 }
 
-function loginUser(user) {
-    console.log("loginUser");
+function loginUser(user, cb) {
+    console.log("loginUser" + user);
+    var body = JSON.stringify({
+        username: user.username,
+        password: user.password
+    });
 
-    return function (dispatch) {
-        fetch(baseurl + "login", {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-                "Accept": 'application/json'
-            },
-            body: JSON.stringify({
-                username: user.username,
-                password: user.password
-            })
-        }).then(function (response) {
-            return response.text();
-        }).then(function (text) {
-            sessionStorage.setItem("isLoggedIn", true);
-            dispatch(loggedinUser(text));
-        });
+    _axios2.default.post(baseurl + "login", body, {
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept": 'application/json'
+        }
+    }).then(function (response) {
+        sessionStorage.setItem("isLoggedIn", "true");
+        console.log("User Logged In + " + JSON.stringify(response.data));
+        cb(response.data);
+    });
+
+    return {
+        type: ACTION_TYPES.LOGGED_IN
     };
 }
 
@@ -3083,11 +3301,15 @@ function fetchUserBlogsFromServer(userId) {
                 'Content-Type': 'application/json',
                 "Accept": 'application/json',
                 "Authorization": token
-            }
+            },
+            credentials: 'same-origin'
         }).then(function (response) {
+            console.log("Success in fetchUserBlogsFromServer " + response);
             return response.json();
         }).then(function (blogs) {
             return dispatch(fetchUserBlogs(blogs));
+        }).catch(function (err) {
+            console.log("ERROR in fetchUserBlogsFromServer " + err);
         });
     };
 }
@@ -3119,8 +3341,8 @@ function addBlogtoServer(blog, cb) {
         headers: {
             'Content-Type': 'application/json',
             "Authorization": token
-        }
-
+        },
+        credentials: 'same-origin'
     }).then(function (response) {
         console.log("Blog Posted");
         cb();
@@ -3137,7 +3359,8 @@ function deleteUserBlogById(userId, blogId, callback) {
         headers: {
             'Content-Type': 'application/json',
             "Authorization": token
-        }
+        },
+        credentials: 'same-origin'
     }).then(function () {
         console.log("Blog Deleted ");
         callback();
@@ -3162,215 +3385,6 @@ error: function() {
 }
 });
 */
-
-/***/ }),
-/* 31 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (isObject);
-
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(33);
-var core = __webpack_require__(28);
-var ctx = __webpack_require__(124);
-var hide = __webpack_require__(45);
-var has = __webpack_require__(40);
-var PROTOTYPE = 'prototype';
-
-var $export = function (type, name, source) {
-  var IS_FORCED = type & $export.F;
-  var IS_GLOBAL = type & $export.G;
-  var IS_STATIC = type & $export.S;
-  var IS_PROTO = type & $export.P;
-  var IS_BIND = type & $export.B;
-  var IS_WRAP = type & $export.W;
-  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
-  var expProto = exports[PROTOTYPE];
-  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
-  var key, own, out;
-  if (IS_GLOBAL) source = name;
-  for (key in source) {
-    // contains in native
-    own = !IS_FORCED && target && target[key] !== undefined;
-    if (own && has(exports, key)) continue;
-    // export native or passed
-    out = own ? target[key] : source[key];
-    // prevent global pollution for namespaces
-    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
-    // bind timers to global for call from export context
-    : IS_BIND && own ? ctx(out, global)
-    // wrap global constructors for prevent change them in library
-    : IS_WRAP && target[key] == out ? (function (C) {
-      var F = function (a, b, c) {
-        if (this instanceof C) {
-          switch (arguments.length) {
-            case 0: return new C();
-            case 1: return new C(a);
-            case 2: return new C(a, b);
-          } return new C(a, b, c);
-        } return C.apply(this, arguments);
-      };
-      F[PROTOTYPE] = C[PROTOTYPE];
-      return F;
-    // make static versions for prototype methods
-    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
-    if (IS_PROTO) {
-      (exports.virtual || (exports.virtual = {}))[key] = out;
-      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
-      if (type & $export.R && expProto && !expProto[key]) hide(expProto, key, out);
-    }
-  }
-};
-// type bitmap
-$export.F = 1;   // forced
-$export.G = 2;   // global
-$export.S = 4;   // static
-$export.P = 8;   // proto
-$export.B = 16;  // bind
-$export.W = 32;  // wrap
-$export.U = 64;  // safe
-$export.R = 128; // real proto method for `library`
-module.exports = $export;
-
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports) {
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self
-  // eslint-disable-next-line no-new-func
-  : Function('return this')();
-if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
-module.exports = exports['default'];
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-function makeEmptyFunction(arg) {
-  return function () {
-    return arg;
-  };
-}
-
-/**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
- */
-var emptyFunction = function emptyFunction() {};
-
-emptyFunction.thatReturns = makeEmptyFunction;
-emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-emptyFunction.thatReturnsThis = function () {
-  return this;
-};
-emptyFunction.thatReturnsArgument = function (arg) {
-  return arg;
-};
-
-module.exports = emptyFunction;
-
-/***/ }),
-/* 36 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (isObjectLike);
-
 
 /***/ }),
 /* 37 */
@@ -3940,7 +3954,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _inDOM = __webpack_require__(34);
+var _inDOM = __webpack_require__(33);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -4741,7 +4755,7 @@ module.exports = emptyObject;
 
 
 
-var emptyFunction = __webpack_require__(35);
+var emptyFunction = __webpack_require__(34);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -4802,7 +4816,7 @@ module.exports = warning;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getPrototype_js__ = __webpack_require__(163);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__ = __webpack_require__(35);
 
 
 
@@ -4970,7 +4984,7 @@ function toPath(value) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(35);
 
 
 
@@ -5121,7 +5135,7 @@ function getMapData(map, key) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseIsEqualDeep_js__ = __webpack_require__(374);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(35);
 
 
 
@@ -5158,7 +5172,7 @@ function baseIsEqual(value, other, bitmask, customizer, stack) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseIsArguments_js__ = __webpack_require__(396);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(35);
 
 
 
@@ -6500,6 +6514,7 @@ exports.addBlog = addBlog;
 exports.fetchBlogs = fetchBlogs;
 exports.fetchBlogById = fetchBlogById;
 exports.fetchBlogsFromServer = fetchBlogsFromServer;
+exports.fetchBlogsFromServerForPage = fetchBlogsFromServerForPage;
 exports.searchBlogsByKey = searchBlogsByKey;
 exports.fetchBlogByIdFromServer = fetchBlogByIdFromServer;
 exports.updateBlogById = updateBlogById;
@@ -6551,6 +6566,20 @@ function fetchBlogsFromServer() {
         }).then(function (blogs) {
             return dispatch(fetchBlogs(blogs));
         });
+    };
+}
+
+function fetchBlogsFromServerForPage(page, callback) {
+    var currentStart = 15 * (page - 1);
+    console.log("Fetching blogs for URL: " + baseurl + "blog/page?limit=15&start=" + currentStart);
+
+    var request = _axios2.default.get(baseurl + "blog/page?limit=15&start=" + currentStart).then(function (data) {
+        console.log("Blog Data : " + JSON.stringify(data));
+        callback(data);
+    });
+    return {
+        type: ACTION_TYPES.UPDATED_BLOG,
+        blog: request.data
     };
 }
 
@@ -6838,7 +6867,7 @@ MapCache.prototype.set = __WEBPACK_IMPORTED_MODULE_4__mapCacheSet_js__["a" /* de
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObject_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObject_js__ = __webpack_require__(30);
 
 
 
@@ -7799,7 +7828,7 @@ module.exports = function (key) {
 /* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(33);
+var global = __webpack_require__(32);
 var SHARED = '__core-js_shared__';
 var store = global[SHARED] || (global[SHARED] = {});
 module.exports = function (key) {
@@ -7940,7 +7969,7 @@ exports.f = __webpack_require__(29);
 /* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(33);
+var global = __webpack_require__(32);
 var core = __webpack_require__(28);
 var LIBRARY = __webpack_require__(135);
 var wksExt = __webpack_require__(138);
@@ -8126,7 +8155,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.animationEnd = exports.animationDelay = exports.animationTiming = exports.animationDuration = exports.animationName = exports.transitionEnd = exports.transitionDuration = exports.transitionDelay = exports.transitionTiming = exports.transitionProperty = exports.transform = undefined;
 
-var _inDOM = __webpack_require__(34);
+var _inDOM = __webpack_require__(33);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -8741,7 +8770,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _inDOM = __webpack_require__(34);
+var _inDOM = __webpack_require__(33);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -8778,7 +8807,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _inDOM = __webpack_require__(34);
+var _inDOM = __webpack_require__(33);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -12405,7 +12434,7 @@ var baseFor = Object(__WEBPACK_IMPORTED_MODULE_0__createBaseFor_js__["a" /* defa
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isObject_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isObject_js__ = __webpack_require__(30);
 
 
 /**
@@ -13424,7 +13453,7 @@ module.exports = !__webpack_require__(48) && !__webpack_require__(62)(function (
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(47);
-var document = __webpack_require__(33).document;
+var document = __webpack_require__(32).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
 module.exports = function (it) {
@@ -13510,7 +13539,7 @@ __webpack_require__(226)(String, 'String', function (iterated) {
 "use strict";
 
 var LIBRARY = __webpack_require__(135);
-var $export = __webpack_require__(32);
+var $export = __webpack_require__(31);
 var redefine = __webpack_require__(227);
 var hide = __webpack_require__(45);
 var Iterators = __webpack_require__(66);
@@ -15373,7 +15402,7 @@ exports.default = function (recalc) {
   return size;
 };
 
-var _inDOM = __webpack_require__(34);
+var _inDOM = __webpack_require__(33);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -20073,7 +20102,7 @@ _reactDom2.default.render(_react2.default.createElement(
  * LICENSE file in the root directory of this source tree.
  */
 
-var m=__webpack_require__(53),n=__webpack_require__(69),p=__webpack_require__(35),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.portal"):60106,u=q?Symbol["for"]("react.fragment"):60107,v=q?Symbol["for"]("react.strict_mode"):60108,w=q?Symbol["for"]("react.provider"):60109,x=q?Symbol["for"]("react.context"):60110,y=q?Symbol["for"]("react.async_mode"):60111,z=q?Symbol["for"]("react.forward_ref"):60112,A="function"===
+var m=__webpack_require__(53),n=__webpack_require__(69),p=__webpack_require__(34),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.portal"):60106,u=q?Symbol["for"]("react.fragment"):60107,v=q?Symbol["for"]("react.strict_mode"):60108,w=q?Symbol["for"]("react.provider"):60109,x=q?Symbol["for"]("react.context"):60110,y=q?Symbol["for"]("react.async_mode"):60111,z=q?Symbol["for"]("react.forward_ref"):60112,A="function"===
 typeof Symbol&&Symbol.iterator;function B(a){for(var b=arguments.length-1,e="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,c=0;c<b;c++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[c+1]);b=Error(e+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var C={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function D(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||C}D.prototype.isReactComponent={};D.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?B("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};D.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function E(){}
 E.prototype=D.prototype;function F(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||C}var G=F.prototype=new E;G.constructor=F;m(G,D.prototype);G.isPureReactComponent=!0;var H={current:null},I=Object.prototype.hasOwnProperty,J={key:!0,ref:!0,__self:!0,__source:!0};
@@ -20114,7 +20143,7 @@ var _assign = __webpack_require__(53);
 var emptyObject = __webpack_require__(69);
 var invariant = __webpack_require__(54);
 var warning = __webpack_require__(70);
-var emptyFunction = __webpack_require__(35);
+var emptyFunction = __webpack_require__(34);
 var checkPropTypes = __webpack_require__(99);
 
 // TODO: this is special because it gets imported during build.
@@ -21522,7 +21551,7 @@ module.exports = react;
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var ba=__webpack_require__(0),m=__webpack_require__(154),A=__webpack_require__(53),C=__webpack_require__(35),ea=__webpack_require__(155),fa=__webpack_require__(156),ha=__webpack_require__(157),ja=__webpack_require__(69);
+var ba=__webpack_require__(0),m=__webpack_require__(154),A=__webpack_require__(53),C=__webpack_require__(34),ea=__webpack_require__(155),fa=__webpack_require__(156),ha=__webpack_require__(157),ja=__webpack_require__(69);
 function D(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}ba?void 0:D("227");
 function ka(a,b,c,d,e,f,h,g,k){this._hasCaughtError=!1;this._caughtError=null;var v=Array.prototype.slice.call(arguments,3);try{b.apply(c,v)}catch(l){this._caughtError=l,this._hasCaughtError=!0}}
 var E={_caughtError:null,_hasCaughtError:!1,_rethrowError:null,_hasRethrowError:!1,invokeGuardedCallback:function(a,b,c,d,e,f,h,g,k){ka.apply(E,arguments)},invokeGuardedCallbackAndCatchFirstError:function(a,b,c,d,e,f,h,g,k){E.invokeGuardedCallback.apply(this,arguments);if(E.hasCaughtError()){var v=E.clearCaughtError();E._hasRethrowError||(E._hasRethrowError=!0,E._rethrowError=v)}},rethrowCaughtError:function(){return ma.apply(E,arguments)},hasCaughtError:function(){return E._hasCaughtError},clearCaughtError:function(){if(E._hasCaughtError){var a=
@@ -21840,7 +21869,7 @@ var invariant = __webpack_require__(54);
 var warning = __webpack_require__(70);
 var ExecutionEnvironment = __webpack_require__(154);
 var _assign = __webpack_require__(53);
-var emptyFunction = __webpack_require__(35);
+var emptyFunction = __webpack_require__(34);
 var checkPropTypes = __webpack_require__(99);
 var getActiveElement = __webpack_require__(155);
 var shallowEqual = __webpack_require__(156);
@@ -38644,46 +38673,16 @@ var Home = function (_React$Component) {
     function Home(props) {
         _classCallCheck(this, Home);
 
-        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
-
-        _this.handleNext = _this.handleNext.bind(_this);
-        _this.handlePrev = _this.handlePrev.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
     }
 
     _createClass(Home, [{
-        key: "handleNext",
-        value: function handleNext() {
-            console.log("Next clicked");
-            alert("Next clicked");
-        }
-    }, {
-        key: "handlePrev",
-        value: function handlePrev() {
-            console.log("Prev clicked");
-            alert("Prev clicked");
-        }
-    }, {
         key: "render",
         value: function render() {
             return (
 
                 // <ErrorBoundary>
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    _react2.default.createElement(_blogs2.default, { history: this.props.history }),
-                    _react2.default.createElement(
-                        "button",
-                        { onClick: this.handlePrev },
-                        "Previous"
-                    ),
-                    _react2.default.createElement(
-                        "button",
-                        { onClick: this.handleNext },
-                        "Next"
-                    )
-                )
+                _react2.default.createElement(_blogs2.default, { history: this.props.history })
                 //</ErrorBoundary>  
 
             );
@@ -38741,23 +38740,79 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Blogs = function (_React$Component) {
     _inherits(Blogs, _React$Component);
 
+    //--------------------------------------------------------------------------
+
     function Blogs(props) {
         _classCallCheck(this, Blogs);
 
-        return _possibleConstructorReturn(this, (Blogs.__proto__ || Object.getPrototypeOf(Blogs)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Blogs.__proto__ || Object.getPrototypeOf(Blogs)).call(this, props));
+
+        _this.handleNext = _this.handleNext.bind(_this);
+        _this.handlePrev = _this.handlePrev.bind(_this);
+        _this.state = {
+            page: 1,
+            blogs: false
+        };
+        return _this;
     }
 
+    //--------------------------------------------------------------------------
+
     _createClass(Blogs, [{
+        key: "handleNext",
+        value: function handleNext() {
+            var _this2 = this;
+
+            //	alert("Next clicked");
+            var currentPage = this.state.page + 1;
+            console.log("moving to page: " + currentPage);
+            (0, _blogactions.fetchBlogsFromServerForPage)(currentPage, function (data) {
+                _this2.setState(function (prevState) {
+                    return {
+                        page: prevState.page + 1,
+                        blogs: data.data
+                    };
+                });
+            });
+        }
+
+        //--------------------------------------------------------------------------
+
+    }, {
+        key: "handlePrev",
+        value: function handlePrev() {
+            var _this3 = this;
+
+            console.log("Prev clicked");
+            var currentPage = this.state.page - 1;
+            (0, _blogactions.fetchBlogsFromServerForPage)(currentPage, function (data) {
+                _this3.setState(function (prevState) {
+                    return {
+                        page: prevState.page - 1,
+                        blogs: data.data
+                    };
+                });
+            });
+        }
+
+        //--------------------------------------------------------------------------
+
+    }, {
         key: "renderList",
         value: function renderList() {
             console.log("Props : " + JSON.stringify(this.props.blogs));
-            return this.props.blogs.map(function (blog) {
+            return this.state.blogs.map(function (blog) {
                 return _react2.default.createElement(_Blog2.default, { title: blog.blogTitle, key: blog.blogId, blogId: blog.blogId, blogAuthor: blog.blogAuthor, likes: blog.blogLikes, views: blog.blogViews });
             });
         }
+
+        //--------------------------------------------------------------------------
+
     }, {
         key: "componentWillMount",
         value: function componentWillMount() {
+            var _this4 = this;
+
             var search = this.props.history.location.search;
 
             var searchString = search.split("=")[1];
@@ -38765,15 +38820,26 @@ var Blogs = function (_React$Component) {
             if (searchString) {
                 this.props.searchBlogsByKey(searchString);
             } else {
-                this.props.fetchBlogsFromServer();
+                var currentpage = this.state.page;
+                this.props.fetchBlogsFromServerForPage(currentpage, function (data) {
+                    console.log("Blogs Received Data?" + JSON.stringify(data.data));
+                    _this4.setState(function (prevState) {
+                        return {
+                            blogs: data.data
+                        };
+                    });
+                });
             }
-            console.log("Blogs Received Data?");
         }
+
+        //--------------------------------------------------------------------------
+
+
     }, {
         key: "render",
         value: function render() {
 
-            if (!this.props.blogs) {
+            if (!this.state.blogs) {
                 return _react2.default.createElement("div", null);
             }
 
@@ -38781,41 +38847,64 @@ var Blogs = function (_React$Component) {
                 color: 'white'
             };
 
+            var buttonStyle = {
+                textAlign: 'center'
+            };
+
             return _react2.default.createElement(
-                _reactBootstrap.Table,
-                { bsClass: "table", className: "table-users" },
+                "div",
+                null,
                 _react2.default.createElement(
-                    "thead",
-                    null,
+                    _reactBootstrap.Table,
+                    { bsClass: "table", className: "table-users" },
                     _react2.default.createElement(
-                        "tr",
-                        { style: { font: 'verdena', color: 'white' } },
+                        "thead",
+                        null,
                         _react2.default.createElement(
-                            "th",
-                            null,
-                            "Blog Title"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Author"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Blog Likes"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
-                            "Blog Views"
+                            "tr",
+                            { style: { font: 'verdena', color: 'white' } },
+                            _react2.default.createElement(
+                                "th",
+                                null,
+                                "Blog Title"
+                            ),
+                            _react2.default.createElement(
+                                "th",
+                                null,
+                                "Author"
+                            ),
+                            _react2.default.createElement(
+                                "th",
+                                null,
+                                "Blog Likes"
+                            ),
+                            _react2.default.createElement(
+                                "th",
+                                null,
+                                "Blog Views"
+                            )
                         )
+                    ),
+                    _react2.default.createElement(
+                        "tbody",
+                        { style: blogTds },
+                        this.renderList()
                     )
                 ),
                 _react2.default.createElement(
-                    "tbody",
-                    { style: blogTds },
-                    this.renderList()
+                    "div",
+                    { style: buttonStyle },
+                    _react2.default.createElement(
+                        "button",
+                        { disabled: this.state.page <= 1, onClick: this.handlePrev },
+                        "Previous"
+                    ),
+                    "\xA0",
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: this.handleNext },
+                        "Next"
+                    )
                 )
             );
         }
@@ -38826,6 +38915,8 @@ var Blogs = function (_React$Component) {
 
 ;
 
+//--------------------------------------------------------------------------
+
 function mapStateToProps(state) {
     //  console.log(JSON.stringify("State Details blogs.jsx : " + JSON.stringify(state)))
     return {
@@ -38833,7 +38924,9 @@ function mapStateToProps(state) {
     };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchBlogsFromServer: _blogactions.fetchBlogsFromServer, searchBlogsByKey: _blogactions.searchBlogsByKey })(Blogs);
+//--------------------------------------------------------------------------
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchBlogsFromServer: _blogactions.fetchBlogsFromServer, fetchBlogsFromServerForPage: _blogactions.fetchBlogsFromServerForPage, searchBlogsByKey: _blogactions.searchBlogsByKey })(Blogs);
 
 /***/ }),
 /* 297 */
@@ -39262,7 +39355,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.userReducer = userReducer;
 
-var _useractions = __webpack_require__(30);
+var _useractions = __webpack_require__(36);
 
 function userReducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { user: [] };
@@ -40326,7 +40419,7 @@ Form.contextTypes = {
 
 
 
-var emptyFunction = __webpack_require__(35);
+var emptyFunction = __webpack_require__(34);
 var invariant = __webpack_require__(54);
 var warning = __webpack_require__(70);
 var assign = __webpack_require__(53);
@@ -40876,7 +40969,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 
-var emptyFunction = __webpack_require__(35);
+var emptyFunction = __webpack_require__(34);
 var invariant = __webpack_require__(54);
 var ReactPropTypesSecret = __webpack_require__(100);
 
@@ -42726,7 +42819,7 @@ function hashClear() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isFunction_js__ = __webpack_require__(107);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isMasked_js__ = __webpack_require__(354);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObject_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObject_js__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__toSource_js__ = __webpack_require__(191);
 
 
@@ -44216,7 +44309,7 @@ function baseTimes(n, iteratee) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(35);
 
 
 
@@ -44269,7 +44362,7 @@ function stubFalse() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isLength_js__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__ = __webpack_require__(35);
 
 
 
@@ -47862,7 +47955,7 @@ var merge = Object(__WEBPACK_IMPORTED_MODULE_1__createAssigner_js__["a" /* defau
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__assignMergeValue_js__ = __webpack_require__(207);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__baseFor_js__ = __webpack_require__(201);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__baseMergeDeep_js__ = __webpack_require__(470);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__isObject_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__isObject_js__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__keysIn_js__ = __webpack_require__(209);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__safeGet_js__ = __webpack_require__(208);
 
@@ -47924,7 +48017,7 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__isArrayLikeObject_js__ = __webpack_require__(476);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__isBuffer_js__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__isFunction_js__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__isObject_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__isObject_js__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__isPlainObject_js__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__isTypedArray_js__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__safeGet_js__ = __webpack_require__(208);
@@ -48150,7 +48243,7 @@ function initCloneObject(object) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isObject_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isObject_js__ = __webpack_require__(30);
 
 
 /** Built-in value references. */
@@ -48189,7 +48282,7 @@ var baseCreate = (function() {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isArrayLike_js__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isObjectLike_js__ = __webpack_require__(35);
 
 
 
@@ -48357,7 +48450,7 @@ function assignValue(object, key, value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isObject_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__isObject_js__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isPrototype_js__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__nativeKeysIn_js__ = __webpack_require__(481);
 
@@ -48707,7 +48800,7 @@ function shortOut(func) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__eq_js__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__isArrayLike_js__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isIndex_js__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__isObject_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__isObject_js__ = __webpack_require__(30);
 
 
 
@@ -53359,7 +53452,7 @@ module.exports = __webpack_require__(28).Object.assign;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
-var $export = __webpack_require__(32);
+var $export = __webpack_require__(31);
 
 $export($export.S + $export.F, 'Object', { assign: __webpack_require__(539) });
 
@@ -53538,7 +53631,7 @@ module.exports = __webpack_require__(48) ? Object.defineProperties : function de
 /* 547 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var document = __webpack_require__(33).document;
+var document = __webpack_require__(32).document;
 module.exports = document && document.documentElement;
 
 
@@ -53566,7 +53659,7 @@ module.exports = Object.getPrototypeOf || function (O) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(550);
-var global = __webpack_require__(33);
+var global = __webpack_require__(32);
 var hide = __webpack_require__(45);
 var Iterators = __webpack_require__(66);
 var TO_STRING_TAG = __webpack_require__(29)('toStringTag');
@@ -53667,10 +53760,10 @@ module.exports = __webpack_require__(28).Symbol;
 "use strict";
 
 // ECMAScript 6 symbols shim
-var global = __webpack_require__(33);
+var global = __webpack_require__(32);
 var has = __webpack_require__(40);
 var DESCRIPTORS = __webpack_require__(48);
-var $export = __webpack_require__(32);
+var $export = __webpack_require__(31);
 var redefine = __webpack_require__(227);
 var META = __webpack_require__(556).KEY;
 var $fails = __webpack_require__(62);
@@ -54056,7 +54149,7 @@ module.exports = __webpack_require__(28).Object.setPrototypeOf;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.19 Object.setPrototypeOf(O, proto)
-var $export = __webpack_require__(32);
+var $export = __webpack_require__(31);
 $export($export.S, 'Object', { setPrototypeOf: __webpack_require__(566).set });
 
 
@@ -54112,7 +54205,7 @@ module.exports = function create(P, D) {
 /* 569 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__(32);
+var $export = __webpack_require__(31);
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 $export($export.S, 'Object', { create: __webpack_require__(136) });
 
@@ -54454,7 +54547,7 @@ module.exports = __webpack_require__(28).Object.entries;
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
-var $export = __webpack_require__(32);
+var $export = __webpack_require__(31);
 var $entries = __webpack_require__(232)(true);
 
 $export($export.S, 'Object', {
@@ -54571,7 +54664,7 @@ module.exports = __webpack_require__(28).Object.values;
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
-var $export = __webpack_require__(32);
+var $export = __webpack_require__(31);
 var $values = __webpack_require__(232)(false);
 
 $export($export.S, 'Object', {
@@ -56478,7 +56571,7 @@ module.exports = __webpack_require__(28).Array.from;
 "use strict";
 
 var ctx = __webpack_require__(124);
-var $export = __webpack_require__(32);
+var $export = __webpack_require__(31);
 var toObject = __webpack_require__(133);
 var call = __webpack_require__(599);
 var isArrayIter = __webpack_require__(600);
@@ -58491,7 +58584,7 @@ MenuItem.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_dom_helpers_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_dom_helpers_events__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_dom_helpers_ownerDocument__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_dom_helpers_ownerDocument___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_dom_helpers_ownerDocument__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_dom_helpers_util_inDOM__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_dom_helpers_util_inDOM__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_dom_helpers_util_inDOM___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_dom_helpers_util_inDOM__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_dom_helpers_util_scrollbarSize__ = __webpack_require__(245);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_dom_helpers_util_scrollbarSize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_dom_helpers_util_scrollbarSize__);
@@ -58931,7 +59024,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _inDOM = __webpack_require__(34);
+var _inDOM = __webpack_require__(33);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -58978,7 +59071,7 @@ var _contains = __webpack_require__(51);
 
 var _contains2 = _interopRequireDefault(_contains);
 
-var _inDOM = __webpack_require__(34);
+var _inDOM = __webpack_require__(33);
 
 var _inDOM2 = _interopRequireDefault(_inDOM);
 
@@ -67192,7 +67285,7 @@ var _store2 = _interopRequireDefault(_store);
 
 var _reactRedux = __webpack_require__(18);
 
-var _useractions = __webpack_require__(30);
+var _useractions = __webpack_require__(36);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67238,22 +67331,37 @@ var LoginForm = function (_React$Component) {
     }, {
         key: 'loginUserSubmit',
         value: function loginUserSubmit(e) {
+            var _this2 = this;
+
             e.preventDefault();
             console.log("Login Form Submit Clicked");
-            _store2.default.dispatch((0, _useractions.loginUser)(this.state));
+            sessionStorage.setItem("userId", "");
+            sessionStorage.setItem("token", "");
+            (0, _useractions.loginUser)(this.state, function (data) {
+                console.log("DATA  : " + JSON.stringify(data));
+                sessionStorage.setItem("userId", data.userId);
+                sessionStorage.setItem("token", data.token);
+                (0, _useractions.getUserById)(data.userId, function (data) {
+                    sessionStorage.setItem("user", JSON.stringify(data));
+                    _this2.props.history.push({
+                        pathname: '/userprofile',
+                        user: data.userId
+                    });
+                });
+            });
             console.log(this.state.username);
         }
     }, {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps() {
-            console.log("Props at did mount" + JSON.stringify(this.props));
-            console.log("Props at did mount" + JSON.stringify(this.state.userDetails));
-            var state = _store2.default.getState();
-            sessionStorage.setItem("isLoggedIn", "true");
-            this.props.history.push({
-                pathname: '/userprofile',
-                user: state.user.user
-            });
+            /*    console.log("Props at did mount" + JSON.stringify(this.props));
+                console.log("Props at did mount" + JSON.stringify(this.state.userDetails));
+                let state = store.getState()
+                sessionStorage.setItem("isLoggedIn" , "true");
+                this.props.history.push({
+                    pathname: '/userprofile',
+                    user:state.user.user,
+                })*/
         }
     }, {
         key: 'render',
@@ -67281,7 +67389,7 @@ var LoginForm = function (_React$Component) {
                                 { id: 'username', className: 'control-label' },
                                 'Username:'
                             ),
-                            _react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'username', placeholder: 'Enter username', defaultValue: this.state.username, onChange: this.changeUserName })
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'username', placeholder: 'Enter username', defaultValue: this.state.username, onChange: this.changeUserName, required: true })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -67293,7 +67401,7 @@ var LoginForm = function (_React$Component) {
                             ),
                             ' ',
                             _react2.default.createElement('input', { type: 'password',
-                                className: 'form-control', name: 'password', placeholder: 'Enter password', defaultValue: this.state.password, onChange: this.changePassWord })
+                                className: 'form-control', name: 'password', placeholder: 'Enter password', defaultValue: this.state.password, onChange: this.changePassWord, required: true })
                         ),
                         _react2.default.createElement(
                             'button',
@@ -67320,7 +67428,7 @@ function mapStateToProps(state) {
     };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(LoginForm);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { loginUser: _useractions.loginUser, getUserById: _useractions.getUserById })(LoginForm);
 
 /***/ }),
 /* 704 */
@@ -67355,8 +67463,6 @@ var _updateprofile2 = _interopRequireDefault(_updateprofile);
 
 var _reactRedux = __webpack_require__(18);
 
-var _useractions = __webpack_require__(30);
-
 var _store = __webpack_require__(21);
 
 var _store2 = _interopRequireDefault(_store);
@@ -67379,13 +67485,13 @@ var UserProfile = function (_React$Component) {
 
         console.log("UserProfile :" + props.location.user);
         _this.state = {
-            data: JSON.parse(props.location.user),
+            data: props.location.user,
             user: {},
             key: 1
 
         };
-        sessionStorage.setItem("userId", _this.state.data.userId);
-        sessionStorage.setItem("token", _this.state.data.token);
+        sessionStorage.setItem("userId", _this.state.data);
+
         console.log("UserProfile: Received Data : " + _this.state.data);
         _this.handleSelect = _this.handleSelect.bind(_this);
         _this.handleChangeTab = _this.handleChangeTab.bind(_this);
@@ -67396,13 +67502,6 @@ var UserProfile = function (_React$Component) {
         key: 'handleSelect',
         value: function handleSelect(key) {
             this.setState({ key: key });
-        }
-    }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            (0, _useractions.getUserById)(this.state.data.userId, function (data) {
-                sessionStorage.setItem("user", JSON.stringify(data.data));
-            });
         }
     }, {
         key: 'componentWillReceiveProps',
@@ -67433,12 +67532,12 @@ var UserProfile = function (_React$Component) {
                     _react2.default.createElement(
                         _reactBootstrap.Tab,
                         { eventKey: 1, lazy: 'false', title: 'My Blogs' },
-                        _react2.default.createElement(_userBlogs2.default, { userId: this.state.data.userId })
+                        _react2.default.createElement(_userBlogs2.default, { userId: this.state.data })
                     ),
                     _react2.default.createElement(
                         _reactBootstrap.Tab,
                         { eventKey: 2, lazy: 'true', title: 'Create Blog' },
-                        _react2.default.createElement(_addBlog2.default, { userId: this.state.data.userId, user: this.state.user, changeTab: this.handleChangeTab })
+                        _react2.default.createElement(_addBlog2.default, { userId: this.state.data, user: this.state.user, changeTab: this.handleChangeTab })
                     ),
                     _react2.default.createElement(
                         _reactBootstrap.Tab,
@@ -67459,7 +67558,7 @@ function mapStateToProps(state) {
     };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { getUserById: _useractions.getUserById })(UserProfile);
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(UserProfile);
 
 /***/ }),
 /* 705 */
@@ -67488,7 +67587,7 @@ var _store2 = _interopRequireDefault(_store);
 
 var _reactRedux = __webpack_require__(18);
 
-var _useractions = __webpack_require__(30);
+var _useractions = __webpack_require__(36);
 
 var _reactBootstrap = __webpack_require__(38);
 
@@ -67519,6 +67618,7 @@ var UserBlogs = function (_React$Component) {
         key: "renderList",
         value: function renderList() {
             console.log("Props : " + JSON.stringify(this.props.blogs));
+
             if (this.props.blogs != undefined) {
                 return this.props.blogs.map(function (blog) {
                     if (blog != null) {
@@ -67532,7 +67632,8 @@ var UserBlogs = function (_React$Component) {
         key: "componentWillMount",
         value: function componentWillMount() {
             console.log("Blogs");
-            _store2.default.dispatch((0, _useractions.fetchUserBlogsFromServer)(this.state.data));
+            var userId = sessionStorage.getItem("userId");
+            _store2.default.dispatch((0, _useractions.fetchUserBlogsFromServer)(userId));
             console.log("Blogs Received Data?");
         }
     }, {
@@ -67615,7 +67716,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
-var _useractions = __webpack_require__(30);
+var _useractions = __webpack_require__(36);
 
 var _store = __webpack_require__(21);
 
@@ -67711,7 +67812,7 @@ var AddBlog = function (_React$Component) {
                             'Blog Title:'
                         ),
                         _react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'blogtitle',
-                            id: 'blogtitle', placeholder: 'Enter Blog Title ', defaultValue: this.state.blogTitle, onChange: this.changeBlogTitle })
+                            id: 'blogtitle', placeholder: 'Enter Blog Title ', defaultValue: this.state.blogTitle, onChange: this.changeBlogTitle, required: true })
                     ),
                     _react2.default.createElement(
                         'p',
@@ -67722,7 +67823,7 @@ var AddBlog = function (_React$Component) {
                             'Blog Text:'
                         ),
                         _react2.default.createElement('textarea', { rows: '4', cols: '50', className: 'form-control',
-                            name: 'blogtext', id: 'blogtext', placeholder: 'Enter Blog Text', defaultValue: this.state.blogText, onChange: this.changeBlogText })
+                            name: 'blogtext', id: 'blogtext', placeholder: 'Enter Blog Text', defaultValue: this.state.blogText, onChange: this.changeBlogText, required: true })
                     ),
                     _react2.default.createElement(
                         'p',
@@ -67774,7 +67875,7 @@ var _store = __webpack_require__(21);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _useractions = __webpack_require__(30);
+var _useractions = __webpack_require__(36);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67890,7 +67991,7 @@ var UpdateProfile = function (_React$Component) {
                         ),
                         ' ',
                         _react2.default.createElement('input', { type: 'text',
-                            className: 'form-control', name: 'firstname1', id: 'changefirstname', placeholder: 'Enter firstname', defaultValue: this.state.firstName, onChange: this.changeFirstName })
+                            className: 'form-control', name: 'firstname1', id: 'changefirstname', placeholder: 'Enter firstname', defaultValue: this.state.firstName, onChange: this.changeFirstName, required: true })
                     ),
                     _react2.default.createElement(
                         'p',
@@ -67902,7 +68003,7 @@ var UpdateProfile = function (_React$Component) {
                         ),
                         ' ',
                         _react2.default.createElement('input', { type: 'text',
-                            className: 'form-control', name: 'lastname1', id: 'changelastname', placeholder: 'Enter lastname', defaultValue: this.state.lastName, onChange: this.changeLastName })
+                            className: 'form-control', name: 'lastname1', id: 'changelastname', placeholder: 'Enter lastname', defaultValue: this.state.lastName, onChange: this.changeLastName, required: true })
                     ),
                     _react2.default.createElement(
                         'p',
@@ -67914,7 +68015,7 @@ var UpdateProfile = function (_React$Component) {
                         ),
                         ' ',
                         _react2.default.createElement('input', { type: 'email',
-                            className: 'form-control', name: 'email1', id: 'changeemail', placeholder: 'Enter email', defaultValue: this.state.email, onChange: this.changeEmail })
+                            className: 'form-control', name: 'email1', id: 'changeemail', placeholder: 'Enter email', defaultValue: this.state.email, onChange: this.changeEmail, required: true })
                     ),
                     _react2.default.createElement(
                         'p',
@@ -67926,7 +68027,7 @@ var UpdateProfile = function (_React$Component) {
                         ),
                         ' ',
                         _react2.default.createElement('input', { type: 'password',
-                            className: 'form-control', name: 'password1', id: 'changepassword', placeholder: 'Enter password', defaultValue: this.state.password, onChange: this.changePassWord })
+                            className: 'form-control', name: 'password1', id: 'changepassword', placeholder: 'Enter password', defaultValue: this.state.password, onChange: this.changePassWord, required: true })
                     ),
                     _react2.default.createElement(
                         'p',
@@ -67938,7 +68039,7 @@ var UpdateProfile = function (_React$Component) {
                         ),
                         ' ',
                         _react2.default.createElement('input', { type: 'password',
-                            className: 'form-control', name: 'password2', id: 'changepassword2', placeholder: 'Confirm password', defaultValue: this.state.confirmpassword, onChange: this.changeConfirmPassWord })
+                            className: 'form-control', name: 'password2', id: 'changepassword2', placeholder: 'Confirm password', defaultValue: this.state.confirmpassword, onChange: this.changeConfirmPassWord, required: true })
                     ),
                     _react2.default.createElement(
                         'p',
@@ -67992,7 +68093,7 @@ var _blogactions = __webpack_require__(102);
 
 var _commentactions = __webpack_require__(172);
 
-var _useractions = __webpack_require__(30);
+var _useractions = __webpack_require__(36);
 
 var _comment = __webpack_require__(709);
 
@@ -68051,6 +68152,7 @@ var BlogPage = function (_React$Component) {
             this.setState({
                 userId: userId
             });
+            console.log("sessionStorage.getItem()  user " + sessionStorage.getItem("user"));
             this.setState({
                 user: JSON.parse(sessionStorage.getItem("user"))
             });
@@ -68151,20 +68253,20 @@ var BlogPage = function (_React$Component) {
             if (!this.props.blog) {
                 return _react2.default.createElement('div', null);
             }
-
-            var showDeleteBlogButton = this.state.userId === "" ? _react2.default.createElement('div', null) : this.props.blog.blogAuthor === this.state.user.username ? _react2.default.createElement(
+            console.log("this.state.userId  + " + this.state.userId);
+            var showDeleteBlogButton = this.state.userId === null ? _react2.default.createElement('div', null) : this.props.blog.blogAuthor === this.state.user.username ? _react2.default.createElement(
                 _reactBootstrap.Button,
                 { bsStyle: 'primary', onClick: this.handleDeleteBlog },
                 'Delete Blog'
             ) : _react2.default.createElement('div', null);
 
-            var showEditBlogButton = this.state.userId === "" ? _react2.default.createElement('div', null) : this.props.blog.blogAuthor === this.state.user.username ? _react2.default.createElement(
+            var showEditBlogButton = this.state.userId === null ? _react2.default.createElement('div', null) : this.props.blog.blogAuthor === this.state.user.username ? _react2.default.createElement(
                 _reactBootstrap.Button,
                 { bsStyle: 'primary', onClick: this.handleEditButton },
                 'Edit Blog'
             ) : _react2.default.createElement('div', null);
 
-            var showAddCommentsDiv = this.state.userId === "" ? _react2.default.createElement('div', null) : _react2.default.createElement(
+            var showAddCommentsDiv = this.state.userId === null ? _react2.default.createElement('div', null) : _react2.default.createElement(
                 'div',
                 { id: 'comments' },
                 _react2.default.createElement(
@@ -68448,12 +68550,11 @@ var LoginButtons = function (_React$Component) {
         key: 'handleProfileButton',
         value: function handleProfileButton(e) {
             e.preventDefault();
-            console.log("handleProfileButton");
-            var user = sessionStorage.getItem("user");
-            console.log("UserDetails in LoginButtons : " + JSON.stringify(user));
+            var user = JSON.parse(sessionStorage.getItem("user"));
+            console.log("UserDetails in LoginButtons : " + user.userId);
             this.props.history.push({
                 pathname: '/userprofile',
-                user: user
+                user: user.userId
             });
         }
     }, {
@@ -68541,6 +68642,7 @@ exports.addBlog = addBlog;
 exports.fetchBlogs = fetchBlogs;
 exports.fetchBlogById = fetchBlogById;
 exports.fetchBlogsFromServer = fetchBlogsFromServer;
+exports.fetchBlogsFromServerForPage = fetchBlogsFromServerForPage;
 exports.searchBlogsByKey = searchBlogsByKey;
 exports.fetchBlogByIdFromServer = fetchBlogByIdFromServer;
 exports.updateBlogById = updateBlogById;
@@ -68592,6 +68694,20 @@ function fetchBlogsFromServer() {
         }).then(function (blogs) {
             return dispatch(fetchBlogs(blogs));
         });
+    };
+}
+
+function fetchBlogsFromServerForPage(page, callback) {
+    var currentStart = 15 * (page - 1);
+    console.log("Fetching blogs for URL: " + baseurl + "blog/page?limit=15&start=" + currentStart);
+
+    var request = _axios2.default.get(baseurl + "blog/page?limit=15&start=" + currentStart).then(function (data) {
+        console.log("Blog Data : " + JSON.stringify(data));
+        callback(data);
+    });
+    return {
+        type: ACTION_TYPES.UPDATED_BLOG,
+        blog: request.data
     };
 }
 
@@ -68664,7 +68780,7 @@ var _store = __webpack_require__(21);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _useractions = __webpack_require__(30);
+var _useractions = __webpack_require__(36);
 
 var _reactRedux = __webpack_require__(18);
 
@@ -68740,21 +68856,23 @@ var SignupForm = function (_React$Component) {
     }, {
         key: 'submitUser',
         value: function submitUser(e) {
+            var _this2 = this;
+
             e.preventDefault();
             console.log("Form Submit Clicked");
-            _store2.default.dispatch((0, _useractions.addUsertoServer)(this.state));
-            console.log("submitUser Complete");
-        }
-    }, {
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps() {
-            console.log("Signup Received Props : " + JSON.stringify(this.props));
-            var state = _store2.default.getState();
-            sessionStorage.setItem("isLoggedIn", "true");
-            this.props.history.push({
-                pathname: '/userprofile',
-                user: state.user.user
+            (0, _useractions.addUsertoServer)(this.state, function (data) {
+                console.log("DATA  : " + JSON.stringify(data));
+                sessionStorage.setItem("userId", data.userId);
+                sessionStorage.setItem("token", data.token);
+                (0, _useractions.getUserById)(data.userId, function (data) {
+                    sessionStorage.setItem("user", JSON.stringify(data));
+                    _this2.props.history.push({
+                        pathname: '/userprofile',
+                        user: data.userId
+                    });
+                });
             });
+            console.log("submitUser Complete");
         }
 
         /* Implement connect */
@@ -68791,7 +68909,7 @@ var SignupForm = function (_React$Component) {
                                 'First Name:'
                             ),
                             _react2.default.createElement('input', { type: 'text',
-                                className: 'form-control', name: 'firstname', placeholder: 'Enter firstname', defaultValue: this.state.firstName, onChange: this.changeFirstName })
+                                className: 'form-control', name: 'firstname', placeholder: 'Enter firstname', defaultValue: this.state.firstName, onChange: this.changeFirstName, required: true })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -68803,7 +68921,7 @@ var SignupForm = function (_React$Component) {
                             ),
                             ' ',
                             _react2.default.createElement('input', { type: 'text',
-                                className: 'form-control', name: 'lastname', placeholder: 'Enter lastname', defaultValue: this.state.lastName, onChange: this.changeLastName })
+                                className: 'form-control', name: 'lastname', placeholder: 'Enter lastname', defaultValue: this.state.lastName, onChange: this.changeLastName, required: true })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -68815,7 +68933,7 @@ var SignupForm = function (_React$Component) {
                             ),
                             ' ',
                             _react2.default.createElement('input', { type: 'text',
-                                className: 'form-control', name: 'username', placeholder: 'Enter username', defaultValue: this.state.username, onChange: this.changeUserName })
+                                className: 'form-control', name: 'username', placeholder: 'Enter username', defaultValue: this.state.username, onChange: this.changeUserName, required: true })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -68827,7 +68945,7 @@ var SignupForm = function (_React$Component) {
                             ),
                             ' ',
                             _react2.default.createElement('input', { type: 'email',
-                                className: 'form-control', name: 'email', placeholder: 'Enter email', defaultValue: this.state.email, onChange: this.changeEmail })
+                                className: 'form-control', name: 'email', placeholder: 'Enter email', defaultValue: this.state.email, onChange: this.changeEmail, required: true })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -68839,7 +68957,7 @@ var SignupForm = function (_React$Component) {
                             ),
                             ' ',
                             _react2.default.createElement('input', { type: 'password',
-                                className: 'form-control', name: 'password', placeholder: 'Enter password', defaultValue: this.state.password, onChange: this.changePassWord })
+                                className: 'form-control', name: 'password', placeholder: 'Enter password', defaultValue: this.state.password, onChange: this.changePassWord, required: true })
                         ),
                         _react2.default.createElement(
                             'button',
@@ -68861,7 +68979,7 @@ function mapStateToProps(state) {
     };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(SignupForm);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { addUsertoServer: _useractions.addUsertoServer, getUserById: _useractions.getUserById })(SignupForm);
 
 /***/ }),
 /* 713 */
