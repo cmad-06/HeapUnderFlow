@@ -149,6 +149,9 @@ export function updateUsertoServer(user,cb){
                 sessionStorage.setItem("isLoggedIn" , "true");
                   console.log("User Logged In + " + JSON.stringify(response.data))
                 cb(response.data);              
+              }).catch(error => {
+            	  cb(error);
+            	  console.log("error in logging in.");
               });
     
               return {

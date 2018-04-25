@@ -10,7 +10,8 @@ class LoginForm extends React.Component  {
         this.state = {
             username:"",
             password:"",
-            userDetails:{}
+            userDetails:{},
+            error: ""
         }
         this.changeUserName = this.changeUserName.bind(this);
         this.changePassWord = this.changePassWord.bind(this);
@@ -31,20 +32,29 @@ class LoginForm extends React.Component  {
 
     loginUserSubmit(e){
         e.preventDefault()
-        console.log("Login Form Submit Clicked");
         sessionStorage.setItem("userId" , "");
         sessionStorage.setItem("token" , "");
         loginUser(this.state, data => {
-            console.log("DATA  : " + JSON.stringify(data))
-            sessionStorage.setItem("userId" , data.userId);
-            sessionStorage.setItem("token" , data.token);
-            getUserById(data.userId,data => {
-                sessionStorage.setItem("user" , JSON.stringify(data));
-                this.props.history.push({
-                    pathname: '/userprofile',
-                    user:data.userId,
-                })
-            }); 
+            
+            console.log("response: " + JSON.stringify(data));
+            
+            if(data.userId !== undefined){
+                sessionStorage.setItem("userId" , data.userId);
+                sessionStorage.setItem("token" , data.token);
+                getUserById(data.userId,data => {
+                    sessionStorage.setItem("user" , JSON.stringify(data));
+                    this.props.history.push({
+                        pathname: '/userprofile',
+                        user:data.userId,
+                    })
+                }); 
+            }else{
+                this.setState(() => {
+                    return { 
+                        error: "Invalid Username / Password."
+                    }
+                });
+            }
             
         })
         console.log(this.state.username);
@@ -62,6 +72,11 @@ class LoginForm extends React.Component  {
     }
     render(){
         
+        var errorStyle = {
+            color: 'red',
+            textAlign: 'center'
+        };
+        
         return (
             <div className="container" id="registration-form">
 			<div className="frm">
@@ -77,6 +92,7 @@ class LoginForm extends React.Component  {
 							className="form-control" name="password" placeholder="Enter password"defaultValue={this.state.password} onChange={this.changePassWord} required/>
 					</div>
                     <button>Login</button>
+                    <p style={errorStyle}>{this.state.error}</p>
                 </form>
 			</div>
 		</div>

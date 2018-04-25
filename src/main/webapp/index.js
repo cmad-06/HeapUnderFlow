@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8f48a30bb3eceb85e50c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "cce134d5558945afb803"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -3144,10 +3144,9 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     UPDATED_USER: "updated_user",
     FETCH_BLOG: 'fetch_blog',
     DELETED_BLOG: 'deleted_blog'
-};
 
-var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/user/";
-//let baseurl = "http://localhost:8080/service/user/"
+    //let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/user/"
+};var baseurl = "http://localhost:8080/service/user/";
 
 function fetchUser(userDetails) {
     console.log("addBLog details");
@@ -3284,6 +3283,9 @@ function loginUser(user, cb) {
         sessionStorage.setItem("isLoggedIn", "true");
         console.log("User Logged In + " + JSON.stringify(response.data));
         cb(response.data);
+    }).catch(function (error) {
+        cb(error);
+        console.log("error in logging in.");
     });
 
     return {
@@ -6532,10 +6534,9 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     FETCHED_BLOGS: 'fetched_blogs',
     FETCHED_BLOG_BY_ID: 'fetched_blog_by_id',
     DELETED_BLOG: 'deleted_blog'
-};
 
-var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/";
-//let baseurl = "http://localhost:8080/service/"
+    //let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/"
+};var baseurl = "http://localhost:8080/service/";
 
 function addBlog(blogDetails) {
     return {
@@ -10566,10 +10567,8 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     ADDED_BLOG: 'added_comment',
     FETCHED_COMMENTS_BY_BLOGID: "fetched_comments_by_blogId"
 
-};
-
-var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/comment";
-//const baseurl = "http://localhost:8080/service/comment"
+    //const baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/comment"
+};var baseurl = "http://localhost:8080/service/comment";
 
 function addComment(comment) {
     console.log("Comment : " + comment);
@@ -67306,7 +67305,8 @@ var LoginForm = function (_React$Component) {
         _this.state = {
             username: "",
             password: "",
-            userDetails: {}
+            userDetails: {},
+            error: ""
         };
         _this.changeUserName = _this.changeUserName.bind(_this);
         _this.changePassWord = _this.changePassWord.bind(_this);
@@ -67334,20 +67334,30 @@ var LoginForm = function (_React$Component) {
             var _this2 = this;
 
             e.preventDefault();
-            console.log("Login Form Submit Clicked");
             sessionStorage.setItem("userId", "");
             sessionStorage.setItem("token", "");
             (0, _useractions.loginUser)(this.state, function (data) {
-                console.log("DATA  : " + JSON.stringify(data));
-                sessionStorage.setItem("userId", data.userId);
-                sessionStorage.setItem("token", data.token);
-                (0, _useractions.getUserById)(data.userId, function (data) {
-                    sessionStorage.setItem("user", JSON.stringify(data));
-                    _this2.props.history.push({
-                        pathname: '/userprofile',
-                        user: data.userId
+
+                console.log("response: " + JSON.stringify(data));
+
+                if (data.userId !== undefined) {
+                    sessionStorage.setItem("userId", data.userId);
+                    sessionStorage.setItem("token", data.token);
+                    (0, _useractions.getUserById)(data.userId, function (data) {
+                        sessionStorage.setItem("user", JSON.stringify(data));
+                        _this2.props.history.push({
+                            pathname: '/userprofile',
+                            user: data.userId
+                        });
                     });
-                });
+                } else {
+                    console.log("Inside error block.");
+                    _this2.setState(function () {
+                        return {
+                            error: "Invalid Username / Password."
+                        };
+                    });
+                }
             });
             console.log(this.state.username);
         }
@@ -67366,6 +67376,11 @@ var LoginForm = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+
+            var errorStyle = {
+                color: 'red',
+                textAlign: 'center'
+            };
 
             return _react2.default.createElement(
                 'div',
@@ -67407,6 +67422,11 @@ var LoginForm = function (_React$Component) {
                             'button',
                             null,
                             'Login'
+                        ),
+                        _react2.default.createElement(
+                            'p',
+                            { style: errorStyle },
+                            this.state.error
                         )
                     )
                 )
@@ -68150,7 +68170,8 @@ var BlogPage = function (_React$Component) {
             this.props.fetchBlogByIdFromServer(blogId);
             var userId = sessionStorage.getItem("userId");
             this.setState({
-                userId: userId
+                userId: userId,
+                liked: false
             });
             console.log("sessionStorage.getItem()  user " + sessionStorage.getItem("user"));
             this.setState({
@@ -68181,7 +68202,15 @@ var BlogPage = function (_React$Component) {
             var _this3 = this;
 
             var blog = this.props.blog;
-            blog.blogLikes = blog.blogLikes + 1;
+            if (this.state.liked) {
+                blog.blogLikes = blog.blogLikes - 1;
+            } else {
+                blog.blogLikes = blog.blogLikes + 1;
+            }
+            this.setState({
+                liked: !this.state.liked
+            });
+
             console.log("Likes " + blog.blogLikes);
             (0, _blogactions.updateBlogById)(blog, function (data) {
                 _this3.forceUpdate();
@@ -68266,6 +68295,7 @@ var BlogPage = function (_React$Component) {
                 'Edit Blog'
             ) : _react2.default.createElement('div', null);
 
+            var likeLabel = this.state.liked ? 'Unlike' : 'Like';
             var showAddCommentsDiv = this.state.userId === null ? _react2.default.createElement('div', null) : _react2.default.createElement(
                 'div',
                 { id: 'comments' },
@@ -68354,7 +68384,8 @@ var BlogPage = function (_React$Component) {
                                     _reactBootstrap.Button,
                                     { bsStyle: 'primary', onClick: this.handleLikeButton, style: { padding: '5px' } },
                                     _react2.default.createElement('span', { className: 'glyphicon glyphicon-thumbs-up' }),
-                                    'Like ',
+                                    likeLabel,
+                                    ' ',
                                     this.props.blog.blogLikes
                                 ),
                                 _react2.default.createElement(
@@ -68660,10 +68691,9 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     FETCHED_BLOGS: 'fetched_blogs',
     FETCHED_BLOG_BY_ID: 'fetched_blog_by_id',
     DELETED_BLOG: 'deleted_blog'
-};
 
-var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/";
-//let baseurl = "http://localhost:8080/service/"
+    //let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/"
+};var baseurl = "http://localhost:8080/service/";
 
 function addBlog(blogDetails) {
     return {
