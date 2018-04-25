@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "cce134d5558945afb803"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f98fe98f606f3b311c33"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -3144,9 +3144,10 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     UPDATED_USER: "updated_user",
     FETCH_BLOG: 'fetch_blog',
     DELETED_BLOG: 'deleted_blog'
+};
 
-    //let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/user/"
-};var baseurl = "http://localhost:8080/service/user/";
+var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/user/";
+//let baseurl = "http://localhost:8080/service/user/"
 
 function fetchUser(userDetails) {
     console.log("addBLog details");
@@ -6534,9 +6535,10 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     FETCHED_BLOGS: 'fetched_blogs',
     FETCHED_BLOG_BY_ID: 'fetched_blog_by_id',
     DELETED_BLOG: 'deleted_blog'
+};
 
-    //let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/"
-};var baseurl = "http://localhost:8080/service/";
+var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/";
+//let baseurl = "http://localhost:8080/service/"
 
 function addBlog(blogDetails) {
     return {
@@ -9730,7 +9732,7 @@ var Blogger = function (_React$Component) {
         value: function render() {
 
             return _react2.default.createElement(
-                _reactRouterDom.BrowserRouter,
+                _reactRouterDom.HashRouter,
                 { history: _reactRouterDom.hashHistory },
                 _react2.default.createElement(
                     "div",
@@ -10567,8 +10569,10 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     ADDED_BLOG: 'added_comment',
     FETCHED_COMMENTS_BY_BLOGID: "fetched_comments_by_blogId"
 
-    //const baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/comment"
-};var baseurl = "http://localhost:8080/service/comment";
+};
+
+var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/comment";
+//const baseurl = "http://localhost:8080/service/comment"
 
 function addComment(comment) {
     console.log("Comment : " + comment);
@@ -67351,7 +67355,6 @@ var LoginForm = function (_React$Component) {
                         });
                     });
                 } else {
-                    console.log("Inside error block.");
                     _this2.setState(function () {
                         return {
                             error: "Invalid Username / Password."
@@ -67510,7 +67513,13 @@ var UserProfile = function (_React$Component) {
             key: 1
 
         };
-        sessionStorage.setItem("userId", _this.state.data);
+
+        if (!_this.state.data) {
+            var userId = sessionStorage.getItem("userId");
+            _this.setState({ data: userId });
+            var user = sessionStorage.getItem("user");
+            _this.setState({ data: userId });
+        }
 
         console.log("UserProfile: Received Data : " + _this.state.data);
         _this.handleSelect = _this.handleSelect.bind(_this);
@@ -68691,9 +68700,10 @@ var ACTION_TYPES = exports.ACTION_TYPES = {
     FETCHED_BLOGS: 'fetched_blogs',
     FETCHED_BLOG_BY_ID: 'fetched_blog_by_id',
     DELETED_BLOG: 'deleted_blog'
+};
 
-    //let baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/"
-};var baseurl = "http://localhost:8080/service/";
+var baseurl = "http://heapunderflow-lb-640583785.us-west-2.elb.amazonaws.com:8080/service/";
+//let baseurl = "http://localhost:8080/service/"
 
 function addBlog(blogDetails) {
     return {
