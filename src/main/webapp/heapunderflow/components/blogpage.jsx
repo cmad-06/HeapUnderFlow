@@ -38,7 +38,8 @@ class BlogPage extends React.Component{
         this.props.fetchBlogByIdFromServer(blogId);
         const userId = sessionStorage.getItem("userId")
         this.setState ({
-            userId : userId
+            userId : userId,
+            liked:false
         })
         console.log("sessionStorage.getItem()  user " + sessionStorage.getItem("user"))
         this.setState ({
@@ -68,11 +69,21 @@ class BlogPage extends React.Component{
 
     handleLikeButton(){
         let blog = this.props.blog
-        blog.blogLikes = blog.blogLikes+1;
+        if (this.state.liked){
+            blog.blogLikes = blog.blogLikes-1;
+        }
+        else {
+            blog.blogLikes = blog.blogLikes+1;
+        }
+        this.setState({
+            liked: !this.state.liked
+          });
+          
         console.log("Likes " + blog.blogLikes)
         updateBlogById(blog, data =>{
             this.forceUpdate();
         });
+        
     }
 
     handleUpdateBlog(){
@@ -140,7 +151,7 @@ class BlogPage extends React.Component{
         const showEditBlogButton = this.state.userId === null ? <div/> :
         this.props.blog.blogAuthor === this.state.user.username ? <Button bsStyle="primary" onClick= {this.handleEditButton}>Edit Blog</Button> : <div/>
         
-
+        const likeLabel = this.state.liked ? 'Unlike' : 'Like'
         const showAddCommentsDiv = this.state.userId === null ? <div/>:
         <div id="comments" >
                     <form onSubmit={this.handleSubmit}>
@@ -183,9 +194,8 @@ class BlogPage extends React.Component{
                     <div>
 
                         <p>Author : {this.props.blog.blogAuthor}  
-                    
                         <Button bsStyle="primary" onClick= {this.handleLikeButton} style={{padding:'5px'}}>
-                            <span className="glyphicon glyphicon-thumbs-up"></span>Like {this.props.blog.blogLikes}
+                            <span className="glyphicon glyphicon-thumbs-up"></span>{likeLabel} {this.props.blog.blogLikes}
                         </Button>
                         <Button bsStyle="primary" >
                             <span className="glyphicon"></span>Views {this.props.blog.blogViews}
