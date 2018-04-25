@@ -17,7 +17,13 @@ class UserProfile extends React.Component {
             key:1
 
         }
-        sessionStorage.setItem("userId" , this.state.data)
+        
+        if(!this.state.data){
+            const userId = sessionStorage.getItem("userId")
+            this.setState({ data : userId })
+            const user = sessionStorage.getItem("user")
+            this.setState({ data : userId })
+        }
 
         console.log("UserProfile: Received Data : " + this.state.data);
         this.handleSelect = this.handleSelect.bind(this);

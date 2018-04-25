@@ -14,6 +14,7 @@ import {BootstrapTable,
     TableHeaderColumn} from 'react-bootstrap-table';
 
 import {hashHistory, BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {HashRouter} from 'react-router-dom';
 
 class Blogger extends React.Component{
     constructor(props){
@@ -50,7 +51,7 @@ class Blogger extends React.Component{
     render(){
         
         return (
-            <Router history={hashHistory}>
+            <HashRouter history={hashHistory}>
                 <div className="header-blue">
                     <nav className="navbar navbar-default navigation-clean-search">
                         <div className="container">
@@ -81,7 +82,7 @@ class Blogger extends React.Component{
                     
                 </div>
                 
-            </Router>
+            </HashRouter>
         )
     }
 
